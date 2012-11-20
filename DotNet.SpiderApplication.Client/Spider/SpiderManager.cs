@@ -29,6 +29,7 @@ namespace DotNet.SpiderApplication.Client
             spiderDictionary.Add(3, new JinDongProductSpider());
             spiderDictionary.Add(4, new JinDongProductSpider());
             spiderDictionary.Add(5, new JinDongProductSpider());
+
         }
 
         /// <summary>

@@ -37,7 +37,7 @@ namespace DotNet.SpiderApplication.Client
     {
         public ProductInfo SpiderProductDetail(SpiderProductInfo spiderProduct)
         {
-            
+            return new ProductInfo();
         }
 
         public List<ProductInfo> SpiderProductList(SpiderCategoryInfo spiderCategory)

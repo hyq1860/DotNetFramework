@@ -19,7 +19,7 @@ using DotNet.Common;
 using DotNet.Data;
 using DotNet.Web;
 using DotNet.Web.Http;
-using ExtendedWebBrowser2;
+//using ExtendedWebBrowser2;
 using IfacesEnumsStructsClasses;
 using InteropConsts;
 
@@ -389,93 +389,93 @@ namespace DotNet.SpiderApplication
             //TestWebbrower();
 
         }
-        bool loading = true;    // 该变量表示网页是否正在加载.
-        private void TestWebbrower()
-        {
+        //bool loading = true;    // 该变量表示网页是否正在加载.
+        //private void TestWebbrower()
+        //{
             
-            string html = string.Empty;
+        //    string html = string.Empty;
 
-            var urls=new List<string>();
-            urls.Add("http://www.baidu.com/");
-            urls.Add("http://www.sohu.com/");
-            urls.Add("http://jd2008.360buy.com/jdhome/orderinfo.aspx?orderid=311585738&PassKey=0F6957ED08310AD9AB6C0CFF317363F3");
+        //    var urls=new List<string>();
+        //    urls.Add("http://www.baidu.com/");
+        //    urls.Add("http://www.sohu.com/");
+        //    urls.Add("http://jd2008.360buy.com/jdhome/orderinfo.aspx?orderid=311585738&PassKey=0F6957ED08310AD9AB6C0CFF317363F3");
 
             
 
-            foreach (string url in urls)
-            {
-                using (ExtendedWebBrowser wwb = new ExtendedWebBrowser())
-                {
-                    loading = true; // 表示正在加载
-                    wwb.DocumentCompleted += wwb_DocumentCompleted;
-                    wwb.Navigate(url);
-                    while (loading)
-                    {
-                        Application.DoEvents(); // 等待本次加载完毕才执行下次循环.
-                    }
-                }
-            }
+        //    foreach (string url in urls)
+        //    {
+        //        using (ExtendedWebBrowser wwb = new ExtendedWebBrowser())
+        //        {
+        //            loading = true; // 表示正在加载
+        //            wwb.DocumentCompleted += wwb_DocumentCompleted;
+        //            wwb.Navigate(url);
+        //            while (loading)
+        //            {
+        //                Application.DoEvents(); // 等待本次加载完毕才执行下次循环.
+        //            }
+        //        }
+        //    }
             
-        }
+        //}
 
-        /// <summary>
-        /// 脚本错误处理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void scriptWindow_Error(object sender, HtmlElementErrorEventArgs e)
-        {
-            //var wb = sender as ExtendedWebBrowser;
-            // We got a script error, record it
-            ScriptErrorManager.Instance.RegisterScriptError(e.Url,e.Description, e.LineNumber);
-            // Let the browser know we handled this error.
-            e.Handled = true;
-        }
+        ///// <summary>
+        ///// 脚本错误处理
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void scriptWindow_Error(object sender, HtmlElementErrorEventArgs e)
+        //{
+        //    //var wb = sender as ExtendedWebBrowser;
+        //    // We got a script error, record it
+        //    ScriptErrorManager.Instance.RegisterScriptError(e.Url,e.Description, e.LineNumber);
+        //    // Let the browser know we handled this error.
+        //    e.Handled = true;
+        //}
 
-        private void wwb_DownloadComplete(object sender, EventArgs e)
-        {
-            // 页面完全载入
-            var ewb = sender as ExtendedWebBrowser;
-            // Check wheter the document is available (it should be)
-            if (ewb!=null&&ewb.Document != null)
-            {
-                // Subscribe to the Error event
-                //ewb.Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
-                //ewb.DownloadComplete -= new EventHandler(wwb_DownloadComplete);
-            }
-        }
+        //private void wwb_DownloadComplete(object sender, EventArgs e)
+        //{
+        //    // 页面完全载入
+        //    var ewb = sender as ExtendedWebBrowser;
+        //    // Check wheter the document is available (it should be)
+        //    if (ewb!=null&&ewb.Document != null)
+        //    {
+        //        // Subscribe to the Error event
+        //        //ewb.Document.Window.Error += new HtmlElementErrorEventHandler(Window_Error);
+        //        //ewb.DownloadComplete -= new EventHandler(wwb_DownloadComplete);
+        //    }
+        //}
 
-        private void wwb_DocumentCompleted(object sender, BrowserExtendedNavigatingEventArgs e)
-        {
-            // 页面完全载入
-            var ewb = sender as ExtendedWebBrowser;
+        //private void wwb_DocumentCompleted(object sender, BrowserExtendedNavigatingEventArgs e)
+        //{
+        //    // 页面完全载入
+        //    var ewb = sender as ExtendedWebBrowser;
 
-            if (ewb != null && ewb.Document != null)
-            {
-                // Subscribe to the Error event
-                ewb.Document.Window.Error += new HtmlElementErrorEventHandler(scriptWindow_Error);
-            }
+        //    if (ewb != null && ewb.Document != null)
+        //    {
+        //        // Subscribe to the Error event
+        //        ewb.Document.Window.Error += new HtmlElementErrorEventHandler(scriptWindow_Error);
+        //    }
 
-            if (ewb!=null && e.AutomationObject == ((ExtendedWebBrowser)sender).Application)
-            {
-                if (ewb.Document != null)
-                {
-                    GatherPriceV2(ewb.BusinessData, e.Url.ToString(), ewb.Document.Body.OuterHtml);
-                    //using(StreamReader sr = new StreamReader(ewb.DocumentStream, Encoding.GetEncoding(ewb.Document.Encoding)))
-                    //{
-                    //    // 处理业务
-                    //    var html = sr.ReadToEnd();
+        //    if (ewb!=null && e.AutomationObject == ((ExtendedWebBrowser)sender).Application)
+        //    {
+        //        if (ewb.Document != null)
+        //        {
+        //            GatherPriceV2(ewb.BusinessData, e.Url.ToString(), ewb.Document.Body.OuterHtml);
+        //            //using(StreamReader sr = new StreamReader(ewb.DocumentStream, Encoding.GetEncoding(ewb.Document.Encoding)))
+        //            //{
+        //            //    // 处理业务
+        //            //    var html = sr.ReadToEnd();
 
-                    //    //hc.documentElement.innerHTML;
+        //            //    //hc.documentElement.innerHTML;
                         
-                    //}
-                    ewb.DocumentCompleted -= wwb_DocumentCompleted;
-                    //ewb.Dispose();
-                }
+        //            //}
+        //            ewb.DocumentCompleted -= wwb_DocumentCompleted;
+        //            //ewb.Dispose();
+        //        }
                 
-            }
-            //Loading[ewb.ThreadId] = false;
-        }
+        //    }
+        //    //Loading[ewb.ThreadId] = false;
+        //}
 
         
 

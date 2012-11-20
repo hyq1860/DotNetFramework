@@ -159,10 +159,6 @@
       <Project>{405FF51F-7E47-420D-A02A-90277BAF4C55}</Project>
       <Name>DotNet.Web</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ExtendedWebBrowser\ExtendedWebBrowser.csproj">
-      <Project>{C9A739A3-7C53-4BE5-97B9-CF03360BC502}</Project>
-      <Name>ExtendedWebBrowser</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Spider.sql" />

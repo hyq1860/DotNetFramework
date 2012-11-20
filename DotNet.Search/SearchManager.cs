@@ -85,7 +85,7 @@ namespace DotNet.Search
         /// <param name="pageSize"></param>
         /// <param name="pageIndex"></param>
         /// <param name="recordCount"></param>
-        public void Search(string keyWords, int pageSize, int pageIndex, out int recordCount)
+        public void Search(string keyWords, int pageSize, int pageIndex, ref int recordCount)
         {
             
         }

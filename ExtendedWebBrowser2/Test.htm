@@ -1,0 +1,65 @@
+<HTML>
+<HEAD>
+<SCRIPT language="Jscript">
+  // This function will create an error, because "someObject" does not exits
+  function MakeError()
+  {
+    someObject.DoSomething();
+  }
+  
+  // The first pop-up will succeed, the second will not
+  function Popup()
+  {
+    var winRef = window.open("about:blank");
+    // Check whether the window was blocked
+    if (winRef != null)
+    {
+      winRef.document.write("Hello world! - This is a pop-up blocker test.");
+      winRef.document.close();
+    }
+    else
+    {
+      alert('The pop-up Was Blocked');
+    }
+  }
+  
+  function fn_Load()
+  {
+    // First try the pop-up blocker
+    Popup();
+    // Next try something that causes an error
+    CreateAErrorWhenLoadingThisDocument();
+  }
+</Script>
+<style>
+  BODY {font-family: verdana; font-size: 12;}
+  H1 {color: red; font-size: 16;}
+  H2 {color: blue; font-size: 14;}
+</style>
+</Head>
+<Body onload="fn_Load();">
+  <H1>These are a few simple tests to test the functionality of the browser</h1>
+  <p>If you allready see a pop-up, this can be because of the fact that you
+  have the pop-up blocker disabled, or are running on Windows 2000 or lower.</p>
+  <h2>Script error testing</h2>
+  <ul>
+    <li>When you load this document, you should also encounter a script error. This is on purpose.</li>
+    <li>Hit F5 to see if the script errors are still caught after a refresh</li>
+    <li>Click "Create an error" to test script error functionality</li>
+  </ul>
+  <!-- The error button -->
+  <Input type=button onclick="MakeError()" value="Create an error">
+  <h2>Closing windows</h2>
+  <!-- Try to close the window -->
+  <p>With this button you can try to close the current window.</p>
+  <Input type=button onclick="window.close()" value="Close window">
+  <h2>Pop-up blocker</h2>
+  <!-- Try to create a pop-up without the user's concent -->
+  <ul>
+    <li>A pop-up can be displayed when the document is loaded. If not, an alert window will notify you. This is the kind of pop-ups you want to avoid.</li>
+    <li>A pop-up window can be because of an user action. This can be done using the button below.</li>
+    <li>When you click on the button, and you get the message that the pop-up is blocked, see if you have the filter level set to high. When this is the case, use the Ctrl Key to override the pop-up blocker</li>
+  </ul>
+  <Input type=button onclick="Popup()" value="Try a pop-up" />
+</Body>
+</HTML>

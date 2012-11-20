@@ -1,0 +1,28 @@
+2012-11-13 22:43:39,640 [5] DEBUG Combres.Configuration - Reload Combres settings
+2012-11-13 22:43:39,688 [6] DEBUG Combres.ChangeMonitor - Dynamic resource change monitor thread starts...
+2012-11-13 22:43:40,015 [5] DEBUG Combres.VersionGenerators.HashCodeVersionGenerator - Computing hash for set siteCss.  Current hash: 
+2012-11-13 22:43:40,019 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/css/css.css' (Mode: Static)
+2012-11-13 22:43:40,036 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/soChange/style.css' (Mode: Static)
+2012-11-13 22:43:40,056 [5] DEBUG Combres.VersionGenerators.HashCodeVersionGenerator - New hash: -1817958923
+2012-11-13 22:43:40,057 [5] DEBUG Combres.VersionGenerators.HashCodeVersionGenerator - Computing hash for set siteJs.  Current hash: 
+2012-11-13 22:43:40,057 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/jQuery/jquery-1.7.2.min.js' (Mode: Static)
+2012-11-13 22:43:40,058 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/soChange/jquery.soChange-min.js' (Mode: Static)
+2012-11-13 22:43:40,059 [5] DEBUG Combres.VersionGenerators.HashCodeVersionGenerator - New hash: 228605631
+2012-11-13 22:43:40,059 [5] DEBUG Combres.VersionGenerators.HashCodeVersionGenerator - Computing hash for set backendJs.  Current hash: 
+2012-11-13 22:43:40,060 [5] DEBUG Combres.ResourceContentReader - Use content from content's cache for Resource '~/jQuery/jquery-1.7.2.min.js' (Mode: Static)
+2012-11-13 22:43:40,060 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/jQueryEasyUI/jquery.easyui.min.js' (Mode: Static)
+2012-11-13 22:43:40,063 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/jQueryEasyUI/windowControl.js' (Mode: Static)
+2012-11-13 22:43:40,064 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/jQueryEasyUI/locale/easyui-lang-zh_CN.js' (Mode: Static)
+2012-11-13 22:43:40,064 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/jQueryEasyUI/gciframe.js' (Mode: Static)
+2012-11-13 22:43:40,064 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/jQueryEasyUI/jquery.easyui.panel.extension.js' (Mode: Static)
+2012-11-13 22:43:40,065 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/Scripts/common.js' (Mode: Static)
+2012-11-13 22:43:40,065 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/jQueryEasyUI/treegrid.loadFilter.js' (Mode: Static)
+2012-11-13 22:43:40,065 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~//jQuery/jquery.form.js' (Mode: Static)
+2012-11-13 22:43:40,066 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/ckeditor/ckeditor.js' (Mode: Static)
+2012-11-13 22:43:40,080 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/ckfinder/ckfinder.js' (Mode: Static)
+2012-11-13 22:43:40,083 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/jquery-validation/jquery.validate.min.js' (Mode: Static)
+2012-11-13 22:43:40,084 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/jquery-validation/messages_cn.js' (Mode: Static)
+2012-11-13 22:43:40,084 [5] DEBUG Combres.ResourceContentReader - Retrieving new content for Resource '~/jquery-validation/CommonValidation.js' (Mode: Static)
+2012-11-13 22:43:40,085 [5] DEBUG Combres.VersionGenerators.HashCodeVersionGenerator - New hash: 510284867
+2012-11-13 22:43:40,086 [5] DEBUG Combres.ChangeMonitor - Watch new settings
+2012-11-13 22:43:40,121 [5] DEBUG Combres.Configuration - Elapsed time for 'ReloadSettings': 465 ms

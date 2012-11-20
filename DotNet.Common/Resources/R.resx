@@ -1,0 +1,425 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ArgumentNull" xml:space="preserve">
+    <value>参数 “{0}” 值不能为空。</value>
+  </data>
+  <data name="ArgumentNullOrEmpty_FileName" xml:space="preserve">
+    <value>文件名不能为空。</value>
+  </data>
+  <data name="ArgumentNullOrEmpty_FileNotFound" xml:space="preserve">
+    <value>没有发现指定文件 “{0}”。</value>
+  </data>
+  <data name="ArgumentNullOrEmpty_FileSarchPattern" xml:space="preserve">
+    <value>文件搜索模式不能为空。</value>
+  </data>
+  <data name="ArgumentNullOrEmpty_Generic" xml:space="preserve">
+    <value>参数不能为空。</value>
+  </data>
+  <data name="ArgumentNullOrEmpty_LanguageName" xml:space="preserve">
+    <value>语言名不能为空。</value>
+  </data>
+  <data name="ArgumentNullOrEmpty_Path" xml:space="preserve">
+    <value>路径不能为空。</value>
+  </data>
+  <data name="ArgumentNullOrEmpty_SectionGroupName" xml:space="preserve">
+    <value>DotNet配置结点组名称不能为空。</value>
+  </data>
+  <data name="ArgumentNullOrEmpty_SectionName" xml:space="preserve">
+    <value>DotNet配置结点名称不能为空。</value>
+  </data>
+  <data name="ArgumentNull_NoText" xml:space="preserve">
+    <value>值为空引用或零长度字符串。</value>
+  </data>
+  <data name="ArgumentNull_NoText_FileName" xml:space="preserve">
+    <value>文件名为空引用或零长度字符串。</value>
+  </data>
+  <data name="Argument_CanNotConvertType" xml:space="preserve">
+    <value>不能转换成指定的类型 “{0}”.</value>
+  </data>
+  <data name="Argument_FileNoExtension" xml:space="preserve">
+    <value>文件 “{0}” 没有扩展名。</value>
+  </data>
+  <data name="Argument_FileNotExist" xml:space="preserve">
+    <value>文件“{0}”不存在。</value>
+  </data>
+  <data name="Argument_FileNotFound" xml:space="preserve">
+    <value>没有发现指定的文件。</value>
+  </data>
+  <data name="Argument_FileNotFullPath" xml:space="preserve">
+    <value>文件路径 “{0}” 不是完全限定路径。</value>
+  </data>
+  <data name="Argument_InvalidType" xml:space="preserve">
+    <value>类型“{0}”无效。</value>
+  </data>
+  <data name="Argument_LanguageNameNotExist" xml:space="preserve">
+    <value>语言“{0}”在已激活的语言集合中不存在。</value>
+  </data>
+  <data name="ArrayNoElements" xml:space="preserve">
+    <value>数组参数 “{0}” 值一定不能为空引用且数组一定要包含数组项。</value>
+  </data>
+  <data name="ArrayNullOrEmpty" xml:space="preserve">
+    <value>数组 “{0}” 值不能为空引用或空数组。</value>
+  </data>
+  <data name="AssertExpressionTrue" xml:space="preserve">
+    <value>[断言失败]表达式一定为true。</value>
+  </data>
+  <data name="CallMethod_MethodCallFailed" xml:space="preserve">
+    <value>调用类型“{0}”上的方法“{1}”失败。</value>
+  </data>
+  <data name="CannotBeEmpty" xml:space="preserve">
+    <value>值不能为空。</value>
+  </data>
+  <data name="CannotBeNull" xml:space="preserve">
+    <value>值不能为Null。</value>
+  </data>
+  <data name="CanNotConvertType" xml:space="preserve">
+    <value>值不能转换到类型 “{0}“。</value>
+  </data>
+  <data name="CollectionCannotBeEmptyOrNull" xml:space="preserve">
+    <value>集合不能为空或Null。</value>
+  </data>
+  <data name="ConditionNotFalse" xml:space="preserve">
+    <value>判断条件不为False。</value>
+  </data>
+  <data name="ConditionNotTrue" xml:space="preserve">
+    <value>判断条件不为True。</value>
+  </data>
+  <data name="ConfigError_ConfigFileLoadFail" xml:space="preserve">
+    <value>未能为类型 “{0}” 加载配置文件 “{1}”。</value>
+  </data>
+  <data name="ConfigError_ConfigFileNotFound" xml:space="preserve">
+    <value>没有发现指定的配置文件“{0}”。</value>
+  </data>
+  <data name="ConfigError_DefaultProviderLoadFail" xml:space="preserve">
+    <value>默认的提供者“{0}”加载类型成为“{1}”时失败。</value>
+  </data>
+  <data name="ConfigError_DefaultProviderNotFound" xml:space="preserve">
+    <value>在配置设置中没有找到默认的提供者“{0}”。</value>
+  </data>
+  <data name="ConfigError_DuplicateFileMapping" xml:space="preserve">
+    <value>文件映射关系名“{0}”在配置文件中不能重复。</value>
+  </data>
+  <data name="ConfigError_NoConfigAttribute" xml:space="preserve">
+    <value>在配置类 "{0}" 上没有设置配置属性 ”{1}“。</value>
+  </data>
+  <data name="ConfigError_NoConfigFileAttribute" xml:space="preserve">
+    <value>类型“{0}”没有包含ConfigAttribute属性。</value>
+  </data>
+  <data name="ConfigError_NoConfigFileSectionAttribute" xml:space="preserve">
+    <value>类型“{0}”没有包含ConfigFileSectionAttribute属性。</value>
+  </data>
+  <data name="ConfigError_NoConfigFileSectionGroupAttribute" xml:space="preserve">
+    <value>类型“{0}”没有包含ConfigFileSectionGroupAttribute属性。</value>
+  </data>
+  <data name="ConfigError_ProviderLoadFail" xml:space="preserve">
+    <value>提供者“{0}”加载类型成为“{1}”时失败。</value>
+  </data>
+  <data name="ConfigError_ProviderNotFound" xml:space="preserve">
+    <value>在配置设置中没有找到提供者“{0}”。</value>
+  </data>
+  <data name="ConfigError_ServiceNotFound" xml:space="preserve">
+    <value>Service {0} NotFound</value>
+  </data>
+  <data name="ConfigFileNotResolved" xml:space="preserve">
+    <value>配置文件 “{0}” 不能解析成 "{1}"。</value>
+  </data>
+  <data name="ConfigFileNotSpecified" xml:space="preserve">
+    <value>没有指定和配置对应的文件。</value>
+  </data>
+  <data name="ConfigSourceNotFound" xml:space="preserve">
+    <value>配置源“{0}”没有找到。</value>
+  </data>
+  <data name="Crypto_DataModeNotSupport" xml:space="preserve">
+    <value>加密算法“{0}”不支持“{1}”数据模式。</value>
+  </data>
+  <data name="DirectoryNotFound_DirectoryName" xml:space="preserve">
+    <value>没有发现目录“{0}”。</value>
+  </data>
+  <data name="DotNetConfigCannotBeResolved" xml:space="preserve">
+    <value>和配置文件 "{0}" SectionName: {1} 对应的配置不能正常解析。</value>
+  </data>
+  <data name="DuplicateKey_Default" xml:space="preserve">
+    <value>重复的键值。</value>
+  </data>
+  <data name="DuplicateKey_DefaultFormat" xml:space="preserve">
+    <value>重复的键值“{0}”。</value>
+  </data>
+  <data name="Enum_IllegalVal" xml:space="preserve">
+    <value>枚举值 "{0}" 无效。</value>
+  </data>
+  <data name="EnvironmentVariablesDeniedToRead" xml:space="preserve">
+    <value>系统环境变量访问被拒绝。</value>
+  </data>
+  <data name="ExceptionCommandNotSqlCommand" xml:space="preserve">
+    <value>SqlCommand类型的命令是必须的。</value>
+  </data>
+  <data name="ExceptionEmptyText" xml:space="preserve">
+    <value>值为空引用或零长度字符串。</value>
+  </data>
+  <data name="ExceptionEventRaisingFailed" xml:space="preserve">
+    <value>异常事件抛出失败。</value>
+  </data>
+  <data name="ExceptionMessageParameterMatchFailure" xml:space="preserve">
+    <value>提供的参数的数量和存储过程提供的参数不匹配。</value>
+  </data>
+  <data name="ExceptionMessageUpdateDataSetArgumentFailure" xml:space="preserve">
+    <value>至少要初始化一个命令。</value>
+  </data>
+  <data name="ExceptionMessageUpdateDataSetRowFailure" xml:space="preserve">
+    <value>更新数据库记录失败。</value>
+  </data>
+  <data name="ExceptionParameterDiscoveryNotSupportedOnGenericDatabase" xml:space="preserve">
+    <value>Parameter discovery is not supported for connections using GenericDatabase. You must specify the parameters explicitly, or configure the connection to use a type deriving from Database that supports parameter discovery.</value>
+  </data>
+  <data name="ExceptionTableNameArrayEmpty" xml:space="preserve">
+    <value>用来映射结果的用户特定的表名数组长度不能为空。 </value>
+  </data>
+  <data name="FieldNotFound" xml:space="preserve">
+    <value>在对象“{0}”上没有找到字段“{1}”。</value>
+  </data>
+  <data name="FileArrayEmpty" xml:space="preserve">
+    <value>文件集合中没有文件存在。</value>
+  </data>
+  <data name="FileLoadFail" xml:space="preserve">
+    <value>文件 “{0}” 加载失败。</value>
+  </data>
+  <data name="FileLoadFail_Xml" xml:space="preserve">
+    <value>Xml文件 “{0}” 加载失败。</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>文件 “{0}” 不存在。</value>
+  </data>
+  <data name="FileNotFullPath" xml:space="preserve">
+    <value>文件路径 “{0}” 不是完全限定路径。</value>
+  </data>
+  <data name="FileNotMerged" xml:space="preserve">
+    <value>没有文件合并。</value>
+  </data>
+  <data name="FilesNotFullFound" xml:space="preserve">
+    <value>文件不全部存在，所有文件 "{1}" 中以下文件 "{2}" 不存在。</value>
+  </data>
+  <data name="Format_BadBoolean" xml:space="preserve">
+    <value>“{0}”不是一个有效的布尔字符串。</value>
+  </data>
+  <data name="IntrinsicPropertyError" xml:space="preserve">
+    <value>不能读取内嵌属性。Error message: {0}</value>
+    <comment>.
+ Parameters: 0 - msg (string) </comment>
+  </data>
+  <data name="IntrinsicPropertyNoUnmanagedCodePermissionError" xml:space="preserve">
+    <value>Permission for UnmanagedCode is not available.</value>
+  </data>
+  <data name="InvalidOperation_FieldNotFound" xml:space="preserve">
+    <value>在对象“{0}”上没有找到字段“{1}”。</value>
+  </data>
+  <data name="InvalidOperation_PropertyNotFound" xml:space="preserve">
+    <value>在对象“{0}”上没有找到属性“{1}”。</value>
+  </data>
+  <data name="InvalidTypeName" xml:space="preserve">
+    <value>类型名 "{0}" 不能被正确解析。</value>
+  </data>
+  <data name="LoggerLoadFail" xml:space="preserve">
+    <value>日志提供者“{0}”加载失败。</value>
+  </data>
+  <data name="LoggerNotFound" xml:space="preserve">
+    <value>日志提供者“{0}”没有找到。</value>
+  </data>
+  <data name="LoggingSettingsNotConfig" xml:space="preserve">
+    <value>日志设置没有配置。</value>
+  </data>
+  <data name="LoggingSettings_DefaultProviderNotConfig" xml:space="preserve">
+    <value>默认的日志提供者有指定，但指定类型不匹配。</value>
+  </data>
+  <data name="LoggingSettings_DefaultProviderNotSpecified" xml:space="preserve">
+    <value>默认的日志提供者没有指定。</value>
+  </data>
+  <data name="LoggingSettings_DefaultProviderTypeLoadFail" xml:space="preserve">
+    <value>默认的日志提供者“{0}”类型加载失败。</value>
+  </data>
+  <data name="MethodCallFailed" xml:space="preserve">
+    <value>调用类型“{0}”上的方法“{1}”失败。</value>
+  </data>
+  <data name="MustBeBetween" xml:space="preserve">
+    <value>值必须在 {0} 和 {1} 之间。</value>
+  </data>
+  <data name="MustBeGreaterThan" xml:space="preserve">
+    <value>值一定要大于 {0}。</value>
+  </data>
+  <data name="MustBeGreaterThanOrEqualTo" xml:space="preserve">
+    <value>值一定要大小或等于 {0}。</value>
+  </data>
+  <data name="MustBeGreaterThanOrEqualToZero" xml:space="preserve">
+    <value>值一定要大小或等于零。</value>
+  </data>
+  <data name="MustBeGreaterThanZero" xml:space="preserve">
+    <value>值一定要大小零。</value>
+  </data>
+  <data name="MustBeLessThan" xml:space="preserve">
+    <value>值一定要小于 {0}。</value>
+  </data>
+  <data name="MustBeLessThanOrEqualTo" xml:space="preserve">
+    <value>值一定要小于或等于 {0}。</value>
+  </data>
+  <data name="NotImplemented_ConstructorsWithParameters" xml:space="preserve">
+    <value>类型“{0}”没有实现参数为 "{1}" 的构造函数。</value>
+  </data>
+  <data name="NotImplemented_DefaultConstructorMethod" xml:space="preserve">
+    <value>类型“{0}”没有实现默认的空构造函数。</value>
+  </data>
+  <data name="NotImplemented_Method" xml:space="preserve">
+    <value>类型“{0}”上没有实现方法“{1}”。</value>
+  </data>
+  <data name="NotImplemented_MethodWithParameters" xml:space="preserve">
+    <value>类型“{0}”上没有实现方法 “{1}({2})”。</value>
+  </data>
+  <data name="NotSupported_ConstructorsWithParameters" xml:space="preserve">
+    <value>不支持带参数的构造函数。</value>
+  </data>
+  <data name="NotSupported_ConvensionType" xml:space="preserve">
+    <value>不支持对类型“{0}”的转换。</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>password=,pwd=</value>
+  </data>
+  <data name="PropertyNotFound" xml:space="preserve">
+    <value>在对象“{0}”上没有找到属性“{1}”。</value>
+  </data>
+  <data name="Serialization_MissField" xml:space="preserve">
+    <value>序列化字段 "{0}" 不存在。</value>
+  </data>
+  <data name="StringCannotBeEmptyOrNull" xml:space="preserve">
+    <value>字符串不能为空或Null。</value>
+  </data>
+  <data name="StringNullOrEmpty" xml:space="preserve">
+    <value>参数 “{0}” 值 “{1}” 不能为空引用或零长度字符串(清除字符串前后空白字符串)。</value>
+  </data>
+  <data name="TypeIsNotEnumType" xml:space="preserve">
+    <value>类型“{0}”必须为枚举类型。</value>
+  </data>
+  <data name="TypeLoadFail" xml:space="preserve">
+    <value>类型“{0}”加载失败。</value>
+  </data>
+  <data name="UnexpectedType" xml:space="preserve">
+    <value>类型 “{0}” 不是所期望的类型 “{0}”。</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>user id=,uid=</value>
+  </data>
+</root>

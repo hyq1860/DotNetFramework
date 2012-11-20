@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<updateFiles>
+  <file path="DotNet.SpiderApplication.Service.dll" url="http://118.244.128.46/client/DotNet.SpiderApplication.Service.dll" lastver="1.0.4.18" size="1" needRestart="True" />
+</updateFiles>

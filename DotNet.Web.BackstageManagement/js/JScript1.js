@@ -1,0 +1,2 @@
+﻿<div class="jquery-ui-themeswitcher"><div id="themeGallery"><ul><li><a href="">			
+<img src="http://jqueryui.com/themeroller/images/themeGallery/theme_90_ui_light.png" alt="UI Lightness" title="UI Lightness" />			<span class="themeName">UI lightness</span>		</a></li><li><a href="">			<img src="http://jqueryui.com/themeroller/images/themeGallery/theme_90_ui_light.png" alt="UI Lightness" title="UI Lightness" />			<span class="themeName">UI lightness</span>		</a></li></ul></div></div>

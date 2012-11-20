@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+
+<head>
+    <title></title>
+        <script src="js/jquery-1.4.2.min.js"  charset="utf-8"  type="text/javascript"></script>
+        <script src="js/json2.js" charset="utf-8" type="text/javascript"></script>
+        <script src="DemoHandler.ashx" charset="utf-8" type="text/javascript"></script>
+        <script src="js/qunit/qunit.js" charset="utf-8" type="text/javascript"></script>
+        <link href="js/qunit/qunit.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1 id="qunit-header">QUnit example</h1>
+<h2 id="qunit-banner"></h2>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol> 
+</body>
+<script language="javascript" type="text/javascript">
+
+    $(document).ready(
+    function() {
+
+        test("这是服务端脚本初始化测试", 2, function() {
+            ok($.net, "$.net命名空间已经初始化");
+            ok($.net.DemoHandler, "$.net.DemoHandler 服务对象已经初始化");
+        });
+
+
+        $.net.DemoHandler.Options.async = false;  //改变默认的异步为同步方式
+
+        test("这是AJAX取脚本的测试", 1, function() {
+
+            $.ajax({ type: "get", datatype: "script", async: false, url: "DemoHandler.ashx", complete: function(e, s) { ok(true, "已经成功取得脚本:"); } });
+
+        });
+
+        test("URL传参取脚本测试", 2, function() {
+
+            $.ajax({ type: "get", datatype: "script", async: false, url: "DemoHandler.ashx?a=1&b=1", complete: function(e, s) { equals(s, "success", "在URL传入正常参数的情况下正确"); } });
+
+            $.ajax({ type: "get", datatype: "script", async: false, url: "DemoHandler.ashx?a:1&汉字&&&b=1", complete: function(e, s) { equals(s, "success", "在URL传入非正常参数的情况正确"); } });
+
+        });
+
+        var obj = null;
+        $.net.DemoHandler.GetVar("abc", 2, function(e) {
+            obj = e;
+        });
+        test("这是AJAX调用远程方法的测试", 2, function() {
+        ok(obj != null, obj.toString());
+            //"远程数据已经取得"
+            equals(obj.total, 2, "远程数据准确");
+        })
+
+
+//        var obj2;
+//        $.net.DemoHandler.GetPerson("wzcheng", "香槟小镇", "合肥", function(e) {
+//            obj2 = e;
+
+//        });
+//        test("提交数据并取得HTML的测试", 1, function() {
+//            ok(obj2 != null, obj2);
+//        });
+
+
+        //        asyncTest("这是AJAX调用远程方法的测试", 2, function() {
+
+        //            setTimeout(function() {
+        //                ok(true, "远程数据已经取得");
+        //                equals(obj.total, 2, "远程数据准确");
+        //                start();
+        //            }
+        //             , 5);
+        //        });
+    })
+  
+</script>
+
+</html>

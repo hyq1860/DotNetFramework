@@ -1,0 +1,57 @@
+#header {
+	MARGIN: 0px auto; WIDTH: 950px; HEIGHT: auto
+}
+.header_top {
+	WIDTH: 950px; BACKGROUND: url(../images/header_top_bg.gif) no-repeat 0px 3px; HEIGHT: 117px; OVERFLOW: hidden
+}
+.logo {
+	MARGIN: 3px 220px 0px 59px; WIDTH: 188px; HEIGHT: 144px; OVERFLOW: hidden; _margin: 3px 220px 0 30px
+}
+.header_top_right {
+	WIDTH: 452px; HEIGHT: 144px; OVERFLOW: hidden
+}
+.topNav {
+	PADDING-BOTTOM: 0px; MARGIN-TOP: 38px; PADDING-LEFT: 300px; WIDTH: 452px; PADDING-RIGHT: 0px; BACKGROUND: url(../images/topNav_bg.gif) no-repeat; HEIGHT: 42px; OVERFLOW: hidden; PADDING-TOP: 0px
+}
+.topNav A {
+	WIDTH: 35px; DISPLAY: inline; FLOAT: left; HEIGHT: 35px; MARGIN-RIGHT: 10px
+}
+.call_index {
+	WIDTH: 452px; BACKGROUND: url(../images/call_index.gif) no-repeat 254px 6px; HEIGHT: 26px
+}
+.call_index P {
+	TEXT-ALIGN: right; LINE-HEIGHT: 26px; WIDTH: 254px; HEIGHT: 26px
+}
+.mainNav {
+	POSITION: relative; MARGIN: 0px auto; WIDTH: 952px; HEIGHT: 35px
+}
+.mainNav UL LI {
+	WIDTH: 119px; FLOAT: left; HEIGHT: 35px
+}
+.mainNav UL LI A {
+	TEXT-ALIGN: center; LINE-HEIGHT: 35px; WIDTH: 119px; DISPLAY: block; HEIGHT: 35px; COLOR: #ffffff
+}
+.mainNav UL LI A:hover {
+	LINE-HEIGHT: 35px; WIDTH: 119px; DISPLAY: block; BACKGROUND: url(../images/mainNav_a.gif) no-repeat; HEIGHT: 35px; COLOR: #ffffff
+}
+#thisclass {
+	LINE-HEIGHT: 35px; WIDTH: 119px; DISPLAY: block; BACKGROUND: url(../images/mainNav_a.gif) no-repeat; HEIGHT: 35px; COLOR: #ffffff
+}
+.licon_new {
+	Z-INDEX: 999; POSITION: absolute; WIDTH: 22px; HEIGHT: 12px; TOP: -5px; LEFT: 557px
+}
+.bg_footer {
+	WIDTH: auto; BACKGROUND: url(../images/footer_bg.gif) repeat-x; HEIGHT: 75px
+}
+#footer {
+	MARGIN: 0px auto; WIDTH: 950px; HEIGHT: 75px; OVERFLOW: hidden
+}
+.logo_footer {
+	MARGIN-TOP: 16px; WIDTH: 128px; HEIGHT: 46px; MARGIN-LEFT: 14px; _margin-left: 7px
+}
+.txt_footer {
+	MARGIN-TOP: 16px; WIDTH: 808px; HEIGHT: 46px; COLOR: #cdcdcf
+}
+.txt_footer P {
+	LINE-HEIGHT: 46px; TEXT-INDENT: 20px; HEIGHT: 46px
+}

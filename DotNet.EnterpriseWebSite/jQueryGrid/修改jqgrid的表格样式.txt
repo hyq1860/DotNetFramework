@@ -1,0 +1,9 @@
+﻿.ui-jqgrid .ui-jqgrid-title{font-size:22px;}    /*修改grid标题的字体大小*/    
+.ui-jqgrid-sortable {font-size:32px;}   /*修改列名的字体大小*/ 
+.ui-jqgrid tr.jqgrow td {
+font-size:22px;
+ font-family:"宋体" /*修改表格内容字体*/ 
+ height:30px;    /* row 高度 */    }
+
+jqgrid increase toolbar height
+http://stackoverflow.com/questions/9510924/jqgrid-increase-toolbar-height

@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{55E1D54C-FBD4-4D79-97BB-A0F00DC14FB7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DotNet.Common</RootNamespace>
+    <AssemblyName>DotNet.Common</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\RefDLL\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\API\Json35r8\Bin\DotNet\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationContext.cs" />
+    <Compile Include="Collections\IKeyedObject.cs" />
+    <Compile Include="Collections\INamedObject.cs" />
+    <Compile Include="Collections\KeyedCollection.cs" />
+    <Compile Include="Collections\NamedCollection.cs" />
+    <Compile Include="Collections\NameObjectCollection.cs" />
+    <Compile Include="Collections\PagedList\IPagedList.cs" />
+    <Compile Include="Collections\PagedList\PagedList.cs" />
+    <Compile Include="Collections\PagedList\PagedListExtensions.cs" />
+    <Compile Include="Collections\PriorityQueue.cs" />
+    <Compile Include="Compression\Deflate.cs" />
+    <Compile Include="Compression\GZip.cs" />
+    <Compile Include="Configuration\AbstractConfigSource.cs" />
+    <Compile Include="Configuration\Attributes\ConfigFileAttribute.cs" />
+    <Compile Include="Configuration\Attributes\ConfigPathType.cs" />
+    <Compile Include="Configuration\Attributes\DotNetConfigFileAttribute.cs" />
+    <Compile Include="Configuration\Common\AssemblyQualifiedTypeNameConverter.cs" />
+    <Compile Include="Configuration\Common\ConfigurationSettings.cs" />
+    <Compile Include="Configuration\Common\GenericEnumeratorWrapper.cs" />
+    <Compile Include="Configuration\Common\NamedConfigurationElement.cs" />
+    <Compile Include="Configuration\Common\NamedElementCollection.cs" />
+    <Compile Include="Configuration\Common\NameTypeConfigurationElement.cs" />
+    <Compile Include="Configuration\Common\SerializableConfigurationSection.cs" />
+    <Compile Include="Configuration\ConfigChangedEventArgs.cs" />
+    <Compile Include="Configuration\ConfigChangeWatcher.cs" />
+    <Compile Include="Configuration\ConfigException.cs" />
+    <Compile Include="Configuration\ConfigFilePathInfo.cs" />
+    <Compile Include="Configuration\ConfigHelper.cs" />
+    <Compile Include="Configuration\ConfigManager.cs" />
+    <Compile Include="Configuration\ConfigSource.cs" />
+    <Compile Include="Configuration\ConfigSources\DotNet\DotNetConfigChangedEventArgs.cs" />
+    <Compile Include="Configuration\ConfigSources\DotNet\DotNetConfigChangeWatcher.cs" />
+    <Compile Include="Configuration\ConfigSources\DotNet\DotNetConfigGetParameter.cs" />
+    <Compile Include="Configuration\ConfigSources\DotNet\DotNetConfigSource.cs" />
+    <Compile Include="Configuration\ConfigSources\Xml\XmlConfigChangedEventArgs.cs" />
+    <Compile Include="Configuration\ConfigSources\Xml\XmlConfigChangeWatcher.cs" />
+    <Compile Include="Configuration\ConfigSources\Xml\XmlConfigGetParameter.cs" />
+    <Compile Include="Configuration\ConfigSources\Xml\XmlConfigSource.cs" />
+    <Compile Include="Configuration\ConfigSourceType.cs" />
+    <Compile Include="Configuration\Entities\CommentPointConfig.cs" />
+    <Compile Include="Configuration\Entities\CustomKeywordConfig.cs" />
+    <Compile Include="Configuration\Entities\ErrorInfo.cs" />
+    <Compile Include="Configuration\Entities\ErrorInfoConfig.cs" />
+    <Compile Include="Configuration\Entities\ExManagerConfig.cs" />
+    <Compile Include="Configuration\Entities\IndexConfiguration.cs" />
+    <Compile Include="Configuration\Entities\MessageResourceConfig.cs" />
+    <Compile Include="Configuration\Entities\Params.cs" />
+    <Compile Include="Configuration\Entities\ParamsConfiguration.cs" />
+    <Compile Include="Configuration\Entities\PriceRangeConfig.cs" />
+    <Compile Include="Configuration\Entities\SearchIndexConfig.cs" />
+    <Compile Include="Configuration\FileConfigGetParameter.cs" />
+    <Compile Include="Configuration\FrameworkConfig\CommonSettings\CommonSettings.cs" />
+    <Compile Include="Configuration\FrameworkConfig\ConfigSettings\ConfigProviderMapping.cs" />
+    <Compile Include="Configuration\FrameworkConfig\ConfigSettings\ConfigSettings.cs" />
+    <Compile Include="Configuration\FrameworkConfig\ConfigSettings\FileGroupMapping.cs" />
+    <Compile Include="Configuration\FrameworkConfig\ConfigSettings\FileGroupMappingCollection.cs" />
+    <Compile Include="Configuration\FrameworkConfig\ConfigSettings\FileMapping.cs" />
+    <Compile Include="Configuration\FrameworkConfig\ConfigSettings\FileMappingCollection.cs" />
+    <Compile Include="Configuration\FrameworkConfig\FrameworkConfig.cs" />
+    <Compile Include="Configuration\IConfigChangeWatcher.cs" />
+    <Compile Include="Configuration\IConfigParameter.cs" />
+    <Compile Include="Configuration\IConfigProvider.cs" />
+    <Compile Include="Configuration\IConfigSource.cs" />
+    <Compile Include="Configuration\IMergableConfig.cs" />
+    <Compile Include="Configuration\ProviderCollection.cs" />
+    <Compile Include="Configuration\ProviderConfigurationSection.cs" />
+    <Compile Include="Configuration\ProviderSetting.cs" />
+    <Compile Include="Configuration\Utility\AttributeHelper.cs" />
+    <Compile Include="Configuration\Utility\ConfigThrowHelper.cs" />
+    <Compile Include="Configuration\XMLConfigProvider.cs" />
+    <Compile Include="Core\SingletonProvider.cs" />
+    <Compile Include="Core\Utf8StringWriter.cs" />
+    <Compile Include="Cryptography\CryptoAlgorithm.cs" />
+    <Compile Include="Cryptography\CryptoManager.cs" />
+    <Compile Include="Cryptography\EncrypHelper.cs" />
+    <Compile Include="Cryptography\Encrypt.cs" />
+    <Compile Include="Cryptography\ICrypto.cs" />
+    <Compile Include="Cryptography\Impl\Asym_RSA.cs" />
+    <Compile Include="Cryptography\Impl\Sym_DES.cs" />
+    <Compile Include="Cryptography\Impl\Sym_RC2.cs" />
+    <Compile Include="Cryptography\Impl\Sym_Rijndael.cs" />
+    <Compile Include="Cryptography\Impl\Sym_TripleDES.cs" />
+    <Compile Include="Cryptography\KeyEntityGenerator.cs" />
+    <Compile Include="Diagnostics\CheckArgument.cs" />
+    <Compile Include="Diagnostics\ExceptionHelper.cs" />
+    <Compile Include="Diagnostics\ThrowHelper.cs" />
+    <Compile Include="Enum\Enum.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\StreamExtensions.cs" />
+    <Compile Include="Extensions\StringBuilderExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="INamedObject.cs" />
+    <Compile Include="INameTypeObject.cs" />
+    <Compile Include="IO\FileSystemChangeEventHandler.cs" />
+    <Compile Include="IO\PathUtils.cs" />
+    <Compile Include="Logging\ILogProvider.cs" />
+    <Compile Include="Logging\Log4NetLogProvider.cs" />
+    <Compile Include="Logging\LogCategoryAttribute.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LogLevel.cs" />
+    <Compile Include="Logging\ProviderCollection.cs" />
+    <Compile Include="Logging\ProviderConfigurationSection.cs" />
+    <Compile Include="Logging\ProviderSetting.cs" />
+    <Compile Include="Pager\HtmlPager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\DynamicMethodHandle.cs" />
+    <Compile Include="Reflection\DynamicMethodHandlerFactory.cs" />
+    <Compile Include="Reflection\MethodCacheKey.cs" />
+    <Compile Include="Reflection\MethodCaller.cs" />
+    <Compile Include="Resources\R.Designer.cs" />
+    <Compile Include="Serialization\BinaryFormatterWrapper.cs" />
+    <Compile Include="Serialization\ISerializer.cs" />
+    <Compile Include="Serialization\SerializationMode.cs" />
+    <Compile Include="Serialization\Serializer.cs" />
+    <Compile Include="Serialization\SerializerBase.cs" />
+    <Compile Include="Serialization\XmlSerializerWrapper.cs" />
+    <Compile Include="String\FastReplacer\FastReplacer.cs" />
+    <Compile Include="String\FastReplacer\FastReplacerSnippet.cs" />
+    <Compile Include="Utility\ArrayUtils.cs" />
+    <Compile Include="Utility\CaseInsensitiveStringEqualityComparer.cs" />
+    <Compile Include="Utility\CommonConfig.cs" />
+    <Compile Include="Utility\CommonUtily.cs" />
+    <Compile Include="Utility\Converter.cs" />
+    <Compile Include="Utility\CustomRegex.cs" />
+    <Compile Include="Utility\DateTimeHelper.cs" />
+    <Compile Include="Utility\GenericEqualityComparer.cs" />
+    <Compile Include="Utility\HiPerfTimer.cs" />
+    <Compile Include="Utility\IdentifyEncoding.cs" />
+    <Compile Include="Utility\JsonHelper.cs" />
+    <Compile Include="Utility\Localization.cs" />
+    <Compile Include="Utility\MD5.cs" />
+    <Compile Include="Utility\ObjectXmlSerializer.cs" />
+    <Compile Include="Utility\OrderGenerator.cs" />
+    <Compile Include="Utility\PrimaryKeyGenerator.cs" />
+    <Compile Include="Utility\StringHelper.cs" />
+    <Compile Include="Utility\TypeHelper.cs" />
+    <Compile Include="Utility\TypeResolution\CachedTypeResolver.cs" />
+    <Compile Include="Utility\TypeResolution\GenericArgumentsInfo.cs" />
+    <Compile Include="Utility\TypeResolution\ITypeResolver.cs" />
+    <Compile Include="Utility\TypeResolution\TypeAssemblyInfo.cs" />
+    <Compile Include="Utility\TypeResolution\TypeRegistry.cs" />
+    <Compile Include="Utility\TypeResolution\TypeResolver.cs" />
+    <Compile Include="Utility\XMLUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\R.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

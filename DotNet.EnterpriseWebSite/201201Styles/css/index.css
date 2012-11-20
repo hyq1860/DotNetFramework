@@ -1,0 +1,246 @@
+.bg1 {
+	WIDTH: 98px; BACKGROUND: url(../images/i_box2_r_nav2.gif) no-repeat
+}
+.bg2 {
+	WIDTH: 98px; BACKGROUND: url(../images/i_box2_r_nav1.gif) no-repeat
+}
+.show {
+	DISPLAY: block
+}
+.hide {
+	DISPLAY: none
+}
+.sousuo {
+	TEXT-INDENT: 30px; MARGIN: 50px auto; MIN-HEIGHT: 400px; WIDTH: 800px; FONT-FAMILY: "Î¢ÈíÑÅºÚ"; COLOR: #333333; FONT-SIZE: 15px; FONT-WEIGHT: bold
+}
+.sousuo INPUT {
+	MARGIN-LEFT: 10px
+}
+.sousuo1 {
+	LINE-HEIGHT: 20px; MARGIN: 50px auto; WIDTH: 200px; HEIGHT: 20px; COLOR: #333333; FONT-SIZE: 14px
+}
+#index_ct {
+	MARGIN: 0px auto; WIDTH: 950px; HEIGHT: auto
+}
+.i_box1 {
+	BORDER-BOTTOM: #c3c3c3 1px solid; BORDER-LEFT: #c3c3c3 1px solid; MARGIN: 13px auto 7px; WIDTH: 948px; BACKGROUND: url(../images/i_box1_bg.gif) repeat-x; HEIGHT: 49px; BORDER-TOP: #c3c3c3 1px solid; BORDER-RIGHT: #c3c3c3 1px solid
+}
+.i_box1_a {
+	LINE-HEIGHT: 49px; TEXT-INDENT: 37px; WIDTH: 140px; HEIGHT: 49px; COLOR: #888687; FONT-SIZE: 14px; FONT-WEIGHT: bold
+}
+.i_box1_b {
+	LINE-HEIGHT: 49px; WIDTH: 320px; HEIGHT: 49px; MARGIN-LEFT: -20px; FONT-SIZE: 14px; _height: 29px; _margin-top: 15px
+}
+.i_box1_b INPUT {
+	MARGIN-LEFT: 20px; _margin-left: 15px
+}
+.i_box1_c {
+	MARGIN-TOP: 6px; WIDTH: 461px; HEIGHT: 37px; FONT-SIZE: 14px
+}
+.input2 {
+	BORDER-BOTTOM-STYLE: none; LINE-HEIGHT: 37px; TEXT-INDENT: 85px; BORDER-LEFT-STYLE: none; WIDTH: 330px; FONT-FAMILY: Geneva, Arial, Helvetica, sans-serif; BORDER-TOP-STYLE: none; BACKGROUND: url(../images/input2.gif) no-repeat; FLOAT: left; HEIGHT: 37px; BORDER-RIGHT-STYLE: none; FONT-SIZE: 14px
+}
+.input3 {
+	BORDER-BOTTOM-STYLE: none; BORDER-LEFT-STYLE: none; WIDTH: 131px; BORDER-TOP-STYLE: none; BACKGROUND: url(../images/input3.gif) no-repeat; FLOAT: left; HEIGHT: 37px; MARGIN-LEFT: -3px; BORDER-RIGHT-STYLE: none
+}
+.bg_banner {
+	MARGIN: 0px auto; WIDTH: 950px; BACKGROUND: url(../images/banner_bg.gif) no-repeat 50% bottom; HEIGHT: 382px
+}
+.banner {
+	WIDTH: 948px; BACKGROUND: url(../images/banner.gif) no-repeat; HEIGHT: 380px
+}
+.i_box2 {
+	MARGIN: 0px auto; WIDTH: 950px; HEIGHT: 215px
+}
+.i_box2_l {
+	WIDTH: 622px; HEIGHT: 205px; OVERFLOW: hidden
+}
+.i_box2_r {
+	WIDTH: 316px; BACKGROUND: url(../images/i_box2_r_bg.gif) no-repeat; HEIGHT: 205px; OVERFLOW: hidden
+}
+.i_box2_r_nav {
+	MARGIN-TOP: 1px; WIDTH: 310px; HEIGHT: 32px; MARGIN-LEFT: 6px; OVERFLOW: hidden
+}
+.i_box2_r_nav UL LI {
+	WIDTH: 98px; FLOAT: left; HEIGHT: 32px; MARGIN-RIGHT: 1px
+}
+.i_box2_r_nav UL LI A {
+	TEXT-ALIGN: center; LINE-HEIGHT: 32px; WIDTH: 98px; DISPLAY: block; HEIGHT: 32px; COLOR: #000000
+}
+.i_box2_r_nav UL LI A:hover {
+	COLOR: #0168b7; FONT-WEIGHT: bold
+}
+.i_box2_r_ct {
+	WIDTH: 316px; HEIGHT: auto; OVERFLOW: hidden
+}
+.i_box2_r_ct UL {
+	MARGIN-TOP: 15px
+}
+.i_box2_r_ct UL LI {
+	LINE-HEIGHT: 20px; TEXT-INDENT: 9px; WIDTH: 271px; BACKGROUND: url(../images/icon4.gif) no-repeat 0px 10px; HEIGHT: 20px; MARGIN-LEFT: 20px
+}
+.i_box2_r_ct UL LI A {
+	FLOAT: left; COLOR: #5e5e5e
+}
+.i_box2_r_ct UL LI A:hover {
+	COLOR: #0168b7
+}
+.riqi_1 {
+	FLOAT: right; COLOR: #7d7d7d; FONT-SIZE: 10px
+}
+#more_i_box2 {
+	LINE-HEIGHT: 10px; TEXT-INDENT: 242px; WIDTH: 290px; BACKGROUND: none transparent scroll repeat 0% 0%; HEIGHT: 17px
+}
+#more_i_box2 A {
+	FONT-FAMILY: Georgia, "Times New Roman", Times, serif; COLOR: #585858; FONT-SIZE: 10px
+}
+.i_box3 {
+	MARGIN: 0px auto 10px; WIDTH: 950px; HEIGHT: 245px
+}
+.i_box3_l {
+	WIDTH: 622px; BACKGROUND: url(../images/i_box3_l.gif) no-repeat; HEIGHT: 245px
+}
+.i_box3_l_title {
+	WIDTH: 622px; HEIGHT: 54px
+}
+.i_box3_l_title A {
+	MARGIN: 28px 22px 0px 0px; WIDTH: 30px; DISPLAY: block; FLOAT: right; HEIGHT: 5px
+}
+.i_box3_l_ct {
+	WIDTH: 622px; HEIGHT: auto; OVERFLOW: hidden
+}
+.i_box3_l_ct_a {
+	MARGIN: 0px 23px; WIDTH: 160px; DISPLAY: inline; FLOAT: left; HEIGHT: auto; OVERFLOW: hidden
+}
+.i_box3_l_ct_a1 {
+	WIDTH: 160px; HEIGHT: 90px
+}
+.i_box3_l_ct_a2 {
+	TEXT-ALIGN: center; LINE-HEIGHT: 25px; WIDTH: 160px; HEIGHT: 25px
+}
+.i_box3_l_ct_a2 A {
+	COLOR: #303030; FONT-SIZE: 14px; FONT-WEIGHT: bold
+}
+.i_box3_l_ct_a3 {
+	WIDTH: 160px; HEIGHT: 54px; OVERFLOW: hidden
+}
+.i_box3_l_ct_a3 P {
+	LINE-HEIGHT: 18px; COLOR: #696969
+}
+.i_box3_r {
+	WIDTH: 316px; BACKGROUND: url(../images/i_box3_r.gif) no-repeat; HEIGHT: 245px; OVERFLOW: hidden
+}
+.i_box3_r A {
+	FLOAT: left
+}
+.i_box3_r_a {
+	MARGIN-TOP: 2px; WIDTH: 154px; DISPLAY: block; BACKGROUND: url(../images/i_box3_r_a1.gif) no-repeat; HEIGHT: 118px; MARGIN-LEFT: 2px; MARGIN-RIGHT: 3px
+}
+.i_box3_r_a:hover {
+	BACKGROUND: url(../images/i_box3_r_a2.gif) no-repeat
+}
+.i_box3_r_b {
+	MARGIN-TOP: 2px; WIDTH: 154px; DISPLAY: block; BACKGROUND: url(../images/i_box3_r_b1.gif) no-repeat; HEIGHT: 120px
+}
+.i_box3_r_b:hover {
+	BACKGROUND: url(../images/i_box3_r_b2.gif) no-repeat
+}
+.i_box3_r_c {
+	MARGIN-TOP: 1px; WIDTH: 154px; DISPLAY: block; BACKGROUND: url(../images/i_box3_r_c1.gif) no-repeat; HEIGHT: 120px; MARGIN-LEFT: 2px; MARGIN-RIGHT: 3px
+}
+.i_box3_r_c:hover {
+	BACKGROUND: url(../images/i_box3_r_c2.gif) no-repeat
+}
+.i_box3_r_d {
+	MARGIN-TOP: 1px; WIDTH: 154px; DISPLAY: block; BACKGROUND: url(../images/i_box3_r_d1.gif) no-repeat; HEIGHT: 120px
+}
+.i_box3_r_d:hover {
+	BACKGROUND: url(../images/i_box3_r_d2.gif) no-repeat
+}
+.i_box4 {
+	MARGIN: 0px auto 10px; WIDTH: 950px; HEIGHT: auto
+}
+.i_box4_top {
+	WIDTH: 950px; BACKGROUND: url(../images/i_box4_top.gif) no-repeat; HEIGHT: 3px
+}
+.i_box4_bottom {
+	WIDTH: 950px; BACKGROUND: url(../images/i_box4_bottom.gif) no-repeat; HEIGHT: 3px
+}
+.i_box4_title {
+	BORDER-BOTTOM: #d6d6d6 1px solid; BORDER-LEFT: #d6d6d6 1px solid; WIDTH: 948px; BACKGROUND: #f4f4f4; HEIGHT: 36px; BORDER-TOP: #d6d6d6 1px; BORDER-RIGHT: #d6d6d6 1px solid
+}
+.i_box4_title A {
+	MARGIN-TOP: 9px; FLOAT: left; MARGIN-LEFT: 21px
+}
+.i_box4_title SPAN {
+	MARGIN-TOP: 16px; FLOAT: right; COLOR: #7d7d7d; MARGIN-RIGHT: 20px
+}
+.i_box4_ct {
+	BORDER-LEFT: #d6d6d6 1px solid; WIDTH: 948px; HEIGHT: auto; OVERFLOW: hidden; BORDER-RIGHT: #d6d6d6 1px solid
+}
+.i_box4_ct UL LI {
+	TEXT-ALIGN: center; LINE-HEIGHT: 60px; WIDTH: 237px; FLOAT: left; HEIGHT: 60px
+}
+.i_box4_ct UL LI IMG {
+	MARGIN-TOP: 0px !important; _margin-top: 10px
+}
+.showimg {
+	Z-INDEX: 999; BORDER-BOTTOM: #d1d1d1 1px solid; POSITION: absolute; BORDER-LEFT: #d1d1d1 1px solid; PADDING-BOTTOM: 5px; BACKGROUND-COLOR: #fff; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; MARGIN-LEFT: 10px; BORDER-TOP: #d1d1d1 1px solid; BORDER-RIGHT: #d1d1d1 1px solid; PADDING-TOP: 5px
+}
+.i_box5 {
+	BORDER-BOTTOM: #d6d6d6 1px solid; BORDER-LEFT: #d6d6d6 1px solid; MARGIN: 0px auto; WIDTH: 948px; HEIGHT: 60px; BORDER-TOP: #d6d6d6 1px solid; BORDER-RIGHT: #d6d6d6 1px solid
+}
+.i_box5_l {
+	TEXT-ALIGN: center; LINE-HEIGHT: 47px; MARGIN-TOP: 7px; WIDTH: 105px; HEIGHT: 47px; COLOR: #494b4a; FONT-SIZE: 13px; FONT-WEIGHT: bold; BORDER-RIGHT: #d6d6d6 1px solid
+}
+.i_box5_r {
+	WIDTH: 804px; HEIGHT: 60px; MARGIN-LEFT: 17px; OVERFLOW: hidden
+}
+.i_box5_r_a {
+	BORDER-BOTTOM: #cccccc 1px solid; MARGIN-TOP: 5px; WIDTH: 804px; HEIGHT: 26px
+}
+.i_box5_r_b {
+	MARGIN-TOP: 2px; WIDTH: 804px; HEIGHT: 26px
+}
+.i_box5_r_a UL LI {
+	TEXT-ALIGN: center; LINE-HEIGHT: 26px; WIDTH: 100px; BACKGROUND: url(../images/icon6.gif) no-repeat right 50%; FLOAT: left; HEIGHT: 26px
+}
+.i_box5_r_b UL LI {
+	TEXT-ALIGN: center; LINE-HEIGHT: 26px; WIDTH: 100px; BACKGROUND: url(../images/icon6.gif) no-repeat right 50%; FLOAT: left; HEIGHT: 26px
+}
+.i_box5_r_a UL LI A {
+	COLOR: #888888
+}
+.i_box5_r_b UL LI A {
+	COLOR: #888888
+}
+.i_box5_r_a UL LI A:hover {
+	COLOR: #0269b8; TEXT-DECORATION: underline
+}
+.i_box5_r_b UL LI A:hover {
+	COLOR: #0269b8; TEXT-DECORATION: underline
+}
+.i_box6 {
+	MARGIN: 0px auto; WIDTH: 950px; HEIGHT: 46px; COLOR: #606060
+}
+.i_box6 A {
+	COLOR: #606060
+}
+.i_box6_l {
+	WIDTH: 600px; HEIGHT: 46px
+}
+.i_box6_l P {
+	LINE-HEIGHT: 46px; HEIGHT: 46px; COLOR: #606060; MARGIN-LEFT: 18px
+}
+.i_box6_r {
+	LINE-HEIGHT: 46px; WIDTH: 300px; HEIGHT: 46px
+}
+.i_box6_r_a {
+	LINE-HEIGHT: 46px; WIDTH: 230px; HEIGHT: 46px
+}
+.i_box6_r_b {
+	WIDTH: 60px; HEIGHT: 46px
+}
+.i_box6_r_b A {
+	LINE-HEIGHT: 46px; TEXT-INDENT: 23px; WIDTH: 60px; DISPLAY: block; BACKGROUND: url(../images/icon7.gif) no-repeat 0px 12px; HEIGHT: 46px
+}

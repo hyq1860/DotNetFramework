@@ -1,0 +1,18 @@
+#banner {
+	BORDER-BOTTOM: #c3c3c3 1px solid; BORDER-LEFT: #c3c3c3 1px solid; WIDTH: 948px; HEIGHT: 364px; OVERFLOW: hidden; BORDER-TOP: #c3c3c3 1px solid; BORDER-RIGHT: #c3c3c3 1px solid
+}
+.banImgs LI {
+	Z-INDEX: 1; POSITION: absolute; DISPLAY: none
+}
+.jsNav {
+	Z-INDEX: 100; POSITION: relative; WIDTH: 120px; BOTTOM: 42px; HEIGHT: 14px; MARGIN-LEFT: 820px
+}
+.jsNav A {
+	Z-INDEX: 11; WIDTH: 14px; DISPLAY: inline; FLOAT: left; HEIGHT: 14px; MARGIN-LEFT: 10px
+}
+.trigger {
+	BACKGROUND: url(../images/icon_banner2.gif) no-repeat
+}
+.current {
+	BACKGROUND: url(../images/icon_banner1.gif) no-repeat
+}

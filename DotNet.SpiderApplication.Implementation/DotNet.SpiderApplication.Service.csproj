@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8427D558-6327-4BD0-A873-1FB99ADF3E5C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DotNet.SpiderApplication.Service</RootNamespace>
+    <AssemblyName>DotNet.SpiderApplication.Service</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="tesseract">
+      <HintPath>..\..\验证码识别\资料\tesseractdotnet_v301_r590\x86release_assemblies\tesseract.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataAccess\DataAccess.cs" />
+    <Compile Include="ImageProcess\ImageProcess.cs" />
+    <Compile Include="Implemention\DataAccess\ProductDataAccess.cs" />
+    <Compile Include="Implemention\Service\ProductService.cs" />
+    <Compile Include="Implemention\Service\SpiderTaskManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceHostExtension\ObservableServiceHost\InstanceCreationEndpointBehavior.cs" />
+    <Compile Include="ServiceHostExtension\ObservableServiceHost\InstanceCreationInitializer.cs" />
+    <Compile Include="ServiceHostExtension\ObservableServiceHost\InstanceEventArgs.cs" />
+    <Compile Include="ServiceHostExtension\ObservableServiceHost\ObservableServiceHost.cs" />
+    <Compile Include="ServiceHostExtension\ThreadServiceHost.cs" />
+    <Compile Include="Spider\SpiderBase.cs" />
+    <Compile Include="WCF\CalculatorService.cs" />
+    <Compile Include="WCF\SessionManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DotNet.Base.Contract\DotNet.Base.Contract.csproj">
+      <Project>{E9E030AC-4BB3-4148-BC3E-64CA745AAF82}</Project>
+      <Name>DotNet.Base.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DotNet.Base\DotNet.Base.csproj">
+      <Project>{E5155B53-CBBC-4B9A-8445-48EA00F4B45E}</Project>
+      <Name>DotNet.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DotNet.Common\DotNet.Common.csproj">
+      <Project>{55E1D54C-FBD4-4D79-97BB-A0F00DC14FB7}</Project>
+      <Name>DotNet.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DotNet.Data\DotNet.Data.csproj">
+      <Project>{53E3C58A-E08F-4594-A9ED-5EC9A0D97085}</Project>
+      <Name>DotNet.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DotNet.SpiderApplication.Interface\DotNet.SpiderApplication.Contract.csproj">
+      <Project>{A72B333A-15A6-4C2E-9546-4DEC0AF16C4E}</Project>
+      <Name>DotNet.SpiderApplication.Contract</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Spider\设计思路.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

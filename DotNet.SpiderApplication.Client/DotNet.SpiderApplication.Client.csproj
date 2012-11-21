@@ -37,44 +37,44 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="csExWB">
-      <HintPath>..\..\RefDLL\csExWB.dll</HintPath>
+      <HintPath>..\RefDll\csExWB.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\RefDll\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Interop.ComUtilitiesLib">
-      <HintPath>..\..\RefDLL\Interop.ComUtilitiesLib.dll</HintPath>
+      <HintPath>..\RefDll\Interop.ComUtilitiesLib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="IrisSkin2">
-      <HintPath>..\..\RefDLL\IrisSkin2.dll</HintPath>
+      <HintPath>..\RefDll\IrisSkin2.dll</HintPath>
     </Reference>
     <Reference Include="Lucene.Net">
-      <HintPath>..\..\..\文档\搜索\build\bin\core\Release\Lucene.Net.dll</HintPath>
+      <HintPath>..\RefDll\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\..\RefDLL\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\RefDll\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
       <HintPath>..\RefDll\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="PanGu">
-      <HintPath>..\..\..\文档\PanGu4Lucene_V2.3.1.0\PanGu4Lucene\Release\PanGu.dll</HintPath>
+      <HintPath>..\RefDll\PanGu.dll</HintPath>
     </Reference>
     <Reference Include="PanGu.HighLight">
-      <HintPath>..\..\..\文档\PanGu4Lucene_V2.3.1.0\PanGu4Lucene\Reference\PanGu.HighLight.dll</HintPath>
+      <HintPath>..\RefDll\PanGu.HighLight.dll</HintPath>
     </Reference>
     <Reference Include="PanGu.Lucene.Analyzer">
-      <HintPath>..\..\..\文档\PanGu4Lucene_V2.3.1.0\PanGu4Lucene\Release\PanGu.Lucene.Analyzer.dll</HintPath>
+      <HintPath>..\RefDll\PanGu.Lucene.Analyzer.dll</HintPath>
     </Reference>
     <Reference Include="ScrapySharp">
-      <HintPath>..\..\RefDLL\ScrapySharp.dll</HintPath>
+      <HintPath>..\RefDll\ScrapySharp.dll</HintPath>
     </Reference>
     <Reference Include="ScrapySharp.Core">
-      <HintPath>..\..\RefDLL\ScrapySharp.Core.dll</HintPath>
+      <HintPath>..\RefDll\ScrapySharp.Core.dll</HintPath>
     </Reference>
     <Reference Include="SmartThreadPool">
-      <HintPath>..\..\RefDLL\SmartThreadPool.dll</HintPath>
+      <HintPath>..\RefDll\SmartThreadPool.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

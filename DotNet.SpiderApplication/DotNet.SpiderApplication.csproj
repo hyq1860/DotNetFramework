@@ -33,15 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="csExWB, Version=2.0.0.2, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RefDLL\csExWB.dll</HintPath>
+    <Reference Include="csExWB">
+      <HintPath>..\RefDll\csExWB.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\RefDll\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Interop.ComUtilitiesLib">
-      <HintPath>..\..\RefDLL\Interop.ComUtilitiesLib.dll</HintPath>
+      <HintPath>..\RefDll\Interop.ComUtilitiesLib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">

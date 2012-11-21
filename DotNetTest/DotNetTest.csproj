@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="csExWB, Version=2.0.0.2, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RefDLL\csExWB.dll</HintPath>
+      <HintPath>..\RefDll\csExWB.dll</HintPath>
     </Reference>
     <Reference Include="Fasterflect">
       <HintPath>..\packages\fasterflect.2.1.0\lib\net35\Fasterflect.dll</HintPath>
@@ -43,18 +43,18 @@
     <Reference Include="Interop.ComUtilitiesLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
-      <HintPath>..\..\RefDLL\Interop.ComUtilitiesLib.dll</HintPath>
+      <HintPath>..\RefDll\Interop.ComUtilitiesLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
-      <HintPath>..\..\RefDLL\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <HintPath>..\RefDll\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
-      <HintPath>..\..\RefDLL\Ninject.dll</HintPath>
+      <HintPath>..\RefDll\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SQLite">
-      <HintPath>..\..\RefDLL\System.Data.SQLite.dll</HintPath>
+      <HintPath>..\RefDll\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />

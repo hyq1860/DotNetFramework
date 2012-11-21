@@ -38,7 +38,7 @@
       <HintPath>..\..\RefDLL\csExWB.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>..\..\HtmlParser\资料\HtmlAgilityPack.1.4.6\Net20\HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\RefDll\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Interop.ComUtilitiesLib">
       <HintPath>..\..\RefDLL\Interop.ComUtilitiesLib.dll</HintPath>
@@ -46,7 +46,7 @@
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RefDLL\log4net.dll</HintPath>
+      <HintPath>..\RefDll\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -54,11 +54,11 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="ScrapySharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RefDLL\ScrapySharp.dll</HintPath>
+      <HintPath>..\RefDll\ScrapySharp.dll</HintPath>
     </Reference>
     <Reference Include="ScrapySharp.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RefDLL\ScrapySharp.Core.dll</HintPath>
+      <HintPath>..\RefDll\ScrapySharp.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

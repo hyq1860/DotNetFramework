@@ -32,14 +32,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="csExWB">
-      <HintPath>..\..\RefDLL\csExWB.dll</HintPath>
+      <HintPath>..\RefDll\csExWB.dll</HintPath>
     </Reference>
     <Reference Include="Interop.ComUtilitiesLib">
-      <HintPath>..\..\RefDLL\Interop.ComUtilitiesLib.dll</HintPath>
+      <HintPath>..\RefDll\Interop.ComUtilitiesLib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\..\RefDLL\log4net.dll</HintPath>
+      <HintPath>..\RefDll\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

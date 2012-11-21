@@ -40,7 +40,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="tesseract">
-      <HintPath>..\..\验证码识别\资料\tesseractdotnet_v301_r590\x86release_assemblies\tesseract.dll</HintPath>
+      <HintPath>..\RefDll\tesseract.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

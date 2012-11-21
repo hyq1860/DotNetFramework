@@ -33,21 +33,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>..\..\HtmlParser\资料\HtmlAgilityPack.1.4.6\Net20\HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\RefDll\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\RefDLL\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\RefDll\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NUniversalCharDet">
-      <HintPath>..\..\HtmlParser\资料\NUniversalCharDet\NUniversalCharDet.dll</HintPath>
+      <HintPath>..\RefDll\NUniversalCharDet.dll</HintPath>
     </Reference>
-    <Reference Include="ScrapySharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RefDLL\ScrapySharp.dll</HintPath>
+    <Reference Include="ScrapySharp">
+      <HintPath>..\RefDll\ScrapySharp.dll</HintPath>
     </Reference>
-    <Reference Include="ScrapySharp.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RefDLL\ScrapySharp.Core.dll</HintPath>
+    <Reference Include="ScrapySharp.Core">
+      <HintPath>..\RefDll\ScrapySharp.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />

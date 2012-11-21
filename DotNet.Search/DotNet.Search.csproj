@@ -32,21 +32,31 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="csExWB">
+      <HintPath>..\RefDll\csExWB.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\RefDll\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.ComUtilitiesLib">
+      <HintPath>..\RefDll\Interop.ComUtilitiesLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Lucene.Net">
-      <HintPath>..\..\RefDLL\Lucene.Net.dll</HintPath>
+      <HintPath>..\RefDll\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="PanGu">
-      <HintPath>..\..\..\文档\PanGu4Lucene_V2.3.1.0\PanGu4Lucene\Release\PanGu.dll</HintPath>
+      <HintPath>..\RefDll\PanGu.dll</HintPath>
     </Reference>
     <Reference Include="PanGu.HighLight">
-      <HintPath>..\..\..\文档\PanGu4Lucene_V2.3.1.0\PanGu4Lucene\Reference\PanGu.HighLight.dll</HintPath>
+      <HintPath>..\RefDll\PanGu.HighLight.dll</HintPath>
     </Reference>
     <Reference Include="PanGu.Lucene.Analyzer">
-      <HintPath>..\..\..\文档\PanGu4Lucene_V2.3.1.0\PanGu4Lucene\Release\PanGu.Lucene.Analyzer.dll</HintPath>
+      <HintPath>..\RefDll\PanGu.Lucene.Analyzer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

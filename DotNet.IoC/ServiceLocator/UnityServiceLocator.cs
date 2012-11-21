@@ -14,7 +14,7 @@ namespace DotNet.IoC.ServiceLocator
     using System.Text; 
     // 测试 
     //public class UnityServiceLocator : ServiceLocatorImplBase
-    //{
+    //{ 
     //    private IUnityContainer _container;
     //    public UnityServiceLocator(IUnityContainer container)
     //    {

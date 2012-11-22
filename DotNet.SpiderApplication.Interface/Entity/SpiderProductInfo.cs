@@ -11,6 +11,11 @@ namespace DotNet.SpiderApplication.Contract.Entity
     using System.Linq;
     using System.Text;
 
+    /*
+     * 协同推荐SlopeOne 算法
+     http://www.cnblogs.com/huangxincheng/archive/2012/11/22/2782647.html
+     */
+
     /// <summary>
     /// 商品采集参数
     /// </summary>
@@ -25,7 +30,15 @@ namespace DotNet.SpiderApplication.Contract.Entity
         /// </summary>
         public decimal Price { get; set; }
 
+        /// <summary>
+        /// 电商编号
+        /// </summary>
         public int ECPlatformId { get; set; }
+
+        /// <summary>
+        /// 评论数
+        /// </summary>
+        public int CommentNumber { get; set; }
 
         /// <summary>
         /// 权重
@@ -35,9 +48,18 @@ namespace DotNet.SpiderApplication.Contract.Entity
 
         public int CompareTo(SpiderProductInfo other)
         {
-            if (this.Priority < other.Priority) return -1;
-            else if (this.Priority > other.Priority) return 1;
-            else return 0;
+            if (this.Priority < other.Priority)
+            {
+                return -1;
+            }
+            else if (this.Priority > other.Priority)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

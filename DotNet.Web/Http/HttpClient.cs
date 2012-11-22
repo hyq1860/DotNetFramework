@@ -123,21 +123,23 @@ namespace DotNet.Web
 
         private string userAgent = FakeUserAgents.InternetExplorer8.UserAgent;
 
-        private HttpMethod _method = HttpMethod.Get;
+        private HttpMethod httpMethod = HttpMethod.Get;
 
         private HttpClientContext context;
 
         private readonly List<HttpUploadingFile> files = new List<HttpUploadingFile>();
 
-        private readonly Dictionary<string, string> _postData = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> postData = new Dictionary<string, string>();
 
         private string url;
 
         private WebHeaderCollection headers;
 
-        private WebResponse response;
+        private WebResponse webResponse;
 
         private WebRequest webRequest;
+
+        private CookieContainer cookieContainer;
 
         private int startPoint;
 
@@ -212,10 +214,10 @@ namespace DotNet.Web
         /// <summary>
         /// 指示发出Get请求还是Post请求
         /// </summary>
-        public HttpMethod Method
+        public HttpMethod HttpMethod
         {
-            get { return this._method; }
-            set { this._method = value; }
+            get { return this.httpMethod; }
+            set { this.httpMethod = value; }
         }
 
         /// <summary>
@@ -231,7 +233,7 @@ namespace DotNet.Web
         /// </summary>
         public Dictionary<string, string> PostData
         {
-            get { return this._postData; }
+            get { return this.postData; }
         }
 
         /// <summary>
@@ -296,8 +298,8 @@ namespace DotNet.Web
         /// </summary>
         public int EndPoint
         {
-            get { return endPoint; }
-            set { endPoint = value; }
+            get { return this.endPoint; }
+            set { this.endPoint = value; }
         }
 
         /// <summary>
@@ -309,10 +311,10 @@ namespace DotNet.Web
 
         #region constructors
         /// <summary>
+        /// Initializes a new instance of the <see cref="HttpClient"/> class. 
         /// 构造新的HttpClient实例
         /// </summary>
-        public HttpClient()
-            : this(null)
+        public HttpClient(): this(null)
         {
         }
 
@@ -348,7 +350,9 @@ namespace DotNet.Web
             this.keepContext = keepContext;
             this.Language = CultureInfo.CreateSpecificCulture("zh-CN");//EN-US
             if (this.context == null)
+            {
                 this.context = new HttpClientContext();
+            }
         }
         #endregion
 
@@ -383,18 +387,19 @@ namespace DotNet.Web
         /// </summary>
         public void ClearHttpClientState()
         {
-            contentLength = -1;
-            if(MemoryStream!=null)
+            this.contentLength = -1;
+            if (MemoryStream != null)
             {
                 MemoryStream.Close();
                 MemoryStream = null;
             }
-            _method = HttpMethod.Get;
-            files.Clear();
-            _postData.Clear();
+
+            this.httpMethod = HttpMethod.Get;
+            this.files.Clear();
+            this.postData.Clear();
             this.headers = null;
-            startPoint = 0;
-            endPoint = 0;
+            this.startPoint = 0;
+            this.endPoint = 0;
         }
 
         /// <summary>
@@ -532,7 +537,7 @@ namespace DotNet.Web
             return true;
         }
 
-        private HttpWebRequest CreateRequest()
+        private HttpWebRequest CreateAndPrepareWebRequest()
         {
             if (Certificate != null)
             {
@@ -543,20 +548,20 @@ namespace DotNet.Web
 
             HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(this.url);
 
-            this.InitHttpWebRequest(webRequest);
+            this.SetDefaultOptions(webRequest);
 
-            if (this._method == HttpMethod.Head)
+            if (this.httpMethod == HttpMethod.Head)
             {
                 webRequest.Method = "Head";
                 return webRequest;
             }
 
-            if (this._postData.Count > 0 || this.files.Count > 0)
+            if (this.postData.Count > 0 || this.files.Count > 0)
             {
-                this._method = HttpMethod.Post;
+                this.httpMethod = HttpMethod.Post;
             }
                 
-            if (_method == HttpMethod.Post)
+            if (this.httpMethod == HttpMethod.Post)
             {
                 webRequest.Method = "Post";
                 using(MemoryStream memoryStream = new MemoryStream())
@@ -570,11 +575,11 @@ namespace DotNet.Web
                             webRequest.ContentType = "multipart/form-data;charset=utf-8;boundary=" + boundary;
 
                             //组织表单数据
-                            foreach (string key in _postData.Keys)
+                            foreach (string key in this.postData.Keys)
                             {
                                 writer.Write("--" + boundary + newLine);
                                 writer.Write("Content-Disposition: form-data; name=\"{0}\"{1}{1}", key, newLine);
-                                writer.Write(_postData[key] + newLine);
+                                writer.Write(this.postData[key] + newLine);
                             }
 
                             //组织上传文件数据
@@ -597,10 +602,10 @@ namespace DotNet.Web
                         {
                             webRequest.ContentType = "application/x-www-form-urlencoded";
                             StringBuilder sb = new StringBuilder();
-                            foreach (string key in _postData.Keys)
+                            foreach (string key in this.postData.Keys)
                             {
                                 sb.AppendFormat("{0}={1}&", HttpUtility.UrlEncode(key),
-                                                HttpUtility.UrlEncode(_postData[key]));
+                                                HttpUtility.UrlEncode(this.postData[key]));
                             }
 
                             if (sb.Length > 0)
@@ -633,7 +638,7 @@ namespace DotNet.Web
             return webRequest;
         }
 
-        private void InitHttpWebRequest(HttpWebRequest webRequest)
+        private void SetDefaultOptions(HttpWebRequest webRequest)
         {
             if (webRequest == null)
             {
@@ -646,7 +651,7 @@ namespace DotNet.Web
 
             if (this.proxy != null)
             {
-                webRequest.Proxy = proxy;
+                webRequest.Proxy = this.proxy;
             }
 
             webRequest.Headers["Accept-Language"] = Language.Name;
@@ -655,19 +660,20 @@ namespace DotNet.Web
             webRequest.Accept = accept;
             webRequest.UserAgent = userAgent;
             webRequest.KeepAlive = false;
+            
             if (this.Timeout > 0)
             {
                 webRequest.Timeout = (int)Timeout*1000;
             }
 
-            if (context.Cookies != null)
+            if (this.context.Cookies != null)
             {
                 webRequest.CookieContainer.Add(this.context.Cookies);
             }
 
             if (!string.IsNullOrEmpty(this.context.Referer))
             {
-                webRequest.Referer = context.Referer;
+                webRequest.Referer = this.context.Referer;
             }
         }
 
@@ -678,7 +684,7 @@ namespace DotNet.Web
         /// <returns>相应的HttpWebResponse</returns>
         public HttpWebResponse GetResponse()
         {
-            HttpWebRequest req = this.CreateRequest();
+            HttpWebRequest req = this.CreateAndPrepareWebRequest();
             try
             {
                 HttpWebResponse res = (HttpWebResponse)req.GetResponse();
@@ -810,14 +816,19 @@ namespace DotNet.Web
                 byte[] pageBytes = MemoryStream.ToBytes();
 
                 // 基于火狐的统计学算法
-                Encoding encoding = GetEncodingByUniversalCharDet(pageBytes);
+                Encoding encoding = this.GetEncodingByUniversalCharDet(pageBytes);
 
                 // headers meta BOM的查找方式
-                Encoding secondEncoding = GetStringUsingEncoding(webResponse, pageBytes);
+                Encoding secondEncoding = this.GetStringUsingEncoding(webResponse, pageBytes);
 
                 if (encoding != null && encoding.EncodingName != secondEncoding.EncodingName)
                 {
                     encoding = secondEncoding;
+                }
+
+                if (encoding == null)
+                {
+                    encoding = Encoding.UTF8;
                 }
 
                 return encoding.GetString(pageBytes);
@@ -1057,17 +1068,17 @@ namespace DotNet.Web
 
         /// <summary>
         /// 发出一次新的Head请求,获取资源的长度
-        /// 此请求会忽略PostingData, Files, StartPoint, EndPoint, _method
+        /// 此请求会忽略PostingData, Files, StartPoint, EndPoint, httpMethod
         /// </summary>
         /// <returns>返回的资源长度</returns>
         public int HeadContentLength()
         {
             this.ClearHttpClientState();
-            HttpMethod lastMethod = _method;
-            _method = HttpMethod.Head;
+            HttpMethod lastMethod = this.httpMethod;
+            this.httpMethod = HttpMethod.Head;
             using (HttpWebResponse res = GetResponse())
             {
-                _method = lastMethod;
+                this.httpMethod = lastMethod;
                 return res == null ? 0 : (int) res.ContentLength;
             }
         }
@@ -1092,41 +1103,58 @@ namespace DotNet.Web
         /// <returns>是否向目标文件写入了数据</returns>
         public bool SaveAsFile(string fileName, FileExistsAction existsAction)
         {
-            byte[] data = GetBytes();
+            byte[] data = this.GetBytes();
             switch (existsAction)
             {
                 case FileExistsAction.Overwrite:
-                    using (BinaryWriter writer = new BinaryWriter(new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write)))
-                        writer.Write(data);
-                    return true;
-
-                case FileExistsAction.Append:
-                    using (BinaryWriter writer = new BinaryWriter(new FileStream(fileName, FileMode.Append, FileAccess.Write)))
-                        writer.Write(data);
-                    return true;
-
-                default:
-                    if (!File.Exists(fileName))
                     {
-                        using (
-                            BinaryWriter writer =
-                                new BinaryWriter(new FileStream(fileName, FileMode.Create, FileAccess.Write)))
-                            writer.Write(data);
+                        using (BinaryWriter writer = new BinaryWriter(new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.Write)))
+                        {
+                           writer.Write(data); 
+                        }
+
                         return true;
                     }
-                    else
+                    
+                case FileExistsAction.Append:
                     {
-                        return false;
+                        using (BinaryWriter writer = new BinaryWriter(new FileStream(fileName, FileMode.Append, FileAccess.Write)))
+                        {
+                            writer.Write(data);
+                        }
+                            
+                        return true;
+                    }
+
+                default:
+                    {
+                        if (!File.Exists(fileName))
+                        {
+                            using (BinaryWriter writer = new BinaryWriter(new FileStream(fileName, FileMode.Create, FileAccess.Write)))
+                            {
+                                writer.Write(data);
+                            }
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
             }
         }
-      
+
+        /// <summary>
+        /// </summary>
+        /// <param name="result">
+        /// The result.
+        /// </param>
         public delegate void HandleResult(string result);
         private HandleResult handle;
 
         public void BeginRequest(HandleResult handle)
         {
-            if (Certificate != null)
+            if (this.Certificate != null)
             {
                 //这一句一定要写在创建连接的前面。使用回调的方法进行证书验证。
                 ServicePointManager.ServerCertificateValidationCallback =
@@ -1135,23 +1163,23 @@ namespace DotNet.Web
 
             this.handle = handle;
             var webRequest = (HttpWebRequest)WebRequest.Create(Url);
-            InitHttpWebRequest(webRequest);
+            this.SetDefaultOptions(webRequest);
             try
             {
                 webRequest.BeginGetResponse(new AsyncCallback(HandleResponse), webRequest);
                 //ThreadPool.QueueUserWorkItem(obj => webRequest.BeginGetResponse(new AsyncCallback(HandleResponse), webRequest));
             }
-            catch(ProtocolViolationException protocolViolationException)
+            catch (ProtocolViolationException protocolViolationException)
             {
-                throw protocolViolationException;
+                throw;
             }
-            catch(WebException webException)
+            catch (WebException webException)
             {
-                throw webException;
+                throw;
             }
             catch (InvalidOperationException invalidOperationException)
             {
-                throw invalidOperationException;
+                throw;
             }
             finally
             {
@@ -1166,7 +1194,7 @@ namespace DotNet.Web
         {
             HttpWebRequest httpRequest = null;
             HttpWebResponse httpResponse = null;
-            string result = string.Empty;
+            string result;
             try
             {
                 httpRequest = (HttpWebRequest)asyncResult.AsyncState;
@@ -1174,8 +1202,8 @@ namespace DotNet.Web
                 this.headers = httpResponse.Headers;
                 if (this.keepContext)
                 {
-                    context.Cookies = httpResponse.Cookies;
-                    context.Referer = url;
+                    this.context.Cookies = httpResponse.Cookies;
+                    this.context.Referer = this.url;
                 }
 
                 var bytes = GetBytes(httpResponse);
@@ -1183,11 +1211,11 @@ namespace DotNet.Web
             }
             catch (WebException webException)
             {
-                throw webException;
+                throw;
             }
             catch (Exception e)
             {
-                throw e;
+                throw;
             }
             finally
             {
@@ -1207,8 +1235,13 @@ namespace DotNet.Web
 
         #region 来自webclient
 
-        Encoding m_Encoding = Encoding.UTF8; 
+        Encoding m_Encoding = Encoding.UTF8;
 
+        /// <summary>
+        /// Gets or sets Encoding.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">
+        /// </exception>
         public Encoding Encoding
         {
             get

@@ -44,6 +44,17 @@ namespace DotNet.SpiderApplication.Client
             //var productService = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>();
             //var data = productService.GetProducts(string.Empty);
 
+            // csexwb组建注册
+            //WebBrowerManager.Instance.CheckCsExwbIsRegistered();
+//WebBrowerManager.Instance.Register();
+            //WebBrowerManager.Instance.RegisterCsExwb();
+            //WebBrowerManager.Instance.CheckCsExwbIsRegistered();
+            //WebBrowerManager.Instance.UnregisterCsExwb();
+            //WebBrowerManager.Instance.CheckCsExwbIsRegistered();
+
+            SpiderManager.SpiderProductList(new SpiderCategoryInfo() { CategoryUrl = "http://www.zzkjdk.com/ContentV2.aspx?id=1", ECPlatformId = 2 });
+            return;
+
             // 亚马逊
             //Spider.AmazonSpider(string.Empty);
             Spider.AmazonProductList("http://www.amazon.cn/电脑及配件/b/ref=sd_allcat_pc_?ie=UTF8&node=888465051");

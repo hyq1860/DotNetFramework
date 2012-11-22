@@ -19,16 +19,16 @@ namespace DotNet.SpiderApplication.Client
     /// </summary>
     public class SpiderManager
     {
-        private Dictionary<int, IProductSpider> spiderDictionary;
+        private static Dictionary<int, IProductSpider> spiderDictionary;
 
-        public SpiderManager()
+        static SpiderManager()
         {
             spiderDictionary=new Dictionary<int, IProductSpider>();
             spiderDictionary.Add(1, new JinDongProductSpider());
-            spiderDictionary.Add(2, new JinDongProductSpider());
-            spiderDictionary.Add(3, new JinDongProductSpider());
-            spiderDictionary.Add(4, new JinDongProductSpider());
-            spiderDictionary.Add(5, new JinDongProductSpider());
+            spiderDictionary.Add(2, new YiHaoDianSpider());
+            spiderDictionary.Add(3, new WuYiBuyProductSpider());
+            spiderDictionary.Add(4, new SuNingSpider());
+            spiderDictionary.Add(5, new DangDangSpider());
 
         }
 
@@ -37,11 +37,11 @@ namespace DotNet.SpiderApplication.Client
         /// </summary>
         /// <param name="spiderProduct"></param>
         /// <returns></returns>
-        public ProductInfo SpiderProductDetail(SpiderProductInfo spiderProduct)
+        public static ProductInfo SpiderProductDetail(SpiderProductInfo spiderProduct)
         {
-            if (this.spiderDictionary.ContainsKey(spiderProduct.ECPlatformId))
+            if (spiderDictionary.ContainsKey(spiderProduct.ECPlatformId))
             {
-                return this.spiderDictionary[spiderProduct.ECPlatformId].SpiderProductDetail(spiderProduct);
+                return spiderDictionary[spiderProduct.ECPlatformId].SpiderProductDetail(spiderProduct);
             }
 
             return null;
@@ -52,11 +52,11 @@ namespace DotNet.SpiderApplication.Client
         /// </summary>
         /// <param name="spiderCategory"></param>
         /// <returns></returns>
-        public List<ProductInfo> SpiderProductList(SpiderCategoryInfo spiderCategory)
+        public static List<ProductInfo> SpiderProductList(SpiderCategoryInfo spiderCategory)
         {
-            if (this.spiderDictionary.ContainsKey(spiderCategory.ECPlatformId))
+            if (spiderDictionary.ContainsKey(spiderCategory.ECPlatformId))
             {
-                return this.spiderDictionary[spiderCategory.ECPlatformId].SpiderProductList(spiderCategory);
+                return spiderDictionary[spiderCategory.ECPlatformId].SpiderProductList(spiderCategory);
             }
 
             return null;

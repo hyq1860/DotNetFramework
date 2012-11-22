@@ -11,8 +11,12 @@ namespace DotNet.SpiderApplication.Client
     using System.Linq;
     using System.Text;
 
+    using DotNet.BasicSpider;
     using DotNet.SpiderApplication.Contract;
     using DotNet.SpiderApplication.Contract.Entity;
+    using DotNet.Web.Http;
+
+    using csExWB;
 
     #region 京东
     /// <summary>
@@ -48,7 +52,7 @@ namespace DotNet.SpiderApplication.Client
     #endregion
 
     #region 当当
-    public class DangDangProductSpider:IProductSpider
+    public class DangDangSpider:IProductSpider
     {
         public ProductInfo SpiderProductDetail(SpiderProductInfo spiderProduct)
         {
@@ -63,7 +67,7 @@ namespace DotNet.SpiderApplication.Client
     #endregion
 
     #region 苏宁
-    public class SuNingProductSpider:IProductSpider
+    public class SuNingSpider:IProductSpider
     {
         public ProductInfo SpiderProductDetail(SpiderProductInfo spiderProduct)
         {
@@ -88,6 +92,27 @@ namespace DotNet.SpiderApplication.Client
         public List<ProductInfo> SpiderProductList(SpiderCategoryInfo spiderCategory)
         {
             throw new NotImplementedException();
+        }
+    }
+    #endregion
+
+    #region 一号店
+    public class YiHaoDianSpider:IProductSpider
+    {
+        public ProductInfo SpiderProductDetail(SpiderProductInfo spiderProduct)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<ProductInfo> SpiderProductList(SpiderCategoryInfo spiderCategory)
+        {
+            WebBrowerManager.Instance.Setup(new cEXWB());
+            WebBrowerManager.Instance.TimeOut = 15;
+            var html = WebBrowerManager.Instance.Run(spiderCategory.CategoryUrl);
+            var htmlDocument = HtmlAgilityPackHelper.GetHtmlDocument(html);
+
+            htmlDocument.GetElementbyId("search_result");
+            return new List<ProductInfo>();
         }
     }
     #endregion

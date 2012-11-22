@@ -8,11 +8,6 @@ using System.Runtime.Serialization;
 
 namespace DotNet.SpiderApplication.Contract.Entity
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
     [DataContract]
     public class SpiderParameter
     {

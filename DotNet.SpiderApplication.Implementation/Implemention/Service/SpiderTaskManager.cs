@@ -21,9 +21,9 @@ namespace DotNet.SpiderApplication.Service.Implemention.Service
     {
         private PriorityQueue<SpiderProductInfo> SpiderUrlQueue { get; set; }
 
-        public void Enqueue()
+        public void Enqueue(SpiderProductInfo spiderProduct)
         {
-            
+            SpiderUrlQueue.Enqueue(spiderProduct);
         }
 
         /// <summary>
@@ -36,8 +36,9 @@ namespace DotNet.SpiderApplication.Service.Implemention.Service
             var data = new List<SpiderProductInfo>();
             for (int i = 0; i < count; i++)
             {
-                data.Add(SpiderUrlQueue.Dequeue());
+                data.Add(this.SpiderUrlQueue.Dequeue());
             }
+
             return data;
         }
     }

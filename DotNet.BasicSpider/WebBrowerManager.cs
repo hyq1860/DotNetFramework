@@ -24,7 +24,7 @@ namespace DotNet.BasicSpider
 
         private WebBrowerManager()
         {
-            TimeOut = 8000;
+            TimeOut = 8;
         }
 
         #region 注册组建
@@ -138,7 +138,7 @@ namespace DotNet.BasicSpider
 
                 Thread.Sleep(10);
                 Application.DoEvents();
-                if ((DateTime.Now.Ticks - Start) / 10000 > TimeOut)
+                if ((DateTime.Now.Ticks - Start) / 100000000 > TimeOut)
                 {
                     flage = true;
                     break;

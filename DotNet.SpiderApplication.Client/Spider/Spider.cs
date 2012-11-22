@@ -115,7 +115,7 @@ namespace DotNet.SpiderApplication.Client
 
 
             WebBrowerManager.Instance.Setup(new cEXWB());
-            WebBrowerManager.Instance.TimeOut = 20000;
+            WebBrowerManager.Instance.TimeOut = 8;
             var html = WebBrowerManager.Instance.Run("http://detail.tmall.com/item.htm?id=14444803248");
 
             var htmll = html.Length;

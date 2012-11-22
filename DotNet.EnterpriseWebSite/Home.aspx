@@ -48,7 +48,7 @@
 		<ul class="banImgs">
 		    <% foreach (ArticleInfo articleInfo in FocusArticle)%>
             <%{%>
-                <li><a href="#1" class="a_bigImg"><img src="<%=articleInfo.FocusPicture %>" width="948" height="364" alt="" /></a></>
+                <li><a href="ProductListV2.aspx" class="a_bigImg"><img src="<%=articleInfo.FocusPicture %>" width="948" height="364" alt="" /></a></>
             <%}%>
 		</ul>
 	</div>
@@ -88,7 +88,7 @@
             	            <a href="#<%=product.Id %>" class="link">
             	                <img  alt="#" src="<%=product.MediumPicture %>" title="<%=product.Desc %>" width="213" height="188" />
             	            </a>
-                            <h3 align="center"><a id="<%=product.Id %>" href="#<%=product.Id %>" title="<%=product.Desc %>"><%=product.Title %></a></h3>
+                            <h3 align="center"><a id="<%=product.Id %>" href="ProductListV2.aspx" title="<%=product.Desc %>"><%=product.Title %></a></h3>
                         </li>
                     <% } %>
                     

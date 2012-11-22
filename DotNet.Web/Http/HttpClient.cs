@@ -91,10 +91,12 @@ namespace DotNet.Web
     /// <summary>
     /// http请求客户端
     /// </summary>
-    public class HttpClient
+    public class HttpClient:IDisposable
     {
         #region fields
-        
+
+        private static readonly TimeSpan defaultTimeout = TimeSpan.FromSeconds(60.0);
+
         private const string Gzip = "gzip";
 
         private const string Deflate = "deflate";
@@ -166,7 +168,7 @@ namespace DotNet.Web
 
         #region properties
 
-        public int Timeout { get; set; }
+        public double Timeout { get; set; }
 
         /// <summary>
         /// 当前HttpWebResponse实例输出流转换后的内存流
@@ -655,7 +657,7 @@ namespace DotNet.Web
             webRequest.KeepAlive = false;
             if (this.Timeout > 0)
             {
-                webRequest.Timeout = Timeout;
+                webRequest.Timeout = (int)Timeout*1000;
             }
 
             if (context.Cookies != null)
@@ -1227,6 +1229,11 @@ namespace DotNet.Web
 
 
         #endregion
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class CharsetListener : ICharsetListener

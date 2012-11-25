@@ -6,9 +6,9 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 using System.Threading;
 
-using DotNet.Common.Logging;
 using csExWB;
 using IfacesEnumsStructsClasses;
+using DotNet.Common.Logging;
 
 namespace DotNet.BasicSpider
 {
@@ -18,7 +18,7 @@ namespace DotNet.BasicSpider
     /// </summary>
     public class WebBrowerManager
     {
-        public cEXWB WB { get; set; }
+        private cEXWB WB { get; set; }
 
         private bool IsDocumentFinish = false;
 
@@ -29,10 +29,18 @@ namespace DotNet.BasicSpider
 
         #region 注册组建
 
+        /// <summary>
+        /// 消耗的时间 一秒为单位
+        /// </summary>
+        public long Elapse { get; set; }
+
+        // 注册时用
         [DllImport("ComUtilities.dll")]
-        private static extern int DllRegisterServer();//注册时用
+        private static extern int DllRegisterServer();
+
+        // 取消注册时用
         [DllImport("ComUtilities.dll")]
-        private static extern int DllUnregisterServer();//取消注册时用
+        private static extern int DllUnregisterServer();
 
         public void Register()
         {
@@ -97,8 +105,8 @@ namespace DotNet.BasicSpider
 
         public void Setup(cEXWB wb)
         {
-            WB = wb;
-            if(WB!=null)
+            this.WB = wb;
+            if (this.WB != null)
             {
                 this.SetupWebBrower(WB);
                 this.RegiserWebBrowerHandler(WB);
@@ -116,7 +124,6 @@ namespace DotNet.BasicSpider
         /// </summary>
         public int TimeOut { get; set; }
 
-        
         /// <summary>
         /// 采集页面，返回页面html
         /// </summary>
@@ -131,26 +138,31 @@ namespace DotNet.BasicSpider
 
             WB.Navigate(url);
             var flage = false;
-            long Start = DateTime.Now.Ticks;
-
+            long start = DateTime.Now.Ticks;
+            long elapse = 0;
             while (!this.IsDocumentFinish)
             {
-
-                Thread.Sleep(10);
                 Application.DoEvents();
-                if ((DateTime.Now.Ticks - Start) / 100000000 > TimeOut)
+                Thread.Sleep(50);
+                elapse = (DateTime.Now.Ticks - start) / 100000000;
+                if (elapse > this.TimeOut)
                 {
                     flage = true;
                     break;
                 }
             }
+
             if (flage)
             {
                 return string.Empty;
             }
+            Elapse = elapse;
             this.IsDocumentFinish = false;
-            var Elapse = (DateTime.Now.Ticks - Start) / 10000;
+            WB.IEVersion();
+            
+            string a=WB.ProductVersion;
             return WB.DocumentSource;
+
         }
 
         /// <summary>

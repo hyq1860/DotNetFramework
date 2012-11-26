@@ -45,8 +45,8 @@ namespace DotNet.SpiderApplication.Client
             //var data = productService.GetProducts(string.Empty);
 
             // csexwb组建注册
-            //WebBrowerManager.Instance.CheckCsExwbIsRegistered();
-//WebBrowerManager.Instance.Register();
+            WebBrowerManager.Instance.CheckCsExwbIsRegistered();
+            WebBrowerManager.Instance.Register();
             //WebBrowerManager.Instance.RegisterCsExwb();
             //WebBrowerManager.Instance.CheckCsExwbIsRegistered();
             //WebBrowerManager.Instance.UnregisterCsExwb();

@@ -92,6 +92,8 @@ namespace DotNet.BasicSpider
             var ieRegistryKey = localMachine.OpenSubKey(@"Software\Microsoft\Internet Explorer");
             var ieVersion = ieRegistryKey.GetValue("Version");
 
+            var versionValue = string.Empty;
+
             if (ieVersion != null)
             {
                 string version = ieVersion.ToString();
@@ -102,17 +104,17 @@ namespace DotNet.BasicSpider
                     {
                         case "9":
                             {
-
+                                versionValue = "";
                             }
                             break;
                         case "8":
                             {
-
+                                versionValue = "";
                             }
                             break;
                         case "7":
                             {
-
+                                versionValue = "";
                             }
                             break;
                         default:
@@ -126,7 +128,7 @@ namespace DotNet.BasicSpider
             var subKeys = ie.GetSubKeyNames().ToList();
             if(!subKeys.Contains(applicationName))
             {
-                
+                var currentApplication= ie.CreateSubKey(applicationName);
             }
         }
 
@@ -155,11 +157,9 @@ namespace DotNet.BasicSpider
         public void Setup(cEXWB wb)
         {
             this.WB = wb;
-            if (this.WB != null)
-            {
-                this.SetupWebBrower(WB);
-                this.RegiserWebBrowerHandler(WB);
-            }
+            if (this.WB == null) return;
+            this.SetupWebBrower(WB);
+            this.RegiserWebBrowerHandler(WB);
         }
 
         /// <summary>
@@ -172,6 +172,11 @@ namespace DotNet.BasicSpider
         /// 每个页面访问的超时时间
         /// </summary>
         public int TimeOut { get; set; }
+
+        /// <summary>
+        /// ie浏览器的版本
+        /// </summary>
+        public string IEVersion { get; set; }
 
         /// <summary>
         /// 采集页面，返回页面html
@@ -207,9 +212,7 @@ namespace DotNet.BasicSpider
             }
             Elapse = elapse;
             this.IsDocumentFinish = false;
-            WB.IEVersion();
-            
-            string a=WB.ProductVersion;
+            IEVersion=WB.IEVersion();
             return WB.DocumentSource;
 
         }

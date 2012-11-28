@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Windows.Forms;
@@ -79,6 +80,54 @@ namespace DotNet.BasicSpider
             //98EDB477-3064-4D0E-A09E-CC73F9AAB324
             int unregisterSucceed = DllUnregisterServer();
             return unregisterSucceed >= 0;
+        }
+
+        /// <summary>
+        /// 设置空间调用的ie版本
+        /// </summary>
+        /// <param name="applicationName"></param>
+        public void SetIEVersion(string applicationName)
+        {
+            RegistryKey localMachine = Registry.LocalMachine;
+            var ieRegistryKey = localMachine.OpenSubKey(@"Software\Microsoft\Internet Explorer");
+            var ieVersion = ieRegistryKey.GetValue("Version");
+
+            if (ieVersion != null)
+            {
+                string version = ieVersion.ToString();
+                if (!string.IsNullOrEmpty(version))
+                {
+                    var arrays = version.Split('.');
+                    switch (arrays[0])
+                    {
+                        case "9":
+                            {
+
+                            }
+                            break;
+                        case "8":
+                            {
+
+                            }
+                            break;
+                        case "7":
+                            {
+
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            RegistryKey ie =
+                Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION", true);
+            var subKeys = ie.GetSubKeyNames().ToList();
+            if(!subKeys.Contains(applicationName))
+            {
+                
+            }
         }
 
         /// <summary>

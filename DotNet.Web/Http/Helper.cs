@@ -7,95 +7,15 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using DotNet.Common;
 
 namespace DotNet.Web.Http
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Text;
 
     #region 正则辅助
-    class RegexCollection
-    {
-        public static RegexOptions RegOptions = RegexOptions.Compiled | RegexOptions.IgnoreCase;
-
-        /// <summary>
-        /// 判读一个字符串是否url的正则，其中Groups如下：protocol是协议名，domain是url的域名，port是域名对应的端口，path是url的在服务器上代表的绝对路径（例如/aa/bb,或者/aa/bb.cc/dd.html等等），query是GET传值部分（不包括问好），hash是#后面的部分
-        /// </summary>
-        public static Regex RegUrl = new Regex(@"^(?<protocol>https?)://(?<domain>(?:[0-9a-z-_]+(?<!-)\.){0,}[0-9a-z-_]+(?<!-)\.[0-9a-z-_]+|localhost)(?:\:(?<port>\d+))?(?<!-)(?<path>(?:(?<!/)/[0-9a-z-_.]+/?){0,})(?:\?(?<query>[^#]+))?(?:#(?<hash>[^\r\n]*))?$", RegOptions);
-        /*^https?://(?<prefixdomain>(?:[0-9a-z-_]+(?<!-)\.){0,})(?<topdomain>[0-9a-z-_]+(?<!-)\.[0-9a-z-_]+)(?:\:(?<port>\d+))?(?<!-)/?(?<path>(?:(?<!/)/[0-9a-z-_.]+/?){0,})(?:\?(?<query>[^#]+))?(?:#(?<fragment>[^\r\n]*))?$*/
-
-        /// <summary>
-        /// 验证form中action的正则，其中Groups["quote"]为单引号，双引号，或者空字符串，Groups["action"]为action的值
-        /// </summary>66
-        public static Regex RegFormAction = new Regex(@"<form[\s\S]+?action=(?<quote>['""]?)(?<action>[^'""\s><]+)\1[\s\S]*?>", RegOptions);
-
-        /// <summary>
-        /// 验证href的正则，其中Groups["quote"]为单引号，双引号，或者空字符串，Groups["href"]为href的值
-        /// </summary>
-        public static Regex RegHref = new Regex(@"href=(?<quote>['""]?)(?<href>[^'""\s><]+)\k<quote>", RegOptions);
-
-        /// <summary>
-        /// 验证src的正则，其中Groups["quote"]为单引号，双引号，或者空字符串，Groups["src"]为src的值
-        /// </summary>
-        public static Regex RegSrc = new Regex(@"src=(?<quote>['""]?)(?<src>[^'""\s><]+)\k<quote>", RegOptions);
-
-        /// <summary>
-        /// 从一个域名中获取一级域名
-        /// </summary>
-        public static Regex RegLevelDomain = new Regex(@"[^\.]+\.[^\.]+$", RegOptions);
-
-        /// <summary>
-        /// 获取HTML中Meta标签中的Content-Type值
-        /// </summary>
-        public static Regex RegMetaContentType = new Regex(@"<\s*meta[^<>]+content=['""]?text/html;charset=([\w-]+)['""]?[^<>]*>", RegOptions);
-
-        /// <summary>
-        /// 一个匹配Script标签的正则,Groups[1]是两个script标签之间的内容，它可以匹配如下内容：
-        /*
-        <script language=""javascript"" type='text/javascript' src='../../1.js'>   
-                  function getColor() {
-                       alert(123)
-                   }          
-                  //因为<script>左边有引号，</script>右边有引号，所以匹配
-                  document.write('<script></script>');   
-                 </script>
-         * */
-        /// </summary>
-        public static Regex RegScript = new Regex(@"<script[^>]*>(((?!(?<!['""])<\/?script>(?!['""]))[\s\S])*)</script>", RegOptions);
-
-        /// <summary>
-        /// 验证css引入，如果匹配成功，则Groups["src"]是css文件href的值
-        /// </summary>
-        public static Regex RegCssLink = new Regex(@"<link[^>]*(?:(?:href=(?<quote1>['""]?)(?<src>[^'""\s><]+)\k<quote1>[^>]*rel=(?<quote2>['""]?)stylesheet\k<quote2>)|(?:rel=(?<quote3>['""]?)stylesheet\k<quote3>[^>]*href=(?<quote4>['""]?)(?<src>[^'""\s><]+)\k<quote4>))[^>]*>", RegOptions);
-
-        /// <summary>
-        /// 验证script脚本引入，如果匹配成功，其中Groups["quote"]为单引号，双引号，或者空字符串，则Groups["src"]是Js文件src的值
-        /// </summary>
-        public static Regex RegScriptLink = new Regex(@"<script[^>]*src=(?<quote>['""]?)(?<src>[^'""\s><]+)\k<quote>[^>]*></script>", RegOptions);
-
-        /// <summary>
-        /// 验证Img图片引入，如果匹配成功，其中Groups["quote"]为单引号，双引号，或者空字符串，则Groups["src"]是img标签src的值
-        /// </summary>
-        public static Regex RegImg = new Regex(@"<img[^>]*src=(?<quote>['""]?)(?<src>[^'""\s><]+)\k<quote>[^>]*>", RegOptions);
-
-        /// <summary>
-        /// 验证Falsh引入，如果匹配成功，其中Groups["quote"]为单引号，双引号，或者空字符串，则Groups["src"]是flash的src的值
-        /// </summary>
-        public static Regex RegFlash = new Regex(@"(?<quote>['""]?)(?<src>[^'""\s><]+\.swf)\k<quote>", RegOptions);
-
-        /// <summary>
-        /// 验证css文件中引用的图片，如果匹配成功，其中Groups["quote"]为单引号，双引号，或者空字符串，则Groups["src"]是背景图片的url
-        /// </summary>
-        public static Regex RegCssImgUrl = new Regex(@"url\((?<quote>['""]?)(?<src>[^'""\s><]+)\k<quote>\)", RegOptions);
-
-        /// <summary>
-        /// 验证css文件中指定的编码类型，如果匹配成功，则Groups[2]是css文件的编码类型
-        /// </summary>
-        public static Regex RegCssContentType = new Regex(@"@charset\s*([""']?)([^'"";\s]+)\1", RegOptions);
-    }
-
     /// <summary>
     /// 一个封装正则相关的字符串处理类
     /// </summary>
@@ -570,6 +490,99 @@ namespace DotNet.Web.Http
             conflictList.RemoveAt(conflictList.Count - 1);
             return filePath;
         }
+
+        /// <summary>
+        /// 根据页面url、资源url以及基础目录，获取资源在本地的保存目录
+        /// </summary>
+        /// <param name="pageUrl">页面的绝对url</param>
+        /// <param name="resourceUrl">资源的绝对url</param>
+        /// <param name="htmlDir">基础目录，目录计算以此目录为参考值，最终得到的保存目录肯定是基础目录的子孙级目录</param>
+        /// <returns>返回本地保存目录的路径，以\结尾</returns>
+        public static string GetSaveDir(string pageUrl, string resourceUrl, string htmlDir)
+        {
+            Match pageMatch = RegexLibrary.RegUrl.Match(pageUrl);
+            Match resourceMatch = RegexLibrary.RegUrl.Match(resourceUrl);
+            //函数返回的本地目录路径（如果结尾有\，则去掉）
+            string saveDir = htmlDir.TrimEnd('\\');
+            //页面url和资源url的父级path
+            string pageDir = pageMatch.Groups["path"].Value.Trim(),
+                   resourceDir = resourceMatch.Groups["path"].Value.Trim();
+            pageDir = pageDir != string.Empty ? Path.GetDirectoryName(pageDir) ?? string.Empty : string.Empty;
+            resourceDir = resourceDir != string.Empty ? Path.GetDirectoryName(resourceDir) ?? string.Empty : string.Empty;
+            /*
+            //将页面url和资源url按照/分段
+            List<string> pageUrlSegments = new List<string>(pagePath.Split(','));
+            List<string> resourceUrlSegments = new List<string>(resourcePath.Split(','));
+            //剔除列表里的空字符串
+            for (int i = 0; i < pageUrlSegments.Count; i++)
+            {
+                if ("" == pageUrlSegments[i])
+                {
+                    pageUrlSegments.RemoveAt(i);
+                    i--;
+                }
+            }
+            for (int i = 0; i < resourceUrlSegments.Count; i++)
+            {
+                if ("" == resourceUrlSegments[i])
+                {
+                    resourceUrlSegments.RemoveAt(i);
+                    i--;
+                }
+            }
+            */
+            if (pageMatch.Success && resourceMatch.Success)
+            {
+                //1.判断页面url和资源url的域名、端口是否一致，如果不一致，则在当前目录下建立一个域名目录
+                if (!(0 == string.Compare(pageMatch.Groups["domain"].Value, resourceMatch.Groups["domain"].Value, true) && pageMatch.Groups["port"].Value == resourceMatch.Groups["port"].Value))
+                {
+                    saveDir += "\\" + EncodePath(resourceMatch.Groups["domain"].Value + (resourceMatch.Groups["port"].Value == "" ? "" : "$" + resourceMatch.Groups["port"].Value));
+                    if ("" != resourceDir)
+                    {
+                        saveDir += "\\" + resourceDir;
+                    }
+                }
+                else
+                {
+                    //如果资源url是页面url的子孙级url，则在保存目录在基础目录下
+                    if (resourceDir.Length >= pageDir.Length && resourceDir.Substring(0, pageDir.Length) == pageDir)
+                    {
+                        resourceDir = resourceDir.Substring(pageDir.Length);
+                        if ("" != resourceDir)
+                        {
+                            saveDir += "\\" + resourceDir;
+                        }
+                    }//否则创建一个以资源url的域名、端口问名的目录，将资源保存在此目录下
+                    else
+                    {
+                        saveDir += "\\" + EncodePath(resourceMatch.Groups["domain"].Value + (resourceMatch.Groups["port"].Value == "" ? "" : "$" + resourceMatch.Groups["port"].Value));
+                        if ("" != resourceDir)
+                        {
+                            saveDir += "\\" + resourceDir;
+                        }
+                    }
+                }
+                saveDir = Path.GetFullPath(saveDir);
+            }
+            //如果目录不存在，则创建
+            if (Directory.Exists(saveDir))
+            {
+                Directory.CreateDirectory(saveDir);
+            }
+            return saveDir.TrimEnd('\\') + "\\";
+        }
+
+        /// <summary>
+        /// 对文件夹名或者文件名进行编码
+        /// </summary>
+        /// <param name="dirName">文件夹名或者文件名</param>
+        /// <returns>返回编码后的名称</returns>
+        static string EncodePath(string dirName)
+        {
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(dirName));
+            return dirName;
+        }
+
     }
 
     #endregion
@@ -689,6 +702,16 @@ namespace DotNet.Web.Http
         private string jsDirPath;
         private string cssDirPath;
         private string flashDirPath;
+        private bool useWebSite;
+
+        /// <summary>
+        /// 是否根据网站的url结构存储资源，如果是则除了HtmlDirPath的其他属性均作废
+        /// </summary>
+        public bool UseWebSite
+        {
+            get { return useWebSite; }
+            set { useWebSite = value; }
+        }
 
         /// <summary>
         /// 页面保存文件夹完整路径
@@ -737,26 +760,40 @@ namespace DotNet.Web.Http
 
 
         public DirConfig(string htmlDirPath)
-            : this(htmlDirPath, null, null, null, null)
+            : this(false, htmlDirPath, null, null, null, null)
         {
 
+        }
+
+        public DirConfig(bool useWebSite, string htmlDirPath)
+            : this(useWebSite, htmlDirPath, null, null, null, null)
+        {
+
+        }
+
+        public DirConfig(string htmlDirPath, string imgDirPath, string jsDirPath, string cssDirPath, string flashDirPath)
+            : this(false, htmlDirPath, imgDirPath, jsDirPath, cssDirPath, flashDirPath)
+        {
         }
 
         /// <summary>
         /// 构造函数
         /// </summary>
+        /// <param name="useWebSite">是否根据网站的url结构存储资源</param>
         /// <param name="htmlDirPath">页面保存文件夹完整路径</param>
         /// <param name="imgDirPath">图片保存文件夹完整路径</param>
         /// <param name="jsDirPath">JS保存文件夹完整路径</param>
         /// <param name="cssDirPath">CSS保存文件夹完整路径</param>
         /// <param name="flashDirPath">Flash保存文件夹完整路径</param>
-        public DirConfig(string htmlDirPath, string imgDirPath, string jsDirPath, string cssDirPath, string flashDirPath)
+        public DirConfig(bool useWebSite, string htmlDirPath, string imgDirPath, string jsDirPath, string cssDirPath, string flashDirPath)
         {
+            this.useWebSite = useWebSite;
             this.htmlDirPath = htmlDirPath;
             this.imgDirPath = imgDirPath;
             this.jsDirPath = jsDirPath;
             this.cssDirPath = cssDirPath;
             this.flashDirPath = flashDirPath;
+
             if (string.IsNullOrEmpty(imgDirPath))
             {
                 this.imgDirPath = htmlDirPath + @"\img";
@@ -773,6 +810,7 @@ namespace DotNet.Web.Http
             {
                 this.flashDirPath = htmlDirPath + @"\flash";
             }
+
         }
 
 
@@ -819,28 +857,329 @@ namespace DotNet.Web.Http
         /// </summary>
         public void CreateDir()
         {
-            //创建css目录
-            if (!Directory.Exists(this.cssDirPath))
+            if (!this.useWebSite)
             {
-                Directory.CreateDirectory(this.cssDirPath);
+                //创建css目录
+                if (!Directory.Exists(this.cssDirPath))
+                {
+                    Directory.CreateDirectory(this.cssDirPath);
+                }
+                //创建JS目录
+                if (!Directory.Exists(this.jsDirPath))
+                {
+                    Directory.CreateDirectory(this.jsDirPath);
+                }
+                //创建Flash目录
+                if (!Directory.Exists(this.flashDirPath))
+                {
+                    Directory.CreateDirectory(this.flashDirPath);
+                }
+                //创建图片目录
+                if (!Directory.Exists(this.imgDirPath))
+                {
+                    Directory.CreateDirectory(this.imgDirPath);
+                }
             }
-            //创建JS目录
-            if (!Directory.Exists(this.jsDirPath))
+        }
+
+        /// <summary>
+        /// 将 uriStr 参数中的地址转换为以HtmlDirPath做为根目录的地址。
+        /// 例如：
+        /// HtmlDirPath 为  D:\dev\www
+        /// webUrl 参数的值为 http://demo.com/css/style.css
+        /// 输出的结果为 D:\dev\www\demo.com\css\style.css
+        /// </summary>
+        /// <param name="savePath">下载的HTML页面的保存路径(绝对路径)</param>
+        /// <param name="uriStr">要转换的uri字符串</param>
+        /// <returns></returns>
+        public static string ResolveLocalUrl(string savePath, string uriStr)
+        {
+            return ResolveLocalUrl(savePath, new Uri(uriStr));
+        }
+
+        /// <summary>
+        /// 将 uri 参数中的地址转换为以HtmlDirPath做为根目录的地址
+        /// 例如：
+        /// HtmlDirPath 为  D:\dev\www
+        /// uri 参数的地址为 http://demo.com/css/style.css
+        /// 输出的结果为 D:\dev\www\demo.com\css\style.css
+        /// </summary>
+        /// <param name="savePath">下载的HTML页面的保存路径(绝对路径)</param>
+        /// <param name="Uri">要转换的 Uri 对象</param>
+        /// <returns></returns>
+        public static string ResolveLocalUrl(string savePath, Uri uri)
+        {
+            //获取URI的绝对路径，并转换为物理路径形式
+            var absPath = uri.AbsolutePath.Trim('/').Replace('/', '\\');
+
+            //去除URI中的文件名
+            if (Path.HasExtension(absPath))
             {
-                Directory.CreateDirectory(this.jsDirPath);
+                absPath = Path.GetDirectoryName(absPath);
             }
-            //创建Flash目录
-            if (!Directory.Exists(this.flashDirPath))
-            {
-                Directory.CreateDirectory(this.flashDirPath);
-            }
-            //创建图片目录
-            if (!Directory.Exists(this.imgDirPath))
-            {
-                Directory.CreateDirectory(this.imgDirPath);
-            }
+
+            //返回 HtmlDirPath + URI的域名 + URI的绝对路径 的的地址
+            return Path.Combine(Path.Combine(savePath, uri.Authority), absPath);
         }
     }
 
     #endregion
+
+    public class Mime
+    {
+        /// <summary>
+        /// 所有Mime类型，key是文件后缀名（不带点），value是mime类型
+        /// </summary>
+        static Dictionary<string, string> Mimes;
+
+        /// <summary>
+        /// 所有Mime类型，key是mime类型，value是文件后缀名（不带点）
+        /// </summary>
+        static Dictionary<string, string> MimesReverse;
+
+        /// <summary>
+        /// 默认mime类型
+        /// </summary>
+        static string DefaultMime = "application/octet-stream";
+
+        /// <summary>
+        /// 静态构造，在此构造里初始化静态成员
+        /// </summary>
+        static Mime()
+        {
+            Mimes = new Dictionary<string, string>(100);
+            #region 初始化mime成员
+            Mimes.Add("323", "text/h323");
+            Mimes.Add("acx", "application/internet-property-stream");
+            Mimes.Add("ai", "application/postscript");
+            Mimes.Add("aif", "audio/x-aiff");
+            Mimes.Add("aifc", "audio/x-aiff");
+            Mimes.Add("aiff", "audio/x-aiff");
+            Mimes.Add("asf", "video/x-ms-asf");
+            Mimes.Add("asr", "video/x-ms-asf");
+            Mimes.Add("asx", "video/x-ms-asf");
+            Mimes.Add("au", "audio/basic");
+            Mimes.Add("avi", "video/x-msvideo");
+            Mimes.Add("axs", "application/olescript");
+            Mimes.Add("bas", "text/plain");
+            Mimes.Add("bcpio", "application/x-bcpio");
+            Mimes.Add("bin", "application/octet-stream");
+            Mimes.Add("bmp", "image/bmp");
+            Mimes.Add("c", "text/plain");
+            Mimes.Add("cat", "application/vnd.ms-pkiseccat");
+            Mimes.Add("cdf", "application/x-cdf");
+            Mimes.Add("cer", "application/x-x509-ca-cert");
+            Mimes.Add("class", "application/octet-stream");
+            Mimes.Add("clp", "application/x-msclip");
+            Mimes.Add("cmx", "image/x-cmx");
+            Mimes.Add("cod", "image/cis-cod");
+            Mimes.Add("cpio", "application/x-cpio");
+            Mimes.Add("crd", "application/x-mscardfile");
+            Mimes.Add("crl", "application/pkix-crl");
+            Mimes.Add("crt", "application/x-x509-ca-cert");
+            Mimes.Add("csh", "application/x-csh");
+            Mimes.Add("css", "text/css");
+            Mimes.Add("dcr", "application/x-director");
+            Mimes.Add("der", "application/x-x509-ca-cert");
+            Mimes.Add("dir", "application/x-director");
+            Mimes.Add("dll", "application/x-msdownload");
+            Mimes.Add("dms", "application/octet-stream");
+            Mimes.Add("doc", "application/msword");
+            Mimes.Add("dot", "application/msword");
+            Mimes.Add("dvi", "application/x-dvi");
+            Mimes.Add("dxr", "application/x-director");
+            Mimes.Add("eps", "application/postscript");
+            Mimes.Add("etx", "text/x-setext");
+            Mimes.Add("evy", "application/envoy");
+            Mimes.Add("exe", "application/octet-stream");
+            Mimes.Add("fif", "application/fractals");
+            Mimes.Add("flr", "x-world/x-vrml");
+            Mimes.Add("gtar", "application/x-gtar");
+            Mimes.Add("gz", "application/x-gzip");
+            Mimes.Add("h", "text/plain");
+            Mimes.Add("hdf", "application/x-hdf");
+            Mimes.Add("hlp", "application/winhlp");
+            Mimes.Add("hqx", "application/mac-binhex40");
+            Mimes.Add("hta", "application/hta");
+            Mimes.Add("htc", "text/x-component");
+            Mimes.Add("htm", "text/html");
+            Mimes.Add("html", "text/html");
+            Mimes.Add("htt", "text/webviewhtml");
+            Mimes.Add("ico", "image/x-icon");
+            Mimes.Add("ief", "image/ief");
+            Mimes.Add("iii", "application/x-iphone");
+            Mimes.Add("ins", "application/x-internet-signup");
+            Mimes.Add("isp", "application/x-internet-signup");
+            Mimes.Add("jfif", "image/pipeg");
+            Mimes.Add("png", "image/png");
+            Mimes.Add("gif", "image/gif");
+            Mimes.Add("jpg", "image/jpeg");
+            Mimes.Add("jpe", "image/jpeg");
+            Mimes.Add("jpeg", "image/jpeg");
+            Mimes.Add("js", "application/x-javascript");
+            Mimes.Add("latex", "application/x-latex");
+            Mimes.Add("lha", "application/octet-stream");
+            Mimes.Add("lsf", "video/x-la-asf");
+            Mimes.Add("lsx", "video/x-la-asf");
+            Mimes.Add("lzh", "application/octet-stream");
+            Mimes.Add("m13", "application/x-msmediaview");
+            Mimes.Add("m14", "application/x-msmediaview");
+            Mimes.Add("m3u", "audio/x-mpegurl");
+            Mimes.Add("man", "application/x-troff-man");
+            Mimes.Add("mdb", "application/x-msaccess");
+            Mimes.Add("me", "application/x-troff-me");
+            Mimes.Add("mht", "message/rfc822");
+            Mimes.Add("mhtml", "message/rfc822");
+            Mimes.Add("mid", "audio/mid");
+            Mimes.Add("mny", "application/x-msmoney");
+            Mimes.Add("mov", "video/quicktime");
+            Mimes.Add("movie", "video/x-sgi-movie");
+            Mimes.Add("mp2", "video/mpeg");
+            Mimes.Add("mp3", "audio/mpeg");
+            Mimes.Add("mpa", "video/mpeg");
+            Mimes.Add("mpe", "video/mpeg");
+            Mimes.Add("mpeg", "video/mpeg");
+            Mimes.Add("mpg", "video/mpeg");
+            Mimes.Add("mpp", "application/vnd.ms-project");
+            Mimes.Add("mpv2", "video/mpeg");
+            Mimes.Add("ms", "application/x-troff-ms");
+            Mimes.Add("mvb", "application/x-msmediaview");
+            Mimes.Add("nws", "message/rfc822");
+            Mimes.Add("oda", "application/oda");
+            Mimes.Add("p10", "application/pkcs10");
+            Mimes.Add("p12", "application/x-pkcs12");
+            Mimes.Add("p7b", "application/x-pkcs7-certificates");
+            Mimes.Add("p7c", "application/x-pkcs7-mime");
+            Mimes.Add("p7m", "application/x-pkcs7-mime");
+            Mimes.Add("p7r", "application/x-pkcs7-certreqresp");
+            Mimes.Add("p7s", "application/x-pkcs7-signature");
+            Mimes.Add("pbm", "image/x-portable-bitmap");
+            Mimes.Add("pdf", "application/pdf");
+            Mimes.Add("pfx", "application/x-pkcs12");
+            Mimes.Add("pgm", "image/x-portable-graymap");
+            Mimes.Add("pko", "application/ynd.ms-pkipko");
+            Mimes.Add("pma", "application/x-perfmon");
+            Mimes.Add("pmc", "application/x-perfmon");
+            Mimes.Add("pml", "application/x-perfmon");
+            Mimes.Add("pmr", "application/x-perfmon");
+            Mimes.Add("pmw", "application/x-perfmon");
+            Mimes.Add("pnm", "image/x-portable-anymap");
+            Mimes.Add("pot,", "application/vnd.ms-powerpoint");
+            Mimes.Add("ppm", "image/x-portable-pixmap");
+            Mimes.Add("pps", "application/vnd.ms-powerpoint");
+            Mimes.Add("ppt", "application/vnd.ms-powerpoint");
+            Mimes.Add("prf", "application/pics-rules");
+            Mimes.Add("ps", "application/postscript");
+            Mimes.Add("pub", "application/x-mspublisher");
+            Mimes.Add("qt", "video/quicktime");
+            Mimes.Add("ra", "audio/x-pn-realaudio");
+            Mimes.Add("ram", "audio/x-pn-realaudio");
+            Mimes.Add("ras", "image/x-cmu-raster");
+            Mimes.Add("rgb", "image/x-rgb");
+            Mimes.Add("rmi", "audio/mid");
+            Mimes.Add("roff", "application/x-troff");
+            Mimes.Add("rtf", "application/rtf");
+            Mimes.Add("rtx", "text/richtext");
+            Mimes.Add("scd", "application/x-msschedule");
+            Mimes.Add("sct", "text/scriptlet");
+            Mimes.Add("setpay", "application/set-payment-initiation");
+            Mimes.Add("setreg", "application/set-registration-initiation");
+            Mimes.Add("sh", "application/x-sh");
+            Mimes.Add("shar", "application/x-shar");
+            Mimes.Add("sit", "application/x-stuffit");
+            Mimes.Add("snd", "audio/basic");
+            Mimes.Add("spc", "application/x-pkcs7-certificates");
+            Mimes.Add("spl", "application/futuresplash");
+            Mimes.Add("src", "application/x-wais-source");
+            Mimes.Add("sst", "application/vnd.ms-pkicertstore");
+            Mimes.Add("stl", "application/vnd.ms-pkistl");
+            Mimes.Add("stm", "text/html");
+            Mimes.Add("svg", "image/svg+xml");
+            Mimes.Add("sv4cpio", "application/x-sv4cpio");
+            Mimes.Add("sv4crc", "application/x-sv4crc");
+            Mimes.Add("swf", "application/x-shockwave-flash");
+            Mimes.Add("t", "application/x-troff");
+            Mimes.Add("tar", "application/x-tar");
+            Mimes.Add("tcl", "application/x-tcl");
+            Mimes.Add("tex", "application/x-tex");
+            Mimes.Add("texi", "application/x-texinfo");
+            Mimes.Add("texinfo", "application/x-texinfo");
+            Mimes.Add("tgz", "application/x-compressed");
+            Mimes.Add("tif", "image/tiff");
+            Mimes.Add("tiff", "image/tiff");
+            Mimes.Add("tr", "application/x-troff");
+            Mimes.Add("trm", "application/x-msterminal");
+            Mimes.Add("tsv", "text/tab-separated-values");
+            Mimes.Add("txt", "text/plain");
+            Mimes.Add("uls", "text/iuls");
+            Mimes.Add("ustar", "application/x-ustar");
+            Mimes.Add("vcf", "text/x-vcard");
+            Mimes.Add("vrml", "x-world/x-vrml");
+            Mimes.Add("wav", "audio/x-wav");
+            Mimes.Add("wcm", "application/vnd.ms-works");
+            Mimes.Add("wdb", "application/vnd.ms-works");
+            Mimes.Add("wks", "application/vnd.ms-works");
+            Mimes.Add("wmf", "application/x-msmetafile");
+            Mimes.Add("wps", "application/vnd.ms-works");
+            Mimes.Add("wri", "application/x-mswrite");
+            Mimes.Add("wrl", "x-world/x-vrml");
+            Mimes.Add("wrz", "x-world/x-vrml");
+            Mimes.Add("xaf", "x-world/x-vrml");
+            Mimes.Add("xbm", "image/x-xbitmap");
+            Mimes.Add("xla", "application/vnd.ms-excel");
+            Mimes.Add("xlc", "application/vnd.ms-excel");
+            Mimes.Add("xlm", "application/vnd.ms-excel");
+            Mimes.Add("xls", "application/vnd.ms-excel");
+            Mimes.Add("xlt", "application/vnd.ms-excel");
+            Mimes.Add("xlw", "application/vnd.ms-excel");
+            Mimes.Add("xof", "x-world/x-vrml");
+            Mimes.Add("xpm", "image/x-xpixmap");
+            Mimes.Add("xwd", "image/x-xwindowdump");
+            Mimes.Add("z", "application/x-compress");
+            Mimes.Add("zip", "application/zip");
+            #endregion
+            MimesReverse = new Dictionary<string, string>(Mimes.Count);
+            foreach (KeyValuePair<string, string> pair in Mimes)
+            {
+                if (!MimesReverse.ContainsKey(pair.Value))
+                {
+                    MimesReverse.Add(pair.Value, pair.Key);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 根据文件后缀名获取对应的mime类型
+        /// </summary>
+        /// <param name="ext">后缀名（带点不带点都行）</param>
+        /// <returns>返回文件对应的mime类型，如果没有找到，则返回默认的mime类型</returns>
+        public static string GetMimeType(string ext)
+        {
+            ext = ext.Replace(".", "").ToLower();
+            if (Mimes.ContainsKey(ext))
+            {
+                return Mimes[ext];
+            }
+            return DefaultMime;
+        }
+
+        /// <summary>
+        /// 根据mime类型获取对应的文件后缀名
+        /// </summary>
+        /// <param name="mimeType">mime而徐</param>
+        /// <returns>返回mime类型对应的文件后缀名，如果没有找到，则返回空字符串</returns>
+        public static string GetExtension(string mimeType)
+        {
+            if (null != mimeType)
+            {
+                mimeType = mimeType.ToLower().Trim();
+                if (MimesReverse.ContainsKey(mimeType))
+                {
+                    return MimesReverse[mimeType];
+                }
+            }
+            return "";
+        }
+
+    }
 }

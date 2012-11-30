@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using DotNet.Common.Utility;
 using DotNet.IoC;
 using DotNet.Web;
+using DotNet.Web.Http;
 
 namespace DotNetTest
 {
@@ -29,6 +30,12 @@ namespace DotNetTest
             //
             //EncodingTest.Test();
             //return;
+            HttpClient hc1 = new HttpClient("http://wwww.taobao.com");
+            string html=hc1.Request();
+            WebPage page = new WebPage(html, "http://wwww.taobao.com", Encoding.UTF8);
+            page.SaveHtmlAndResource(@"1.html", false, new DirConfig(@"z:\1"));
+
+            return;
 
             HttpClientTest.Test();
             return;

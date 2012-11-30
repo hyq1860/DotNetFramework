@@ -95,19 +95,9 @@ namespace DotNet.Web
     {
         #region fields
 
-        private static readonly TimeSpan defaultTimeout = TimeSpan.FromSeconds(60.0);
-
         private const string Gzip = "gzip";
 
         private const string Deflate = "deflate";
-
-        private const int DefaultCopyBufferLength = 8192;
-
-        private const string AcceptLanguage = "en-us,en;q=0.5";
-
-        private const string AcceptGZipEncoding = "gzip,deflate";
-
-        private const string AcceptCharset = "utf-8,*";
 
         private bool keepContext;
 
@@ -135,15 +125,25 @@ namespace DotNet.Web
 
         private WebHeaderCollection headers;
 
-        private WebResponse webResponse;
+        private HttpWebResponse webResponse;
 
         private WebRequest webRequest;
-
-        private CookieContainer cookieContainer;
 
         private int startPoint;
 
         private int endPoint;
+
+        private CookieContainer cookieContainer;
+
+        private const int DefaultCopyBufferLength = 8192;
+
+        private const string AcceptLanguage = "en-us,en;q=0.5";
+
+        private const string AcceptGZipEncoding = "gzip,deflate";
+
+        private const string AcceptCharset = "utf-8,*";
+
+        private static readonly TimeSpan defaultTimeout = TimeSpan.FromSeconds(60.0);
 
         private long contentLength = -1;
         
@@ -164,11 +164,23 @@ namespace DotNet.Web
         {
             EventHandler<StatusUpdateEventArgs> temp = StatusUpdate;
             if (temp != null)
+            {
                 temp(this, e);
+            }
         }
         #endregion
 
         #region properties
+
+        public WebRequest WebRequest
+        {
+            get { return webRequest; }
+        }
+
+        public HttpWebResponse WebResponse
+        {
+            get { return webResponse; }
+        }
 
         public double Timeout { get; set; }
 
@@ -684,23 +696,23 @@ namespace DotNet.Web
         /// <returns>相应的HttpWebResponse</returns>
         public HttpWebResponse GetResponse()
         {
-            HttpWebRequest req = this.CreateAndPrepareWebRequest();
+            webRequest = this.CreateAndPrepareWebRequest();
             try
             {
-                HttpWebResponse res = (HttpWebResponse)req.GetResponse();
+                webResponse = (HttpWebResponse)webRequest.GetResponse();
 
-                this.headers = res.Headers;
+                this.headers = webResponse.Headers;
                 if (keepContext)
                 {
-                    context.Cookies = res.Cookies;
+                    context.Cookies = webResponse.Cookies;
                     context.Referer = url;
                 }
-                return res;
+                return webResponse;
             }
             catch (WebException webException)
             {
                 Logger.Log("WebException:"+this.url);
-                req.Abort();
+                webRequest.Abort();
                 return null;
             }
         }
@@ -750,19 +762,18 @@ namespace DotNet.Web
         /// <returns></returns>
         public string Request()
         {
-            using (HttpWebResponse webResponse = this.GetResponse())
+            webResponse = this.GetResponse();
+
+            if (webResponse == null)
             {
-                if (webResponse == null)
-                {
-                    return string.Empty;
-                }
-
-                // 将流复制到属性MemoryStream上
-                this.ConvertResponseStreamToMemoryStream(webResponse);
-
-                // 解码并返回
-                return this.DecodeData(webResponse);
+                return string.Empty;
             }
+
+            // 将流复制到属性MemoryStream上
+            this.ConvertResponseStreamToMemoryStream(webResponse);
+
+            // 解码并返回
+            return this.DecodeData(webResponse);
         }
 
         /// <summary>
@@ -815,16 +826,35 @@ namespace DotNet.Web
             {
                 byte[] pageBytes = MemoryStream.ToBytes();
 
-                // 基于火狐的统计学算法
-                Encoding encoding = this.GetEncodingByUniversalCharDet(pageBytes);
-
-                // headers meta BOM的查找方式
-                Encoding secondEncoding = this.GetStringUsingEncoding(webResponse, pageBytes);
-
-                if (encoding != null && encoding.EncodingName != secondEncoding.EncodingName)
+                Encoding encoding=null;
+                // html
+                if(webResponse.ContentType.ToLower().Contains("text/css"))
                 {
-                    encoding = secondEncoding;
+                    //将流的可读位置设置到起始值
+                    this.MemoryStream.Seek(0, SeekOrigin.Begin);
+                    //此处使用utf-8读取后，即使中文是乱码，也能正确读取到meta中的Content-Type,然后再使用正确的编码类型重读一次
+                    string encode= Encoding.UTF8.GetString(this.MemoryStream.GetBuffer(), 0, (int)this.MemoryStream.Length);
+
+                    var mat = RegexLibrary.RegCssContentType.Match(encode);
+                    if (mat.Groups[2].Success)
+                    {
+                        encoding = Encoding.GetEncoding(mat.Groups[2].Value) ;
+                    }
                 }
+                else
+                {
+                    // 基于火狐的统计学算法
+                    encoding = this.GetEncodingByUniversalCharDet(pageBytes);
+
+                    // headers meta BOM的查找方式
+                    Encoding secondEncoding = this.GetStringUsingEncoding(webResponse, pageBytes);
+
+                    if (encoding != null && encoding.EncodingName != secondEncoding.EncodingName)
+                    {
+                        encoding = secondEncoding;
+                    }
+                }
+                
 
                 if (encoding == null)
                 {
@@ -955,7 +985,7 @@ namespace DotNet.Web
             // 尝试从meta中查找
             if (enc == null)
             {
-                enc = GetEncodingFromBody(webResponse, data);
+                enc = GetEncodingFromBody(webResponse, data); 
             }
 
             // Do we have an encoding guess?  If not, use default.
@@ -1267,6 +1297,37 @@ namespace DotNet.Web
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// 根据当前实例的url以及mime类型，获取一个文件名
+        /// </summary>
+        /// <returns>返回文件名</returns>
+        public string GetFileName()
+        {
+            //文件名、文件后缀名、已经文件的mime类型
+            string fileName, ext, mimeType;
+            fileName = Path.GetFileName(webResponse.ResponseUri.AbsolutePath);
+            //如果从url中获取文件名失败，则创建一个随机文件名
+            if (string.IsNullOrEmpty(fileName))
+            {
+                fileName = FileUtility.GetRandomFileName();
+            }
+            //如果文件没有扩展名，尝试从Mime类型中获取扩展名
+            if (string.IsNullOrEmpty(Path.GetExtension(fileName)))
+            {
+                mimeType = webResponse.ContentType;
+                if (mimeType != null && -1 != mimeType.IndexOf(';'))
+                {
+                    mimeType = mimeType.Substring(0, mimeType.IndexOf(';'));
+                }
+                ext = Mime.GetExtension(mimeType);
+                if (!string.IsNullOrEmpty(ext))
+                {
+                    fileName += "." + ext;
+                }
+            }
+            return fileName;
+        }
     }
 
     public class CharsetListener : ICharsetListener
@@ -1283,6 +1344,11 @@ namespace DotNet.Web
     /// </summary>
     public class HttpClientContext
     {
+        public HttpClientContext()
+        {
+            Cookies=new CookieCollection();
+        }
+
         /// <summary>
         /// 
         /// </summary>

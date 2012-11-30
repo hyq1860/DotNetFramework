@@ -185,6 +185,7 @@
     <Compile Include="Utility\ObjectXmlSerializer.cs" />
     <Compile Include="Utility\OrderGenerator.cs" />
     <Compile Include="Utility\PrimaryKeyGenerator.cs" />
+    <Compile Include="Utility\RegexLibrary.cs" />
     <Compile Include="Utility\StringHelper.cs" />
     <Compile Include="Utility\TypeHelper.cs" />
     <Compile Include="Utility\TypeResolution\CachedTypeResolver.cs" />

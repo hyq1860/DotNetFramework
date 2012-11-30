@@ -244,5 +244,16 @@ namespace DotNet.Common
             }
             return Encoding.UTF8.GetString(text, 0, outLen);
         }
+
+        /// <summary>
+        /// 字符串按照正则来搜索
+        /// </summary>
+        /// <param name="html"></param>
+        /// <param name="regex"></param>
+        /// <returns></returns>
+        public static MatchCollection SearchByRegex(this string html, Regex regex)
+        {
+            return regex.Matches(html);
+        }
     }
 }

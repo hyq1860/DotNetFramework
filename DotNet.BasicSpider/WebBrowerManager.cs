@@ -16,6 +16,8 @@ namespace DotNet.BasicSpider
     /// <summary>
     /// 浏览器组件的管理类，入口
     /// 仅用于winform
+    /// 浏览器性能测试 http://www.265g.com/news/201103/117285.html
+    /// http://blog.163.com/xuhengxiao@126/blog/static/14768104120101112112611408/
     /// </summary>
     public class WebBrowerManager
     {

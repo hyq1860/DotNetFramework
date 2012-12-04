@@ -27,6 +27,12 @@ namespace DotNetTest
 
         static void Main(string[] args)
         {
+
+            WebBrowerManager.Instance.Setup(new cEXWB());
+            WebBrowerManager.Instance.TimeOut = 15;
+            WebBrowerManager.Instance.Run("http://www.baidu.com");
+            Console.WriteLine(WebBrowerManager.Instance.IEVersion);
+            Console.Read();
             //
             //EncodingTest.Test();
             //return;

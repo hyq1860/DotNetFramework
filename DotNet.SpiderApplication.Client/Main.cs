@@ -52,6 +52,12 @@ namespace DotNet.SpiderApplication.Client
             //WebBrowerManager.Instance.UnregisterCsExwb();
             //WebBrowerManager.Instance.CheckCsExwbIsRegistered();
 
+            WebBrowerManager.Instance.Setup(new cEXWB());
+            WebBrowerManager.Instance.TimeOut = 15;
+            WebBrowerManager.Instance.Run("http://www.baidu.com");
+           MessageBox.Show(WebBrowerManager.Instance.IEVersion);
+            Console.Read();
+
             SpiderManager.SpiderProductList(new SpiderCategoryInfo() { CategoryUrl = "http://www.zzkjdk.com/ContentV2.aspx?id=1", ECPlatformId = 2 });
             return;
 

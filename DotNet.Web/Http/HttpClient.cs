@@ -16,8 +16,11 @@ using Mozilla.NUniversalCharDet;
 
 namespace DotNet.Web
 {
+    using System.Threading;
+
     #region 使用实例
     /*
+     * http://www.bearcanyon.com/dotnet/ 一些学习资料
     对HttpWebResponse获取的HTML进行文字编码转换,使之不会出现乱码;
     自动在Session间保持Cookie,Referer等相关信息;
     模拟HTML表单提交;
@@ -90,6 +93,7 @@ namespace DotNet.Web
 
     /// <summary>
     /// http请求客户端
+    /// http://www.cnblogs.com/swtseaman/archive/2012/10/04/2711836.html 解码讨论
     /// </summary>
     public class HttpClient:IDisposable
     {
@@ -127,7 +131,7 @@ namespace DotNet.Web
 
         private HttpWebResponse webResponse;
 
-        private WebRequest webRequest;
+        private HttpWebRequest webRequest;
 
         private int startPoint;
 
@@ -172,16 +176,35 @@ namespace DotNet.Web
 
         #region properties
 
-        public WebRequest WebRequest
+        /// <summary>
+        /// Gets WebRequest.
+        /// </summary>
+        public HttpWebRequest WebRequest
         {
-            get { return webRequest; }
+            get { return this.webRequest; }
         }
 
+        /// <summary>
+        /// Gets WebResponse.
+        /// </summary>
         public HttpWebResponse WebResponse
         {
-            get { return webResponse; }
+            get { return this.webResponse; }
         }
 
+        /// <summary>
+        /// 重试次数
+        /// </summary>
+        public int RetryTime { get; set; }
+
+        /// <summary>
+        /// 错误次数
+        /// </summary>
+        public int ErrorTime { get; private set; }
+
+        /// <summary>
+        /// 超时时间 单位:秒
+        /// </summary>
         public double Timeout { get; set; }
 
         /// <summary>
@@ -365,6 +388,9 @@ namespace DotNet.Web
             {
                 this.context = new HttpClientContext();
             }
+
+            // 默认重试次数为2
+            this.RetryTime = 2;
         }
         #endregion
 
@@ -399,17 +425,38 @@ namespace DotNet.Web
         /// </summary>
         public void ClearHttpClientState()
         {
-            this.contentLength = -1;
             if (MemoryStream != null)
             {
                 MemoryStream.Close();
                 MemoryStream = null;
             }
 
-            this.httpMethod = HttpMethod.Get;
-            this.files.Clear();
-            this.postData.Clear();
+            if (this.webRequest != null)
+            {
+                this.webRequest.Abort();
+                this.webRequest = null;
+            }
+
+            if (this.webResponse != null)
+            {
+                this.webResponse.Close();
+                this.webResponse = null;
+            }
+
+            if (this.files != null)
+            {
+                this.files.Clear();
+            }
+
+            if (this.postData != null)
+            {
+                this.postData.Clear();
+            }
+            
+            this.context = null;
             this.headers = null;
+            this.httpMethod = HttpMethod.Get;
+            this.contentLength = -1;
             this.startPoint = 0;
             this.endPoint = 0;
         }
@@ -551,6 +598,8 @@ namespace DotNet.Web
 
         private HttpWebRequest CreateAndPrepareWebRequest()
         {
+            // 设定最大的Net并发连接数
+            System.Net.ServicePointManager.DefaultConnectionLimit = 500; 
             if (Certificate != null)
             {
                 // 这一句一定要写在创建连接的前面。使用回调的方法进行证书验证。
@@ -558,7 +607,7 @@ namespace DotNet.Web
                     new RemoteCertificateValidationCallback(CertificateValidation);
             }
 
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(this.url);
+            HttpWebRequest webRequest = (HttpWebRequest)System.Net.WebRequest.Create(this.url);
 
             this.SetDefaultOptions(webRequest);
 
@@ -650,6 +699,12 @@ namespace DotNet.Web
             return webRequest;
         }
 
+        /// <summary>
+        /// 设置webrequest的默认参数
+        /// </summary>
+        /// <param name="webRequest">
+        /// The web request.
+        /// </param>
         private void SetDefaultOptions(HttpWebRequest webRequest)
         {
             if (webRequest == null)
@@ -666,16 +721,16 @@ namespace DotNet.Web
                 webRequest.Proxy = this.proxy;
             }
 
-            webRequest.Headers["Accept-Language"] = Language.Name;
+            webRequest.Headers["Accept-Language"] = this.Language.Name;
 
             // webRequest.Headers.Add("Accept-Language", Language.Name);
-            webRequest.Accept = accept;
-            webRequest.UserAgent = userAgent;
+            webRequest.Accept = this.accept;
+            webRequest.UserAgent = this.userAgent;
             webRequest.KeepAlive = false;
             
             if (this.Timeout > 0)
             {
-                webRequest.Timeout = (int)Timeout*1000;
+                webRequest.Timeout = (int)this.Timeout * 1000;
             }
 
             if (this.context.Cookies != null)
@@ -696,23 +751,41 @@ namespace DotNet.Web
         /// <returns>相应的HttpWebResponse</returns>
         public HttpWebResponse GetResponse()
         {
-            webRequest = this.CreateAndPrepareWebRequest();
             try
             {
-                webResponse = (HttpWebResponse)webRequest.GetResponse();
+                this.webRequest = this.CreateAndPrepareWebRequest();
+                this.webResponse = (HttpWebResponse)this.webRequest.GetResponse();
 
-                this.headers = webResponse.Headers;
-                if (keepContext)
+                this.headers = this.webResponse.Headers;
+                if (this.keepContext)
                 {
-                    context.Cookies = webResponse.Cookies;
-                    context.Referer = url;
+                    this.context.Cookies = this.webResponse.Cookies;
+                    this.context.Referer = this.url;
                 }
-                return webResponse;
+
+                return this.webResponse;
             }
-            catch (WebException webException)
+            catch (Exception exception)
             {
-                Logger.Log("WebException:"+this.url);
-                webRequest.Abort();
+                Logger.Log("WebException:" + this.url);
+
+                if (this.RetryTime - this.ErrorTime > 0)
+                {
+                    this.ErrorTime++;
+                    Thread.Sleep(100);
+                    return this.GetResponse();
+                }
+
+                if (this.webRequest != null)
+                {
+                    this.webRequest.Abort();
+                }
+
+                if (this.webResponse != null)
+                {
+                    this.webResponse.Close();
+                }
+
                 return null;
             }
         }
@@ -1056,41 +1129,43 @@ namespace DotNet.Web
 
             if (!string.IsNullOrEmpty(dataAsDefault))
             {
-                int i = dataAsDefault.IndexOf("charset=");
-                if (i != -1)
+                Match meta = Regex.Match(dataAsDefault, "<meta([^<]*)charset=([^<]*)[\"']", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                encodingName = (meta.Groups.Count > 2) ? meta.Groups[2].Value : string.Empty;
+                encodingName = encodingName.Replace("\"", string.Empty).Replace("'", string.Empty).Replace(";", string.Empty);
+                if (encodingName.Length > 0)
                 {
-                    int j = dataAsDefault.IndexOf("\"", i);
-                    if (j != -1)
-                    {
-                        int k = i + 8;
-                        encodingName = dataAsDefault.Substring(k, (j - k) + 1);
-                        char[] chArray = new char[2] { '>', '"' };
-                        encodingName = encodingName.TrimEnd(chArray);
-                        enc = Encoding.GetEncoding(encodingName);
-                    }
+                    encodingName = encodingName.ToLower().Replace("iso-8859-1", "gbk");
+                    //encoding = Encoding.GetEncoding(charter);
                 }
                 else
                 {
-                    Match meta = Regex.Match(dataAsDefault, "<meta([^<]*)charset=([^<]*)[\"']", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-                    encodingName = (meta.Groups.Count > 2) ? meta.Groups[2].Value : string.Empty;
-                    encodingName = encodingName.Replace("\"", string.Empty).Replace("'", string.Empty).Replace(";", string.Empty);
-                    if (encodingName.Length > 0)
+                    if (webResponse.CharacterSet.ToLower().Trim() == "iso-8859-1")
                     {
-                        encodingName = encodingName.ToLower().Replace("iso-8859-1", "gbk");
-                        //encoding = Encoding.GetEncoding(charter);
+                        enc = Encoding.GetEncoding("gbk");
                     }
                     else
                     {
-                        if (webResponse.CharacterSet.ToLower().Trim() == "iso-8859-1")
-                        {
-                            enc = Encoding.GetEncoding("gbk");
-                        }
-                        else
-                        {
-                            enc = string.IsNullOrEmpty(webResponse.CharacterSet.Trim()) ? Encoding.UTF8 : Encoding.GetEncoding(webResponse.CharacterSet);
-                        }
+                        enc = string.IsNullOrEmpty(webResponse.CharacterSet.Trim()) ? Encoding.UTF8 : Encoding.GetEncoding(webResponse.CharacterSet);
                     }
                 }
+
+                //int i = dataAsDefault.IndexOf("charset=");
+                //if (i != -1)
+                //{
+                //    int j = dataAsDefault.IndexOf("\"", i);
+                //    if (j != -1)
+                //    {
+                //        int k = i + 8;
+                //        encodingName = dataAsDefault.Substring(k, (j - k) + 1);
+                //        char[] chArray = new char[2] { '>', '"' };
+                //        encodingName = encodingName.TrimEnd(chArray);
+                //        enc = Encoding.GetEncoding(encodingName);
+                //    }
+                //}
+                //else
+                //{
+                    
+                //}
             }
 
             return enc;
@@ -1192,7 +1267,7 @@ namespace DotNet.Web
             }
 
             this.handle = handle;
-            var webRequest = (HttpWebRequest)WebRequest.Create(Url);
+            var webRequest = (HttpWebRequest)System.Net.WebRequest.Create(this.Url);
             this.SetDefaultOptions(webRequest);
             try
             {
@@ -1295,7 +1370,7 @@ namespace DotNet.Web
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            ClearHttpClientState();
         }
 
         /// <summary>

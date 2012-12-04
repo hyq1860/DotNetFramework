@@ -219,7 +219,7 @@ namespace DotNet.Web
 
                     string content = hc.Request();
                     //如果请求成功
-                    if (string.IsNullOrEmpty(content))
+                    if (!string.IsNullOrEmpty(content))
                     {
                         string tempFileName = hc.GetFileName();
                         //确定css文件保存的绝对路径
@@ -571,7 +571,11 @@ namespace DotNet.Web
         public static string SaveResource(string fileUrl, string dirPath, string fileName)
         {
             HttpClient hc = new HttpClient(fileUrl);
-            hc.Request();
+            string data= hc.Request();
+            if (string.IsNullOrEmpty(data))
+            {
+                return string.Empty;
+            }
             return SaveFile(hc, dirPath, fileName);
         }
 

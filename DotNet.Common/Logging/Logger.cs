@@ -107,46 +107,52 @@ namespace DotNet.Common.Logging
 
         public static void Log(string logCategory, LogLevel level, string message)
         {
-
-            GetLogProvider();
-
-            if (LogProvider == null || string.IsNullOrEmpty(message))
+            try
             {
-                return;
-            }
+                GetLogProvider();
 
-            // add by Marble Wu, 2010,10,19
-            // 增加记录服务器名
-            StringBuilder serverInfo = new StringBuilder();
-            serverInfo.AppendLine();
-            serverInfo.AppendFormat("WHO: {0}", System.Net.Dns.GetHostName());
-            serverInfo.AppendLine();
-
-            // add by Marble Wu，2010-01-12
-            // 如果是web请求，则记录当前RawUrl
-            HttpContext ctx = HttpContext.Current;
-            if (ctx != null
-                && ctx.Request != null
-                && !string.IsNullOrEmpty(ctx.Request.RawUrl))
-            {
-
-                serverInfo.AppendLine("HTTP HEADER: ------------------------------- ");
-				serverInfo.AppendLine(string.Format("CLIENT IP: {0}", CommonUtily.GetAllIPAddress()));
-                foreach (string key in ctx.Request.Headers.Keys)
+                if (LogProvider == null || string.IsNullOrEmpty(message))
                 {
-                    if (!_skipHttpHeaders.Contains(key))
-                    {
-                        serverInfo.AppendLine(string.Format("{0}: {1}", key, ctx.Request.Headers[key]));
-                    }
+                    return;
                 }
-                serverInfo.AppendLine(string.Format("URL: {0}", ctx.Request.RawUrl));
-                serverInfo.AppendLine("HTTP HEADER: ------------------------------- ");
-                serverInfo.AppendLine(string.Empty);
+
+                // add by Marble Wu, 2010,10,19
+                // 增加记录服务器名
+                StringBuilder serverInfo = new StringBuilder();
+                serverInfo.AppendLine();
+                serverInfo.AppendFormat("WHO: {0}", System.Net.Dns.GetHostName());
+                serverInfo.AppendLine();
+
+                // add by Marble Wu，2010-01-12
+                // 如果是web请求，则记录当前RawUrl
+                HttpContext ctx = HttpContext.Current;
+                if (ctx != null
+                    && ctx.Request != null
+                    && !string.IsNullOrEmpty(ctx.Request.RawUrl))
+                {
+
+                    serverInfo.AppendLine("HTTP HEADER: ------------------------------- ");
+                    serverInfo.AppendLine(string.Format("CLIENT IP: {0}", CommonUtily.GetAllIPAddress()));
+                    foreach (string key in ctx.Request.Headers.Keys)
+                    {
+                        if (!_skipHttpHeaders.Contains(key))
+                        {
+                            serverInfo.AppendLine(string.Format("{0}: {1}", key, ctx.Request.Headers[key]));
+                        }
+                    }
+                    serverInfo.AppendLine(string.Format("URL: {0}", ctx.Request.RawUrl));
+                    serverInfo.AppendLine("HTTP HEADER: ------------------------------- ");
+                    serverInfo.AppendLine(string.Empty);
+                }
+
+                message = string.Concat(serverInfo.ToString(), message);
+
+                LogProvider.Log(logCategory, level, message);
             }
+            catch 
+            {
 
-            message = string.Concat(serverInfo.ToString(), message);
-
-            LogProvider.Log(logCategory, level, message);
+            }
         }
 
         public static void Log(string logCategory, LogLevel level, string message,Exception ex)

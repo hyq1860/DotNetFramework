@@ -151,6 +151,7 @@
     <Content Include="PanGu.HighLight.dll" />
     <Content Include="PanGu.HighLight.pdb" />
     <Content Include="PanGu.Lucene.Analyzer.dll" />
+    <Content Include="PowerCollections.dll" />
     <Content Include="Readme.txt" />
     <Content Include="ScrapySharp.Core.dll" />
     <Content Include="ScrapySharp.Core.pdb" />

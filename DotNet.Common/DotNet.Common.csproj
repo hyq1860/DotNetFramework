@@ -40,6 +40,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\RefDll\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PowerCollections">
+      <HintPath>..\RefDll\PowerCollections.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />

@@ -19,6 +19,7 @@ namespace DotNet.BasicSpider
     /// 浏览器性能测试 http://www.265g.com/news/201103/117285.html
     /// http://blog.163.com/xuhengxiao@126/blog/static/14768104120101112112611408/
     /// http://www.cnblogs.com/liuzhendong/archive/2012/03/21/2410107.html
+    /// http://www.cnblogs.com/hhh/archive/2007/01/27/632251.html // 又一个编码识别
     /// </summary>
     public class WebBrowerManager
     {
@@ -182,6 +183,11 @@ namespace DotNet.BasicSpider
         public string IEVersion { get; set; }
 
         /// <summary>
+        /// 浏览器打开NavToBlank空白页的次数
+        /// </summary>
+        private static int navToBlankCount = 1;
+
+        /// <summary>
         /// 采集页面，返回页面html
         /// </summary>
         /// <param name="url"></param>
@@ -191,6 +197,13 @@ namespace DotNet.BasicSpider
             if (string.IsNullOrEmpty(url))
             {
                 return string.Empty;
+            }
+
+            // need to initialize the webbrowser control by calling NavToBlank() at least once
+            if (navToBlankCount == 1)
+            {
+                WB.NavToBlank();
+                navToBlankCount++;
             }
 
             WB.Navigate(url);
@@ -215,9 +228,41 @@ namespace DotNet.BasicSpider
             }
             Elapse = elapse;
             this.IsDocumentFinish = false;
-            IEVersion=WB.IEVersion();
-            return WB.DocumentSource;
 
+            // 获取ie浏览器版本
+            IEVersion=WB.IEVersion();
+
+            /* 自动登陆
+            To automate login, navigate to login page, 
+            in DocumentComplete check for isTopLevel which indiactes the page has fully loaded and a flag to indicate if you have not logged in. 
+            Then use AutomationTask methods to login.
+            WB.AutomationTask_PerformEnterData("UsernameTextBox_Name", "username");
+            WB.AutomationTask_PerformEnterData("PasswordTextBox_Name", "password");
+            WB.AutomationTask_PerformClickButton("SubmitButton_Name");
+             */
+
+            return WB.DocumentSource;
+        }
+
+        public object InvokeScript(IWebBrowser2 wb, string ScriptName, object[] Data)
+        {
+            object oRet = null;
+
+            if (wb == null)
+                return oRet;
+
+            IHTMLDocument doc = wb.Document as IHTMLDocument;
+            if (doc == null)
+                return oRet;
+            object oScript = doc.Script;
+            if (oScript == null)
+                return oRet;
+            //Invoke script
+            if (Data == null)
+                Data = new object[] { };
+            oRet = oScript.GetType().InvokeMember(ScriptName,
+                System.Reflection.BindingFlags.InvokeMethod, null, oScript, Data);
+            return oRet;
         }
 
         /// <summary>
@@ -284,6 +329,21 @@ namespace DotNet.BasicSpider
                 wb.WBDocHostShowUIShowMessage += new DocHostShowUIShowMessageEventHandler(WebBrower_WBDocHostShowUIShowMessage);
                 wb.ProcessUrlAction += new ProcessUrlActionEventHandler(WebBrower_ProcessUrlAction);
                 //wb.WBEvaluteNewWindow += new EvaluateNewWindowEventHandler(WebBrower_WBEvaluteNewWindow);
+                wb.NewWindow2 += new NewWindow2EventHandler(WebBrower_NewWindow2);
+            }
+        }
+
+        //all new_window action is ignored.
+        private void WebBrower_NewWindow2(object sender, csExWB.NewWindow2EventArgs e)
+        {
+            try
+            {
+                //AllForms.m_frmLog.AppendToLog("frmPopup_cEXWB1_NewWindow2");
+                e.Cancel = true;
+            }
+            catch
+            {
+                throw;
             }
         }
 
@@ -371,6 +431,11 @@ namespace DotNet.BasicSpider
             }
         }
 
+        /*
+        When e.isTopLevel parameter of DocumentComplete is true, it means that the main document has finished loading whether we have a frameset or not.
+        In a frameset page, DocumentComplete is fired for every frame. In the case of a frame, e.isTopLevel is false, meanning that the document is still loading.
+        When all frames have been loaded then the DocumentComplete is fired for the main document signaling that the document has finished loading which is recognized when isTopLevel is true. There is no need to use timers to find out when the page has fully loaded.
+         */
         private void WebBrower_DocumentComplete(object sender, DocumentCompleteEventArgs e)
         {
             if (e.url.ToLower() == "about:blank")
@@ -450,6 +515,22 @@ namespace DotNet.BasicSpider
                     e.handled = true;
                     e.urlPolicy = URLPOLICY.DISALLOW;
                     //Logger.Log(string.Format("ProcessUrlAction,Url:{0},UrlAction{1},UrlPolicy:{2},Context:{3}", e.url, e.urlAction, e.urlPolicy, e.context));
+                }
+            }
+        }
+
+        private void GetIFrames()
+        {
+            IHTMLElementCollection col = WB.GetElementsByTagName(true, "IFRAME") as IHTMLElementCollection;
+            if (col != null)
+            {
+                foreach (IHTMLElement elem in col)
+                {
+                    if (elem != null)
+                    {
+                        //subnode = root.Nodes.Add("IFrame");
+                        //subnode.Tag = elem.outerHTML; //+ "\r\n" + elem.getAttribute("src", 0)
+                    }
                 }
             }
         }

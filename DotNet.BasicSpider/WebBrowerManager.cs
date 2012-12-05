@@ -18,6 +18,7 @@ namespace DotNet.BasicSpider
     /// 仅用于winform
     /// 浏览器性能测试 http://www.265g.com/news/201103/117285.html
     /// http://blog.163.com/xuhengxiao@126/blog/static/14768104120101112112611408/
+    /// http://www.cnblogs.com/liuzhendong/archive/2012/03/21/2410107.html
     /// </summary>
     public class WebBrowerManager
     {

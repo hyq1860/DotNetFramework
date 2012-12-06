@@ -19,10 +19,12 @@ namespace DotNet.SpiderApplication.Client
 {
     using Amib.Threading;
 
+    using DotNet.Base.Service;
     using DotNet.BasicSpider;
     using DotNet.Common;
     using DotNet.Common.Configuration;
     using DotNet.Data;
+    using DotNet.IoC;
     using DotNet.SpiderApplication.Service;
     using DotNet.Web.Http;
 
@@ -52,13 +54,36 @@ namespace DotNet.SpiderApplication.Client
             //WebBrowerManager.Instance.UnregisterCsExwb();
             //WebBrowerManager.Instance.CheckCsExwbIsRegistered();
 
-            WebBrowerManager.Instance.Setup(new cEXWB());
-            WebBrowerManager.Instance.TimeOut = 15;
-            WebBrowerManager.Instance.Run("http://www.baidu.com");
-           MessageBox.Show(WebBrowerManager.Instance.IEVersion);
-            Console.Read();
+            //WebBrowerManager.Instance.Setup(new cEXWB());
+            //WebBrowerManager.Instance.TimeOut = 15;
+            //var states = new List<string>();
+            //states.Add("http://www.360buy.com/product/222701.html");
+            //states.Add("http://www.360buy.com/product/682747.html");
+            //states.Add("http://www.360buy.com/product/222704.html");
+            //states.Add("http://www.360buy.com/product/222701.html");
+            //states.Add("http://www.360buy.com/product/354444.html");
+            //states.Add("http://www.360buy.com/product/352655.html");
+            //states.Add("http://www.360buy.com/product/481284.html");
+            //states.Add("http://www.360buy.com/product/563181.html");
+            //states.Add("http://www.360buy.com/product/481245.html");
+            //states.Add("http://www.360buy.com/product/673975.html");
+            //int i = 0;
+            //foreach (var state1 in states)
+            //{
+            //    var html1 = WebBrowerManager.Instance.Run(state1);
+            //    File.WriteAllText("z:\\"+i+".html",html1,Encoding.UTF8);
+            //    i++;
+            //}
+            
+            //MessageBox.Show(WebBrowerManager.Instance.IEVersion);
+            //Console.Read();
 
-            SpiderManager.SpiderProductList(new SpiderCategoryInfo() { CategoryUrl = "http://www.zzkjdk.com/ContentV2.aspx?id=1", ECPlatformId = 2 });
+            var data = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().GetProducts(" where Supplier=1 limit 0,1000");
+            foreach (ProductInfo productInfo in data)
+            {
+                var ver = SpiderManager.SpiderProductDetail(new SpiderProductInfo(){ECPlatformId=productInfo.ECPlatformId,Url=productInfo.Url,ProductId=productInfo.ProductId});
+                CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().Update(ver);
+            }
             return;
 
             // 亚马逊

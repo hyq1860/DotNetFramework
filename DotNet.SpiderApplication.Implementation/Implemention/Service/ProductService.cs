@@ -31,5 +31,15 @@ namespace DotNet.SpiderApplication.Service
         {
             return productDataAccess.GetProducts(sqlWhere);
         }
+
+        public bool Insert(ProductInfo model)
+        {
+            return productDataAccess.Insert(model);
+        }
+
+        public bool Update(ProductInfo product)
+        {
+            return productDataAccess.Update(product);
+        }
     }
 }

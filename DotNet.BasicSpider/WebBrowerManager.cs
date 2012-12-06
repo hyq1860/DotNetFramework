@@ -87,14 +87,12 @@ namespace DotNet.BasicSpider
         }
 
         /// <summary>
-        /// 设置空间调用的ie版本
+        /// 设置csexwb调用的ie版本
         /// </summary>
-        /// <param name="applicationName"></param>
-        public void SetIEVersion(string applicationName)
+        public void SetIEVersion()
         {
-            RegistryKey localMachine = Registry.LocalMachine;
-            var ieRegistryKey = localMachine.OpenSubKey(@"Software\Microsoft\Internet Explorer");
-            var ieVersion = ieRegistryKey.GetValue("Version");
+            var ieRegistryKey = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Internet Explorer", true);
+            object ieVersion = ieRegistryKey.GetValue("Version");
 
             var versionValue = string.Empty;
 
@@ -108,31 +106,39 @@ namespace DotNet.BasicSpider
                     {
                         case "9":
                             {
-                                versionValue = "";
+                                versionValue = "9999";
                             }
+
                             break;
                         case "8":
                             {
-                                versionValue = "";
+                                versionValue = "8888";
                             }
+
                             break;
                         case "7":
                             {
-                                versionValue = "";
+                                versionValue = "7000";
                             }
+
                             break;
                         default:
                             break;
                     }
                 }
-            }
 
-            RegistryKey ie =
-                Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION", true);
-            var subKeys = ie.GetSubKeyNames().ToList();
-            if(!subKeys.Contains(applicationName))
-            {
-                var currentApplication= ie.CreateSubKey(applicationName);
+                using (RegistryKey currentKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl\FEATURE_BROWSER_EMULATION", true))
+                {
+                    if (currentKey != null)
+                    {
+                        string exeName = Application.ProductName + ".exe";
+                        object keyValue = currentKey.GetValue(exeName);
+                        if (keyValue == null)
+                        {
+                            currentKey.SetValue(exeName, int.Parse(versionValue), RegistryValueKind.DWord);
+                        }
+                    }
+                }
             }
         }
 

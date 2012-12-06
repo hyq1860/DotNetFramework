@@ -11,8 +11,11 @@ namespace DotNet.SpiderApplication.Client
     using System.Linq;
     using System.Text;
 
+    using DotNet.BasicSpider;
     using DotNet.SpiderApplication.Contract;
     using DotNet.SpiderApplication.Contract.Entity;
+
+    using csExWB;
 
     /// <summary>
     /// 采集管理
@@ -29,6 +32,9 @@ namespace DotNet.SpiderApplication.Client
             spiderDictionary.Add(3, new WuYiBuyProductSpider());
             spiderDictionary.Add(4, new SuNingSpider());
             spiderDictionary.Add(5, new DangDangSpider());
+
+            WebBrowerManager.Instance.Setup(new cEXWB());
+            WebBrowerManager.Instance.TimeOut = 15;
 
         }
 

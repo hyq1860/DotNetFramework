@@ -19,5 +19,9 @@ namespace DotNet.SpiderApplication.Contract
     public interface IProductDataAccess
     {
         List<ProductInfo> GetProducts(string sqlWhere);
+
+        bool Insert(ProductInfo product);
+
+        bool Update(ProductInfo product);
     }
 }

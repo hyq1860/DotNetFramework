@@ -26,5 +26,9 @@ namespace DotNet.SpiderApplication.Contract.Entity
         /// 当前系统已知最新价格
         /// </summary>
         public decimal Price { get; set; }
+
+        public string Source { get; set; }
+
+        public int ECPlatformId { get; set; }
     }
 }

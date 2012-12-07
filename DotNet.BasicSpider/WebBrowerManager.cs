@@ -279,8 +279,13 @@ namespace DotNet.BasicSpider
             if(WB!=null)
             {
                 //解除事件绑定 
-                this.UnregiserWebBrowerHandler(WB);
-                WB.Dispose();
+                //this.UnregiserWebBrowerHandler(WB);
+                //WB.Dispose();
+                WB.Clear();
+                WB.ClearHistory();
+                WB.ClearSessionCookies();
+                //WB = null;
+                //GC.Collect();
             }
         }
 
@@ -362,11 +367,11 @@ namespace DotNet.BasicSpider
             if (wb != null)
             {
                 //注销事件处理方法
-                wb.ProtocolHandlerBeginTransaction -= new csExWB.ProtocolHandlerBeginTransactionEventHandler(WebBrower_ProtocolHandlerBeginTransaction);
-                wb.ProtocolHandlerOnResponse -= new csExWB.ProtocolHandlerOnResponseEventHandler(WebBrower_ProtocolHandlerOnResponse);
-                wb.ProtocolHandlerDataFullyAvailable -= new csExWB.ProtocolHandlerDataFullyAvailableEventHandler(WebBrower_ProtocolHandlerDataFullyAvailable);
-                wb.ProtocolHandlerDataFullyRead -= new csExWB.ProtocolHandlerDataFullyReadEventHandler(WebBrower_ProtocolHandlerDataFullyRead);
-                wb.ProtocolHandlerOperationFailed -= new csExWB.ProtocolHandlerOperationFailedEventHandler(WebBrower_ProtocolHandlerOperationFailed);
+                wb.ProtocolHandlerBeginTransaction -= new ProtocolHandlerBeginTransactionEventHandler(WebBrower_ProtocolHandlerBeginTransaction);
+                wb.ProtocolHandlerOnResponse -= new ProtocolHandlerOnResponseEventHandler(WebBrower_ProtocolHandlerOnResponse);
+                wb.ProtocolHandlerDataFullyAvailable -= new ProtocolHandlerDataFullyAvailableEventHandler(WebBrower_ProtocolHandlerDataFullyAvailable);
+                wb.ProtocolHandlerDataFullyRead -= new ProtocolHandlerDataFullyReadEventHandler(WebBrower_ProtocolHandlerDataFullyRead);
+                wb.ProtocolHandlerOperationFailed -= new ProtocolHandlerOperationFailedEventHandler(WebBrower_ProtocolHandlerOperationFailed);
 
                 wb.ScriptError -= new ScriptErrorEventHandler(WebBrower_ScriptError);
                 wb.WBOnDocumentChanged -= new EventHandler(WebBrower_WBOnDocumentChanged);
@@ -384,33 +389,33 @@ namespace DotNet.BasicSpider
         //Fired to indicate when a response from a server has been received
         void WebBrower_ProtocolHandlerOnResponse(object sender, ProtocolHandlerOnResponseEventArgs e)
         {
-            Debug.Print(">>>>>>ProtocolHandlerOnResponse=> " + e.URL);
+            //Debug.Print(">>>>>>ProtocolHandlerOnResponse=> " + e.URL);
             //+ "\r\nResponseHeaders >>\r\n" + e.ResponseHeaders);
         }
 
         //Fired to indicate when a request for a resource is about to be initiated
         void WebBrower_ProtocolHandlerBeginTransaction(object sender, ProtocolHandlerBeginTransactionEventArgs e)
         {
-            Debug.Print(">>>>>>ProtocolHandlerBeginTransaction=> " + e.URL);
+            //Debug.Print(">>>>>>ProtocolHandlerBeginTransaction=> " + e.URL);
             //+ "\r\nRequestHeaders >>\r\n" + e.RequestHeaders);
         }
 
         //Fired to indicate when a resource has been fully read by the MSHTML
         void WebBrower_ProtocolHandlerDataFullyRead(object sender, ProtocolHandlerDataFullyReadEventArgs e)
         {
-            Debug.Print(">>>>>>ProtocolHandlerDataFullyRead=> " + e.URL);
+            //Debug.Print(">>>>>>ProtocolHandlerDataFullyRead=> " + e.URL);
         }
 
         //Fired to indicate when a resource has been fully downloaded and ready to be read by MSHTML
         void WebBrower_ProtocolHandlerDataFullyAvailable(object sender, ProtocolHandlerDataFullyAvailableEventArgs e)
         {
-            Debug.Print(">>>>>>ProtocolHandlerDataFullyAvailable=> " + e.URL);
+            //Debug.Print(">>>>>>ProtocolHandlerDataFullyAvailable=> " + e.URL);
         }
 
         //Fired to indicate when download of a resource has failed
         void WebBrower_ProtocolHandlerOperationFailed(object sender, ProtocolHandlerOperationFailedEventArgs e)
         {
-            Debug.Print(">>>>>>ProtocolHandlerOperationFailed=> " + e.URL);
+            //Debug.Print(">>>>>>ProtocolHandlerOperationFailed=> " + e.URL);
         }
 
         //脚本发生错误
@@ -463,6 +468,7 @@ namespace DotNet.BasicSpider
             {
                 //log.Debug("DocumentComplete::TopLevel is FALSE===>" + e.url);
             }
+            GC.Collect();
         }
 
         private void WebBrower_NavigateError(object sender, NavigateErrorEventArgs e)

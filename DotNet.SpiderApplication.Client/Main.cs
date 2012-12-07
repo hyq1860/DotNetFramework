@@ -79,11 +79,21 @@ namespace DotNet.SpiderApplication.Client
             //Console.Read();
 
             var data = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().GetProducts(" where Supplier=1 limit 0,1000");
+            //MessageBox.Show(WebBrowerManager.Instance.IEVersion);
             foreach (ProductInfo productInfo in data)
             {
-                var ver = SpiderManager.SpiderProductDetail(new SpiderProductInfo(){ECPlatformId=productInfo.ECPlatformId,Url=productInfo.Url,ProductId=productInfo.ProductId});
-                CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().Update(ver);
+                //using (var webbrower = new cEXWB())
+                //{
+                    //WebBrowerManager.Instance.Setup(webbrower);
+                    //WebBrowerManager.Instance.TimeOut = 15;
+                    var ver = SpiderManager.SpiderProductDetail(new SpiderProductInfo() { ECPlatformId = productInfo.ECPlatformId, Url = productInfo.Url, ProductId = productInfo.ProductId });
+                    CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().Update(ver);
+                    //MessageBox.Show(WebBrowerManager.Instance.IEVersion);
+                    WebBrowerManager.Instance.Clear();
+                //}
+                
             }
+
             return;
 
             // 亚马逊

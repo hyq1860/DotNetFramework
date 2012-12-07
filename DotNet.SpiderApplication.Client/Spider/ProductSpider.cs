@@ -52,7 +52,7 @@ namespace DotNet.SpiderApplication.Client
                 }
 
             }
-
+            
             return new ProductInfo() { Source = html, ProductId = spiderProduct.ProductId };
         }
 

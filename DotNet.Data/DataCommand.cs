@@ -386,7 +386,6 @@ namespace DotNet.Data
 				{
 					dbConnection.Close();
 				}
-
 				dbConnection = null;
 				dbTransaction = null;
 			}

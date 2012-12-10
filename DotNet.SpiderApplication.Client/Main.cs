@@ -23,6 +23,7 @@ namespace DotNet.SpiderApplication.Client
     using DotNet.BasicSpider;
     using DotNet.Common;
     using DotNet.Common.Configuration;
+    using DotNet.Common.Utility;
     using DotNet.Data;
     using DotNet.IoC;
     using DotNet.SpiderApplication.Service;
@@ -32,8 +33,23 @@ namespace DotNet.SpiderApplication.Client
 
     using ICalculator = DotNet.SpiderApplication.Contract.ICalculator;
 
+    class MyProcess : Process
+    {
+        public void Stop()
+        {
+            this.CloseMainWindow();
+            this.Close();
+            OnExited();
+        }
+    }
+
     public partial class Main : Form
     {
+        private static void myProcess_HasExited(object sender, System.EventArgs e)
+        {
+            MessageBox.Show("Process has exited.");
+        }
+
         public Main()
         {
             InitializeComponent();
@@ -78,7 +94,22 @@ namespace DotNet.SpiderApplication.Client
             //MessageBox.Show(WebBrowerManager.Instance.IEVersion);
             //Console.Read();
 
-            var data = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().GetProducts(" where Supplier=1 limit 0,1000");
+            var data = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().GetProducts(" where Supplier=1 limit 0,10");
+
+            var jsonData = data.ToJson();
+
+            MyProcess p = new MyProcess();
+            p.StartInfo.FileName = "ConsoleApplication1.exe";
+            p.EnableRaisingEvents = true;
+            p.StartInfo.CreateNoWindow = true;
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.Arguments = jsonData;
+            p.Exited += new EventHandler(myProcess_HasExited);
+            p.Start();
+            //p.WaitForInputIdle();
+            //p.Stop();
+            return;
+
             //MessageBox.Show(WebBrowerManager.Instance.IEVersion);
             foreach (ProductInfo productInfo in data)
             {

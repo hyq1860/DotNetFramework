@@ -170,6 +170,9 @@ namespace DotNet.BasicSpider
             if (this.WB == null) return;
             this.SetupWebBrower(WB);
             this.RegiserWebBrowerHandler(WB);
+
+            // need to initialize the webbrowser control by calling NavToBlank() at least once
+            WB.NavToBlank();
         }
 
         /// <summary>
@@ -188,10 +191,6 @@ namespace DotNet.BasicSpider
         /// </summary>
         public string IEVersion { get; set; }
 
-        /// <summary>
-        /// 浏览器打开NavToBlank空白页的次数
-        /// </summary>
-        private static int navToBlankCount = 1;
 
         /// <summary>
         /// 采集页面，返回页面html
@@ -203,13 +202,6 @@ namespace DotNet.BasicSpider
             if (string.IsNullOrEmpty(url))
             {
                 return string.Empty;
-            }
-
-            // need to initialize the webbrowser control by calling NavToBlank() at least once
-            if (navToBlankCount == 1)
-            {
-                WB.NavToBlank();
-                navToBlankCount++;
             }
 
             WB.Navigate(url);
@@ -289,6 +281,28 @@ namespace DotNet.BasicSpider
             }
         }
 
+        public void Clear(bool dispose)
+        {
+            if(dispose)
+            {
+                if (WB != null)
+                {
+                    //解除事件绑定 
+                    this.UnregiserWebBrowerHandler(WB);
+                    WB.Dispose();
+                    WB.Clear();
+                    WB.ClearHistory();
+                    WB.ClearSessionCookies();
+                    WB = null;
+                    //GC.Collect();
+                }
+            }
+            else
+            {
+                Clear();
+            }
+        }
+
         #region 浏览器辅助方法
 
         /// <summary>
@@ -314,6 +328,7 @@ namespace DotNet.BasicSpider
             wb.ScrollBarsEnabled = false;
             wb.Silent = false;//whether the Webbrowser control can show dialog boxes 
             //wb.FileDownloadDirectory = "C:\\Documents and Settings\\Mike\\My Documents\\";
+            wb.FileDownloadDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + System.IO.Path.DirectorySeparatorChar.ToString();
         }
 
         /// <summary>
@@ -468,7 +483,6 @@ namespace DotNet.BasicSpider
             {
                 //log.Debug("DocumentComplete::TopLevel is FALSE===>" + e.url);
             }
-            GC.Collect();
         }
 
         private void WebBrower_NavigateError(object sender, NavigateErrorEventArgs e)

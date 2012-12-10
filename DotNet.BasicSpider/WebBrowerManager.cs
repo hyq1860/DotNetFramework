@@ -226,7 +226,6 @@ namespace DotNet.BasicSpider
             }
             Elapse = elapse;
             this.IsDocumentFinish = false;
-
             // 获取ie浏览器版本
             IEVersion=WB.IEVersion();
 
@@ -240,6 +239,35 @@ namespace DotNet.BasicSpider
              */
 
             return WB.DocumentSource;
+        }
+
+        /// <summary>
+        /// 是否包含iframe
+        /// </summary>
+        /// <returns></returns>
+        public bool IsContainIFrame()
+        {
+            var col = WB.GetElementsByTagName(true, "IFRAME") as IHTMLElementCollection;
+            if (col != null)
+            {
+                return col.length > 0;
+            }
+            return false;
+        }
+
+        private DocumentInfo GetDocumentInfo()
+        {
+            var documenrInfo = new DocumentInfo();
+            var doc2 = (IHTMLDocument2)WB.WebbrowserObject.Document;
+            if(doc2!=null)
+            {
+                documenrInfo.Url = doc2.url;
+                documenrInfo.Domain = doc2.domain;
+                documenrInfo.Protocol = doc2.protocol;
+                documenrInfo.Cookie = doc2.cookie;
+                documenrInfo.Referrer = doc2.referrer; 
+            }
+            return documenrInfo;
         }
 
         public object InvokeScript(IWebBrowser2 wb, string ScriptName, object[] Data)

@@ -4,6 +4,9 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using DotNet.IoC;
+using DotNet.SpiderApplication.Contract;
+
 namespace DotNet.SpiderApplication.Service.Implemention.Service
 {
     using System;
@@ -20,6 +23,19 @@ namespace DotNet.SpiderApplication.Service.Implemention.Service
     public class SpiderTaskManager
     {
         private PriorityQueue<SpiderProductInfo> SpiderUrlQueue { get; set; }
+
+        public SpiderTaskManager()
+        {
+            if (SpiderUrlQueue==null)
+            {
+                SpiderUrlQueue=new PriorityQueue<SpiderProductInfo>();
+            }
+            var data = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().GetProducts(" where Supplier=1 limit 0,1000");
+            foreach (var productInfo in data)
+            {
+               SpiderUrlQueue.Enqueue(new SpiderProductInfo(){ProductId = productInfo.ProductId,Url=productInfo.Url,ECPlatformId = productInfo.ECPlatformId}); 
+            }
+        }
 
         public void Enqueue(SpiderProductInfo spiderProduct)
         {

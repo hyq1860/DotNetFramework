@@ -57,6 +57,7 @@
     <Compile Include="WCF\ICalculatorCallback.cs" />
     <Compile Include="WCF\ISessionCallback.cs" />
     <Compile Include="WCF\ISessionManagement.cs" />
+    <Compile Include="WCF\ISpiderServer.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

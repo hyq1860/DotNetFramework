@@ -8,9 +8,12 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using DotNet.Common.Core;
 using DotNet.Common.Logging;
 using DotNet.SpiderApplication.Contract;
 using DotNet.SpiderApplication.Contract.Entity;
+using DotNet.SpiderApplication.Contract.WCF;
+using DotNet.SpiderApplication.Service.Implemention.Service;
 using IfacesEnumsStructsClasses;
 using csExWB;
 using HtmlAgilityPack;
@@ -48,6 +51,14 @@ namespace DotNet.SpiderApplication.Client
         private static void myProcess_HasExited(object sender, System.EventArgs e)
         {
             MessageBox.Show("Process has exited.");
+        }
+        private ServiceHost host;
+        private void SpiderWCFNetPipe()
+        {
+            string l_serviceAddress = "net.pipe://127.0.0.1";
+            host = new ServiceHost(typeof(SpiderServer), new Uri[] { new Uri(l_serviceAddress) });
+            host.AddServiceEndpoint(typeof(ISpiderServer), new NetNamedPipeBinding(), "GetSpiderTask");
+            host.Open();
         }
 
         public Main()
@@ -94,36 +105,40 @@ namespace DotNet.SpiderApplication.Client
             //MessageBox.Show(WebBrowerManager.Instance.IEVersion);
             //Console.Read();
 
-            var data = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().GetProducts(" where Supplier=1 limit 0,10");
+            //var data = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().GetProducts(" where Supplier=1 limit 0,10");
 
-            var jsonData = data.ToJson();
-
+            //var jsonData = data.ToJson();
+            SpiderWCFNetPipe();
             MyProcess p = new MyProcess();
-            p.StartInfo.FileName = "ConsoleApplication1.exe";
-            p.EnableRaisingEvents = true;
+            p.StartInfo.FileName = Environment.CurrentDirectory + "\\SpiderInstance\\" + "DotNet.SpiderApplication.WebBrowerInstance.exe";
+            p.EnableRaisingEvents = false;
             p.StartInfo.CreateNoWindow = true;
             p.StartInfo.UseShellExecute = false;
-            p.StartInfo.Arguments = jsonData;
+            p.StartInfo.ErrorDialog = true;
+            //p.StartInfo.Arguments = jsonData;
             p.Exited += new EventHandler(myProcess_HasExited);
             p.Start();
             //p.WaitForInputIdle();
             //p.Stop();
+            Thread.Sleep(100);
+            var p1 = SingletonProvider<ProcessWatcher>.UniqueInstance;
+            p1.StartWatch();
             return;
 
             //MessageBox.Show(WebBrowerManager.Instance.IEVersion);
-            foreach (ProductInfo productInfo in data)
-            {
-                //using (var webbrower = new cEXWB())
-                //{
-                    //WebBrowerManager.Instance.Setup(webbrower);
-                    //WebBrowerManager.Instance.TimeOut = 15;
-                    var ver = SpiderManager.SpiderProductDetail(new SpiderProductInfo() { ECPlatformId = productInfo.ECPlatformId, Url = productInfo.Url, ProductId = productInfo.ProductId });
-                    CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().Update(ver);
-                    //MessageBox.Show(WebBrowerManager.Instance.IEVersion);
-                    WebBrowerManager.Instance.Clear();
-                //}
+            //foreach (ProductInfo productInfo in data)
+            //{
+            //    //using (var webbrower = new cEXWB())
+            //    //{
+            //        //WebBrowerManager.Instance.Setup(webbrower);
+            //        //WebBrowerManager.Instance.TimeOut = 15;
+            //        var ver = SpiderManager.SpiderProductDetail(new SpiderProductInfo() { ECPlatformId = productInfo.ECPlatformId, Url = productInfo.Url, ProductId = productInfo.ProductId });
+            //        CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().Update(ver);
+            //        //MessageBox.Show(WebBrowerManager.Instance.IEVersion);
+            //        WebBrowerManager.Instance.Clear();
+            //    //}
                 
-            }
+            //}
 
             return;
 

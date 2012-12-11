@@ -12,6 +12,8 @@ using DotNet.Web.Http;
 
 namespace DotNetTest
 {
+    using System.Diagnostics;
+
     using DotNet.BasicSpider;
 
     using csExWB;
@@ -27,6 +29,7 @@ namespace DotNetTest
 
         static void Main(string[] args)
         {
+            Process.Start("IExplore.exe", "www.northwindtraders.comTest");
 
             WebBrowerManager.Instance.Setup(new cEXWB());
             WebBrowerManager.Instance.TimeOut = 15;

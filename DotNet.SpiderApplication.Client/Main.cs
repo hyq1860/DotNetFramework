@@ -52,11 +52,13 @@ namespace DotNet.SpiderApplication.Client
         {
             MessageBox.Show("Process has exited.");
         }
+
         private ServiceHost host;
+
         private void SpiderWCFNetPipe()
         {
-            string l_serviceAddress = "net.pipe://127.0.0.1";
-            host = new ServiceHost(typeof(SpiderServer), new Uri[] { new Uri(l_serviceAddress) });
+            string serviceAddress = "net.pipe://127.0.0.1";
+            host = new ServiceHost(typeof(SpiderServer), new Uri[] { new Uri(serviceAddress) });
             host.AddServiceEndpoint(typeof(ISpiderServer), new NetNamedPipeBinding(), "GetSpiderTask");
             host.Open();
         }
@@ -125,23 +127,6 @@ namespace DotNet.SpiderApplication.Client
             p1.StartWatch();
             return;
 
-            //MessageBox.Show(WebBrowerManager.Instance.IEVersion);
-            //foreach (ProductInfo productInfo in data)
-            //{
-            //    //using (var webbrower = new cEXWB())
-            //    //{
-            //        //WebBrowerManager.Instance.Setup(webbrower);
-            //        //WebBrowerManager.Instance.TimeOut = 15;
-            //        var ver = SpiderManager.SpiderProductDetail(new SpiderProductInfo() { ECPlatformId = productInfo.ECPlatformId, Url = productInfo.Url, ProductId = productInfo.ProductId });
-            //        CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().Update(ver);
-            //        //MessageBox.Show(WebBrowerManager.Instance.IEVersion);
-            //        WebBrowerManager.Instance.Clear();
-            //    //}
-                
-            //}
-
-            return;
-
             // 亚马逊
             //Spider.AmazonSpider(string.Empty);
             Spider.AmazonProductList("http://www.amazon.cn/电脑及配件/b/ref=sd_allcat_pc_?ie=UTF8&node=888465051");
@@ -190,8 +175,6 @@ namespace DotNet.SpiderApplication.Client
 
             // 苏宁
             //Spider.SuNingSpider("www.suning.com/emall/SNProductCatgroupView?storeId=10052&catalogId=10051&flag=1");
-
-            
 
             //var dt=DataAccess.GetProductCategory(" ECPlatformId=4 limit 48,100");
             //if (dt != null && dt.Rows.Count > 0)

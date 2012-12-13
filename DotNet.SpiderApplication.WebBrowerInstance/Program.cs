@@ -14,7 +14,6 @@ using csExWB;
 
 namespace DotNet.SpiderApplication.WebBrowerInstance
 {
-    
     class Program
     {
         [STAThread]
@@ -23,21 +22,20 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
             // IOC的注入
             BootStrapperManager.Initialize(new NinjectBootstrapper());
             WebBrowerManager.Instance.Setup(new cEXWB());
-            string l_serviceAddress = "net.pipe://127.0.0.1/GetSpiderTask";
-            ChannelFactory<ISpiderServer> l_factory = new ChannelFactory<ISpiderServer>(new NetNamedPipeBinding(), new EndpointAddress(l_serviceAddress));
-            ISpiderServer server = l_factory.CreateChannel();
+            string serviceAddress = "net.pipe://127.0.0.1/GetSpiderTask";
+            ChannelFactory<ISpiderServer> channelFactory = new ChannelFactory<ISpiderServer>(new NetNamedPipeBinding(), new EndpointAddress(serviceAddress));
+            ISpiderServer server = channelFactory.CreateChannel();
             try
             {
-                var data= server.GetSpiderTask(5);
+                var data = server.GetSpiderTask(20);
 
                 foreach (var spiderProductInfo in data)
                 {
-                 //   var html=WebBrowerManager.Instance.Run(data.FirstOrDefault().Url);
-                 //server.SpiderProductDetail(new SpiderProductInfo() { Url = data.FirstOrDefault().Url });
+                    // var html=WebBrowerManager.Instance.Run(data.FirstOrDefault().Url);
+                    // server.SpiderProductDetail(new SpiderProductInfo() { Url = data.FirstOrDefault().Url });
                     var ver = SpiderManager.SpiderProductDetail(new SpiderProductInfo() { ECPlatformId = spiderProductInfo.ECPlatformId, Url = spiderProductInfo.Url, ProductId = spiderProductInfo.ProductId });
                     CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().Update(ver);
                 }
-                 
             }
             catch (Exception epnfex)
             {
@@ -46,7 +44,6 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
 
             Process currentProcess = Process.GetCurrentProcess();
             currentProcess.Kill();
-            Console.ReadKey();
         }
     }
 }

@@ -19,8 +19,9 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
     using csExWB;
 
     #region 京东
+
     /// <summary>
-    /// TODO: Update summary.
+    /// 京东商品采集
     /// </summary>
     public class JinDongProductSpider:IProductSpider
     {
@@ -62,6 +63,7 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
             throw new NotImplementedException();
         }
     }
+
     #endregion
 
     #region 易讯

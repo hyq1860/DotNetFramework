@@ -34,9 +34,6 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
     {
         public override void Load()
         {
-            //wcf注册
-            //Bind<ServiceHost>().To<NinjectServiceHost>();
-            //此处注册你的服务
             Bind<IProductDataAccess>().To<ProductDataAccess>();
             Bind<IProductService>().To<ProductService>();
         }

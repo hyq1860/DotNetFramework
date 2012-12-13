@@ -22,10 +22,15 @@ namespace DotNet.SpiderApplication.Service.Implemention.Service
     [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
     public class SpiderServer:ISpiderServer
     {
-        private SpiderTaskManager spiderTaskManager = new SpiderTaskManager();
+        private static SpiderTaskManager spiderTaskManager;
+        static SpiderServer()
+        {
+            spiderTaskManager = new SpiderTaskManager();
+        }
+
         public ProductInfo SpiderProductDetail(SpiderProductInfo spiderProduct)
         {
-            File.WriteAllText("z:\\"+System.Guid.NewGuid().ToString(),spiderProduct.Url);
+            //File.WriteAllText("z:\\"+System.Guid.NewGuid().ToString(),spiderProduct.Url);
             return new ProductInfo() {Url = spiderProduct.Url};
         }
 

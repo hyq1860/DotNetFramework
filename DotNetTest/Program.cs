@@ -112,7 +112,6 @@ namespace DotNetTest
             BootStrapperManager.Initialize(new NinjectBootstrapper());
 
             var add = CommonBootStrapper.ServiceLocator.GetInstance<Test>();
-            CommonBootStrapper.GetInstance<Test>()
             //add.Alert("ceshi");
             add.Test1();
 

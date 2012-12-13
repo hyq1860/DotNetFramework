@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Windows.Forms;
@@ -25,6 +26,52 @@ namespace DotNetTest
             if(string.IsNullOrEmpty(html))
                 return;
             MessageBox.Show(html);
+        }
+
+        public string  GetInfoPropertys(object objInfo)
+        {
+            StringBuilder strB = new StringBuilder();
+
+            if (objInfo == null) return string.Empty;
+            Type tInfo = objInfo.GetType();
+            PropertyInfo[] pInfos = tInfo.GetProperties();
+            if (tInfo.IsGenericType)
+            {
+                System.Collections.ICollection Ilist = objInfo as System.Collections.ICollection;
+                if (Ilist != null)
+                {
+                    strB.AppendFormat("集合子属性{0}<br/>", Ilist.Count);
+                    foreach (object obj in Ilist)
+                    {
+                        GetInfoPropertys(obj);
+                    }
+                }
+                else
+                {
+                    strB.Append("泛型集合为空<br/>");
+                }
+                return string.Empty;
+            }
+            foreach (PropertyInfo pTemp in pInfos)
+            {
+                string Pname = pTemp.Name;
+                string pTypeName = pTemp.PropertyType.Name;
+                object Pvalue = pTemp.GetValue(objInfo, null);
+                if (pTemp.PropertyType.IsValueType || pTemp.PropertyType.Name.StartsWith("String"))
+                {
+                    string value = (Pvalue == null ? "为空" : Pvalue.ToString());
+                    strB.AppendFormat("属性名：{0}，属性类型：{1}，属性值：{2}<br/>", Pname, pTypeName, value);
+                }
+                else
+                {
+                    string value = Pvalue == null ? "为空" : Pvalue.ToString();
+                    strB.AppendFormat("<br/><b>子类</b>，属性名：{0}，属性类型：{1}，属性值：{2}<br/>", Pname, pTypeName, value);
+                    strB.Append("----------------------------------------------<br/>");
+                    GetInfoPropertys(Pvalue);
+                }
+
+            }
+            return strB.ToString();
         }
 
         static void Main(string[] args)
@@ -65,6 +112,7 @@ namespace DotNetTest
             BootStrapperManager.Initialize(new NinjectBootstrapper());
 
             var add = CommonBootStrapper.ServiceLocator.GetInstance<Test>();
+            CommonBootStrapper.GetInstance<Test>()
             //add.Alert("ceshi");
             add.Test1();
 

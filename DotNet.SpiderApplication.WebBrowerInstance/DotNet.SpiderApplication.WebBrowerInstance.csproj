@@ -48,6 +48,12 @@
     <Reference Include="Ninject">
       <HintPath>..\RefDll\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Extensions.Wcf">
+      <HintPath>..\RefDll\Ninject.Extensions.Wcf.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common">
+      <HintPath>..\RefDll\Ninject.Web.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
@@ -102,6 +108,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="Configs\ConnectionString.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

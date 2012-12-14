@@ -36,6 +36,7 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
                  //server.SpiderProductDetail(new SpiderProductInfo() { Url = data.FirstOrDefault().Url });
                     var ver = SpiderManager.SpiderProductDetail(new SpiderProductInfo() { ECPlatformId = spiderProductInfo.ECPlatformId, Url = spiderProductInfo.Url, ProductId = spiderProductInfo.ProductId });
                     CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().Update(ver);
+                    ReportState(new SpiderState(){Url=ver.Url});
                 }
                  
             }
@@ -47,6 +48,42 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
             Process currentProcess = Process.GetCurrentProcess();
             currentProcess.Kill();
             Console.ReadKey();
+        }
+
+        public static  void ReportState(SpiderState state)
+        {
+            using (ChannelFactory<IServerToClient> factory = new ChannelFactory<IServerToClient>(new NetNamedPipeBinding(), new EndpointAddress("net.pipe://127.0.0.1/Server")))
+            {
+                IServerToClient clientToServerChannel = factory.CreateChannel();
+                try
+                {
+                    clientToServerChannel.ReportStatus(state);
+                }
+                catch (Exception ex)
+                {
+                    
+                }
+                finally
+                {
+                    CloseChannel((ICommunicationObject)clientToServerChannel);
+                }
+            }
+        }
+
+        private static  void CloseChannel(ICommunicationObject channel)
+        {
+            try
+            {
+                channel.Close();
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                channel.Abort();
+            }
         }
     }
 }

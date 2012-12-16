@@ -20,6 +20,8 @@ using HtmlAgilityPack;
 
 namespace DotNet.SpiderApplication.Client
 {
+    using System.Drawing;
+
     using Amib.Threading;
 
     using DotNet.Base.Service;
@@ -36,39 +38,61 @@ namespace DotNet.SpiderApplication.Client
 
     using ICalculator = DotNet.SpiderApplication.Contract.ICalculator;
 
-    class MyProcess : Process
-    {
-        public void Stop()
-        {
-            this.CloseMainWindow();
-            this.Close();
-            OnExited();
-        }
-    }
+    //class MyProcess : Process
+    //{
+    //    public void Stop()
+    //    {
+    //        this.CloseMainWindow();
+    //        this.Close();
+    //        OnExited();
+    //    }
+    //}
 
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
     public partial class Main : Form, IServerToClient
     {
-        private static void myProcess_HasExited(object sender, System.EventArgs e)
-        {
-            MessageBox.Show("Process has exited.");
-        }
+        //private static void myProcess_HasExited(object sender, System.EventArgs e)
+        //{
+        //    MessageBox.Show("Process has exited.");
+        //}
 
         private ServiceHost host;
-        ServiceHost _serverHost;
+        
         private void SpiderWCFNetPipe()
         {
-            string serviceAddress = "net.pipe://127.0.0.1";
-            host = new ServiceHost(typeof(SpiderServer), new Uri[] { new Uri(serviceAddress) });
-            host.AddServiceEndpoint(typeof(ISpiderServer), new NetNamedPipeBinding(), "GetSpiderTask");
-            host.Open();
+            this.host = new ServiceHost(typeof(SpiderServer), new Uri[] { new Uri("net.pipe://127.0.0.1") });
+            this.host.AddServiceEndpoint(typeof(ISpiderServer), new NetNamedPipeBinding(), "GetSpiderTask");
+            this.host.Open();
         }
+
+        private ServiceHost serverHost;
 
         private void Report()
         {
-            _serverHost = new ServiceHost(this);
-            _serverHost.AddServiceEndpoint((typeof(IServerToClient)), new NetNamedPipeBinding(), "net.pipe://127.0.0.1/Server");
-            _serverHost.Open();
+            this.serverHost = new ServiceHost(this);
+            this.serverHost.AddServiceEndpoint(typeof(IServerToClient), new NetNamedPipeBinding(), "net.pipe://127.0.0.1/Server");
+            this.serverHost.Open();
+        }
+
+        private ToolStripStatusLabelWithBar toolStripProgressBar;
+
+        private ToolStripStatusLabel toolStripStatusLabel;
+
+        private void InitControls()
+        {
+            // 初始化状态栏进度条
+            this.toolStripProgressBar = new ToolStripStatusLabelWithBar();
+            this.toolStripProgressBar.Visible = true;
+            this.toolStripProgressBar.BarColor = Color.DeepSkyBlue;
+
+            // label
+            this.toolStripStatusLabel = new ToolStripStatusLabel();
+            this.toolStripStatusLabel.Spring = true;
+            
+            this.toolStripStatusLabel.TextAlign=ContentAlignment.BottomLeft;
+
+            this.statusStrip.Items.Add(this.toolStripStatusLabel);
+            this.statusStrip.Items.Add(this.toolStripProgressBar);
         }
 
         public Main()
@@ -118,22 +142,21 @@ namespace DotNet.SpiderApplication.Client
             //var data = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().GetProducts(" where Supplier=1 limit 0,10");
 
             //var jsonData = data.ToJson();
+            InitControls();
             SpiderWCFNetPipe();
             Report();
-            MyProcess p = new MyProcess();
+            Process p = new Process();
             p.StartInfo.FileName = Environment.CurrentDirectory + "\\SpiderInstance\\" + "DotNet.SpiderApplication.WebBrowerInstance.exe";
             p.EnableRaisingEvents = false;
             p.StartInfo.CreateNoWindow = true;
             p.StartInfo.UseShellExecute = false;
             p.StartInfo.ErrorDialog = true;
             //p.StartInfo.Arguments = jsonData;
-            p.Exited += new EventHandler(myProcess_HasExited);
+            //p.Exited += new EventHandler(myProcess_HasExited);
             //p.Start();
             //p.WaitForInputIdle();
             //p.Stop();
-            Thread.Sleep(100);
-            var p1 = SingletonProvider<ProcessWatcher>.UniqueInstance;
-            //p1.StartWatch();
+
             return;
 
             // 亚马逊
@@ -198,7 +221,6 @@ namespace DotNet.SpiderApplication.Client
             //    }
             //}
 
-            
 
             //淘宝
             //Spider.TaoBaoDetail();
@@ -244,6 +266,7 @@ namespace DotNet.SpiderApplication.Client
                 return;
             MessageBox.Show(html);
         }
+
         private bool IsDocumentFinish;
 
         private DuplexChannelFactory<ICalculator> ChannelFactory;
@@ -255,6 +278,8 @@ namespace DotNet.SpiderApplication.Client
 
         private void Main_Load(object sender, EventArgs e)
         {
+            var p1 = SingletonProvider<ProcessWatcher>.UniqueInstance;
+            //p1.StartWatch();
             return;
             //TestSqlite();
             var dt = DataAccess.GetProductCategory(" ECPlatformId=4 limit 48,60");
@@ -448,7 +473,7 @@ namespace DotNet.SpiderApplication.Client
 
         void DelegateSetValue(object obj)
         {
-            this.label1.Text = obj.ToString();
+            //this.toolStripStatusLabel.Text = obj.ToString();
         }
 
         #region 浏览器控件的一些辅助方法
@@ -713,16 +738,16 @@ namespace DotNet.SpiderApplication.Client
                     var Elapse = (DateTime.Now.Ticks - Start) / 10000;
                     //q.Stop();
 
-                    if (label1.InvokeRequired)
-                    {
-                        D d = new D(DelegateSetValue);
-                        label1.Invoke(d, spider.Url + ":" + string.Format("{0}/{1}/网络采集时间：{2}毫秒", i, toProcessUrl.Count, Elapse));
+                    //if (label1.InvokeRequired)
+                    //{
+                    //    D d = new D(DelegateSetValue);
+                    //    label1.Invoke(d, spider.Url + ":" + string.Format("{0}/{1}/网络采集时间：{2}毫秒", i, toProcessUrl.Count, Elapse));
 
-                    }
-                    else
-                    {
-                        this.label1.Text = spider.Url + ":" + string.Format("{0}/{1}", i, toProcessUrl.Count);
-                    }
+                    //}
+                    //else
+                    //{
+                    //    this.label1.Text = spider.Url + ":" + string.Format("{0}/{1}", i, toProcessUrl.Count);
+                    //}
                     if(!string.IsNullOrEmpty(wb.DocumentSource))
                     {
                         var htmlDocument= HtmlAgilityPackHelper.GetHtmlDocument(wb.DocumentSource);
@@ -774,20 +799,20 @@ namespace DotNet.SpiderApplication.Client
                 
                 SetMessage(string.Format("{0}条数据已上传",data.Count));
             }
-
         }
+
         private void SetMessage(string message)
         {
-            if (label1.InvokeRequired)
-            {
-                D d = new D(DelegateSetValue);
-                label1.Invoke(d, message);
+            //if (label1.InvokeRequired)
+            //{
+            //    D d = new D(DelegateSetValue);
+            //    label1.Invoke(d, message);
 
-            }
-            else
-            {
-                this.label1.Text = message;
-            }
+            //}
+            //else
+            //{
+            //    this.label1.Text = message;
+            //}
         }
 
         static void pWb_DocumentComplete(object sender, DocumentCompleteEventArgs e)
@@ -816,7 +841,29 @@ namespace DotNet.SpiderApplication.Client
 
         private void Main_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Application.Exit();
+            // 杀掉浏览器客户端进程
+            this.KillProcess("DotNet.SpiderApplication.WebBrowerInstance");
+            Environment.Exit(0);
+        }
+
+        /// <summary>
+        /// 杀进程
+        /// </summary>
+        /// <param name="processName">
+        /// The process name.
+        /// </param>
+        private void KillProcess(string processName)
+        {
+            var processes = Process.GetProcesses();
+            foreach (var process in processes)
+            {
+                if (process.ProcessName != processName)
+                {
+                    continue;
+                }
+
+                process.Kill();
+            }
         }
 
         private void btnGenerateAutoUpdateXml_Click(object sender, EventArgs e)
@@ -859,7 +906,6 @@ namespace DotNet.SpiderApplication.Client
                     
                     fileLists.Add(autoUpdateFile);
                 }
-                
             }
             foreach (DirectoryInfo dirSub in diroot.GetDirectories())
             {
@@ -875,10 +921,35 @@ namespace DotNet.SpiderApplication.Client
                 _registeredClients.Add(clientID);
         }
 
+        private int totalTask;
+
+        private int currentTaskCount;
         public void ReportStatus(SpiderState state)
         {
-            this.label1.Text = state.Url;
-            this.Text = state.Url;
+            //MessageBox.Show(state.Url);
+            if (currentTaskCount==0)
+            {
+                totalTask = state.TaskCount;
+            }
+
+            currentTaskCount++;
+            toolStripStatusLabel.Text = state.Url;
+            //this.Text = state.Url;
+            if (this.toolStripProgressBar.Maximum != state.TaskCount)
+            {
+                this.toolStripProgressBar.Maximum = state.TaskCount;
+                //this.toolStripProgressBar.Step = state.TaskCount;
+                this.toolStripProgressBar.Minimum = 0;
+                this.toolStripProgressBar.Width = 200;
+            }
+
+            if (currentTaskCount%state.TaskCount==0)
+            {
+               totalTask += state.TaskCount; 
+            }
+            
+            this.toolStripProgressBar.Text = state.Current+"/"+state.TaskCount+"/"+this.totalTask;
+            this.toolStripProgressBar.Value = state.Current;
         }
     }
 }

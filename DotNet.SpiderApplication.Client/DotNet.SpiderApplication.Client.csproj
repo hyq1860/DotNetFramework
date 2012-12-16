@@ -90,7 +90,7 @@
     <Compile Include="CalculatorCallbackService.cs" />
     <Compile Include="AutoUpdaterHelper.cs" />
     <Compile Include="Main.cs">
-      <SubType>Component</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
@@ -112,6 +112,7 @@
     <Compile Include="Spider\News.cs" />
     <Compile Include="Spider\Spider.cs" />
     <Compile Include="Spider\SpiderManager.cs" />
+    <Compile Include="StatusLableWithBar.cs" />
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>

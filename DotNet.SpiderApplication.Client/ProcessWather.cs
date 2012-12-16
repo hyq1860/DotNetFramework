@@ -14,9 +14,6 @@ using DotNet.Common.Logging;
 namespace DotNet.SpiderApplication.Client
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// TODO: Update summary.
@@ -148,8 +145,8 @@ namespace DotNet.SpiderApplication.Client
         /// 构造函数
         /// </summary>
         public ProcessRestart()
-        { }
-
+        {
+        }
 
         /// <summary>
         /// 构造函数
@@ -192,7 +189,5 @@ namespace DotNet.SpiderApplication.Client
                     + ")的监控，错误描述为：" + ex.Message.ToString());
             }
         }
-
-
     }
 }

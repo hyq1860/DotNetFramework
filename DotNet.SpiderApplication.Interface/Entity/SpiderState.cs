@@ -19,7 +19,7 @@ namespace DotNet.SpiderApplication.Contract.Entity
         /// <summary>
         /// 采集总任务数
         /// </summary>
-        public int TsakCount { get; set; }
+        public int TaskCount { get; set; }
 
         /// <summary>
         /// 当前完成的数

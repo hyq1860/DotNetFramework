@@ -30,5 +30,7 @@ namespace DotNet.SpiderApplication.Contract.Entity
         public string Source { get; set; }
 
         public int ECPlatformId { get; set; }
+
+        public List<string> HttpRequestUrls { get; set; } 
     }
 }

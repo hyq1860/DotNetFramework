@@ -13,6 +13,8 @@ using DotNet.Common.Logging;
 
 namespace DotNet.BasicSpider
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// 浏览器组件的管理类，入口
     /// 仅用于winform
@@ -167,12 +169,20 @@ namespace DotNet.BasicSpider
         public void Setup(cEXWB wb)
         {
             this.WB = wb;
-            if (this.WB == null) return;
-            this.SetupWebBrower(WB);
-            this.RegiserWebBrowerHandler(WB);
+            if (this.WB == null)
+            {
+                return;
+            }
+
+            this.SetupWebBrower(this.WB);
+            this.RegiserWebBrowerHandler(this.WB);
 
             // need to initialize the webbrowser control by calling NavToBlank() at least once
-            WB.NavToBlank();
+            this.WB.NavToBlank();
+            if (this.HttpRequestUrls == null)
+            {
+                this.HttpRequestUrls = new List<string>();
+            }
         }
 
         /// <summary>
@@ -191,6 +201,11 @@ namespace DotNet.BasicSpider
         /// </summary>
         public string IEVersion { get; set; }
 
+        /// <summary>
+        /// 请求的url
+        /// </summary>
+        public List<string> HttpRequestUrls { get; set; } 
+
 
         /// <summary>
         /// 采集页面，返回页面html
@@ -202,6 +217,11 @@ namespace DotNet.BasicSpider
             if (string.IsNullOrEmpty(url))
             {
                 return string.Empty;
+            }
+
+            if (this.HttpRequestUrls.Count > 0)
+            {
+                this.HttpRequestUrls.Clear();
             }
 
             WB.Navigate(url);
@@ -224,10 +244,12 @@ namespace DotNet.BasicSpider
             {
                 return string.Empty;
             }
-            Elapse = elapse;
+
+            this.Elapse = elapse;
             this.IsDocumentFinish = false;
+
             // 获取ie浏览器版本
-            IEVersion=WB.IEVersion();
+            this.IEVersion = this.WB.IEVersion();
 
             /* 自动登陆
             To automate login, navigate to login page, 
@@ -238,7 +260,7 @@ namespace DotNet.BasicSpider
             WB.AutomationTask_PerformClickButton("SubmitButton_Name");
              */
 
-            return WB.DocumentSource;
+            return this.WB.DocumentSource;
         }
 
         /// <summary>
@@ -357,6 +379,7 @@ namespace DotNet.BasicSpider
             wb.Silent = false;//whether the Webbrowser control can show dialog boxes 
             //wb.FileDownloadDirectory = "C:\\Documents and Settings\\Mike\\My Documents\\";
             wb.FileDownloadDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + System.IO.Path.DirectorySeparatorChar.ToString();
+            //wb.UseInternalDownloadManager = true;
         }
 
         /// <summary>
@@ -384,7 +407,13 @@ namespace DotNet.BasicSpider
                 wb.ProcessUrlAction += new ProcessUrlActionEventHandler(WebBrower_ProcessUrlAction);
                 //wb.WBEvaluteNewWindow += new EvaluateNewWindowEventHandler(WebBrower_WBEvaluteNewWindow);
                 wb.NewWindow2 += new NewWindow2EventHandler(WebBrower_NewWindow2);
+                //wb.FileDownloadExStart += new FileDownloadExEventHandler(WebBrower_FileDownloadExStart);
             }
+        }
+
+        private void WebBrower_FileDownloadExStart(object sender,FileDownloadEventArgs e)
+        {
+            
         }
 
         //all new_window action is ignored.
@@ -432,6 +461,11 @@ namespace DotNet.BasicSpider
         //Fired to indicate when a response from a server has been received
         void WebBrower_ProtocolHandlerOnResponse(object sender, ProtocolHandlerOnResponseEventArgs e)
         {
+            if (e.URL.EndsWith(".css"))
+            {
+                e.Cancel = true;
+                return;
+            }
             //Debug.Print(">>>>>>ProtocolHandlerOnResponse=> " + e.URL);
             //+ "\r\nResponseHeaders >>\r\n" + e.ResponseHeaders);
         }
@@ -439,6 +473,15 @@ namespace DotNet.BasicSpider
         //Fired to indicate when a request for a resource is about to be initiated
         void WebBrower_ProtocolHandlerBeginTransaction(object sender, ProtocolHandlerBeginTransactionEventArgs e)
         {
+            HttpRequestUrls.Add(e.URL);
+            if(e.URL.EndsWith(".css"))
+            {
+                e.Cancel = true;
+            }
+            else if (e.URL.EndsWith(".ico"))
+            {
+                e.Cancel = true;
+            }
             //Debug.Print(">>>>>>ProtocolHandlerBeginTransaction=> " + e.URL);
             //+ "\r\nRequestHeaders >>\r\n" + e.RequestHeaders);
         }

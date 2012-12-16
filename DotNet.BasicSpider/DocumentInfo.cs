@@ -16,6 +16,10 @@ namespace DotNet.BasicSpider
     /// </summary>
     public class DocumentInfo
     {
+        public DocumentInfo()
+        {
+            HttpRequestUrls=new List<string>();
+        }
         public string Url { get; set; }
 
         public string Domain { get; set; }
@@ -25,5 +29,7 @@ namespace DotNet.BasicSpider
         public string Cookie { get; set; }
 
         public string Referrer { get; set; }
+
+        public List<string> HttpRequestUrls { get; set; } 
     }
 }

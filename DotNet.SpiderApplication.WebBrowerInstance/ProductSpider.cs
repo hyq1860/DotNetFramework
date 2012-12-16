@@ -53,8 +53,8 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
                 }
 
             }
-            
-            return new ProductInfo() { Source = html, ProductId = spiderProduct.ProductId,Url=spiderProduct.Url };
+
+            return new ProductInfo() { Source = html, ProductId = spiderProduct.ProductId, Url = spiderProduct.Url, HttpRequestUrls = WebBrowerManager.Instance.HttpRequestUrls };
         }
 
 

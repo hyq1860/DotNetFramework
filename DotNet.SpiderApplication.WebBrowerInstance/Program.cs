@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using DotNet.BasicSpider;
-using DotNet.IoC;
-using DotNet.SpiderApplication.Contract;
-using DotNet.SpiderApplication.Contract.Entity;
-using DotNet.SpiderApplication.Contract.WCF;
-using csExWB;
-
-namespace DotNet.SpiderApplication.WebBrowerInstance
+﻿namespace DotNet.SpiderApplication.WebBrowerInstance
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.ServiceModel;
+
+    using DotNet.BasicSpider;
+    using DotNet.IoC;
+    using DotNet.SpiderApplication.Contract;
+    using DotNet.SpiderApplication.Contract.Entity;
+    using DotNet.SpiderApplication.Contract.WCF;
+
+    using csExWB;
+
     class Program
     {
         [STAThread]
@@ -22,20 +22,16 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
             // IOC的注入
             BootStrapperManager.Initialize(new NinjectBootstrapper());
             WebBrowerManager.Instance.Setup(new cEXWB());
-            string serviceAddress = "net.pipe://127.0.0.1/GetSpiderTask";
-            ChannelFactory<ISpiderServer> channelFactory = new ChannelFactory<ISpiderServer>(new NetNamedPipeBinding(), new EndpointAddress(serviceAddress));
-            ISpiderServer server = channelFactory.CreateChannel();
             try
             {
-                var data = server.GetSpiderTask(20);
-
+                var data = GetSpiderTask(20);
+                int i = 0;
                 foreach (var spiderProductInfo in data)
                 {
-                    // var html=WebBrowerManager.Instance.Run(data.FirstOrDefault().Url);
-                    // server.SpiderProductDetail(new SpiderProductInfo() { Url = data.FirstOrDefault().Url });
+                    i++;
                     var ver = SpiderManager.SpiderProductDetail(new SpiderProductInfo() { ECPlatformId = spiderProductInfo.ECPlatformId, Url = spiderProductInfo.Url, ProductId = spiderProductInfo.ProductId });
                     CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().Update(ver);
-                    ReportState(new SpiderState(){Url=ver.Url});
+                    ReportState(new SpiderState() { Url = ver.Url,TaskCount=data.Count,Current =i });
                 }
             }
             catch (Exception epnfex)
@@ -45,6 +41,27 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
 
             Process currentProcess = Process.GetCurrentProcess();
             currentProcess.Kill();
+        }
+
+        public static List<SpiderProductInfo> GetSpiderTask(int count)
+        {
+            string serviceAddress = "net.pipe://127.0.0.1/GetSpiderTask";
+            using (var channelFactory = new ChannelFactory<ISpiderServer>(new NetNamedPipeBinding(), new EndpointAddress(serviceAddress)))
+            {
+                ISpiderServer server = channelFactory.CreateChannel();
+                try
+                {
+                    return server.GetSpiderTask(count);
+                }
+                catch (Exception exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    CloseChannel((ICommunicationObject)server);
+                }
+            }
         }
 
         public static  void ReportState(SpiderState state)
@@ -58,7 +75,7 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
                 }
                 catch (Exception ex)
                 {
-                    
+                    throw;
                 }
                 finally
                 {
@@ -75,7 +92,7 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.ToString());
+                throw;
             }
             finally
             {

@@ -8,9 +8,12 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using DotNet.Common.Core;
 using DotNet.Common.Logging;
 using DotNet.SpiderApplication.Contract;
 using DotNet.SpiderApplication.Contract.Entity;
+using DotNet.SpiderApplication.Contract.WCF;
+using DotNet.SpiderApplication.Service.Implemention.Service;
 using IfacesEnumsStructsClasses;
 using csExWB;
 using HtmlAgilityPack;
@@ -19,10 +22,13 @@ namespace DotNet.SpiderApplication.Client
 {
     using Amib.Threading;
 
+    using DotNet.Base.Service;
     using DotNet.BasicSpider;
     using DotNet.Common;
     using DotNet.Common.Configuration;
+    using DotNet.Common.Utility;
     using DotNet.Data;
+    using DotNet.IoC;
     using DotNet.SpiderApplication.Service;
     using DotNet.Web.Http;
 
@@ -30,8 +36,41 @@ namespace DotNet.SpiderApplication.Client
 
     using ICalculator = DotNet.SpiderApplication.Contract.ICalculator;
 
-    public partial class Main : Form
+    class MyProcess : Process
     {
+        public void Stop()
+        {
+            this.CloseMainWindow();
+            this.Close();
+            OnExited();
+        }
+    }
+
+    [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
+    public partial class Main : Form, IServerToClient
+    {
+        private static void myProcess_HasExited(object sender, System.EventArgs e)
+        {
+            MessageBox.Show("Process has exited.");
+        }
+
+        private ServiceHost host;
+        ServiceHost _serverHost;
+        private void SpiderWCFNetPipe()
+        {
+            string serviceAddress = "net.pipe://127.0.0.1";
+            host = new ServiceHost(typeof(SpiderServer), new Uri[] { new Uri(serviceAddress) });
+            host.AddServiceEndpoint(typeof(ISpiderServer), new NetNamedPipeBinding(), "GetSpiderTask");
+            host.Open();
+        }
+
+        private void Report()
+        {
+            _serverHost = new ServiceHost(this);
+            _serverHost.AddServiceEndpoint((typeof(IServerToClient)), new NetNamedPipeBinding(), "net.pipe://127.0.0.1/Server");
+            _serverHost.Open();
+        }
+
         public Main()
         {
             InitializeComponent();
@@ -51,10 +90,50 @@ namespace DotNet.SpiderApplication.Client
             //WebBrowerManager.Instance.CheckCsExwbIsRegistered();
             //WebBrowerManager.Instance.UnregisterCsExwb();
             //WebBrowerManager.Instance.CheckCsExwbIsRegistered();
-            WebBrowerManager.Instance.UnregisterCsExwb();
-            WebBrowerManager.Instance.CheckCsExwbIsRegistered();
 
-            SpiderManager.SpiderProductList(new SpiderCategoryInfo() { CategoryUrl = "http://www.zzkjdk.com/ContentV2.aspx?id=1", ECPlatformId = 2 });
+            //WebBrowerManager.Instance.Setup(new cEXWB());
+            //WebBrowerManager.Instance.TimeOut = 15;
+            //var states = new List<string>();
+            //states.Add("http://www.360buy.com/product/222701.html");
+            //states.Add("http://www.360buy.com/product/682747.html");
+            //states.Add("http://www.360buy.com/product/222704.html");
+            //states.Add("http://www.360buy.com/product/222701.html");
+            //states.Add("http://www.360buy.com/product/354444.html");
+            //states.Add("http://www.360buy.com/product/352655.html");
+            //states.Add("http://www.360buy.com/product/481284.html");
+            //states.Add("http://www.360buy.com/product/563181.html");
+            //states.Add("http://www.360buy.com/product/481245.html");
+            //states.Add("http://www.360buy.com/product/673975.html");
+            //int i = 0;
+            //foreach (var state1 in states)
+            //{
+            //    var html1 = WebBrowerManager.Instance.Run(state1);
+            //    File.WriteAllText("z:\\"+i+".html",html1,Encoding.UTF8);
+            //    i++;
+            //}
+            
+            //MessageBox.Show(WebBrowerManager.Instance.IEVersion);
+            //Console.Read();
+
+            //var data = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().GetProducts(" where Supplier=1 limit 0,10");
+
+            //var jsonData = data.ToJson();
+            SpiderWCFNetPipe();
+            Report();
+            MyProcess p = new MyProcess();
+            p.StartInfo.FileName = Environment.CurrentDirectory + "\\SpiderInstance\\" + "DotNet.SpiderApplication.WebBrowerInstance.exe";
+            p.EnableRaisingEvents = false;
+            p.StartInfo.CreateNoWindow = true;
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.ErrorDialog = true;
+            //p.StartInfo.Arguments = jsonData;
+            p.Exited += new EventHandler(myProcess_HasExited);
+            //p.Start();
+            //p.WaitForInputIdle();
+            //p.Stop();
+            Thread.Sleep(100);
+            var p1 = SingletonProvider<ProcessWatcher>.UniqueInstance;
+            //p1.StartWatch();
             return;
 
             // 亚马逊
@@ -105,8 +184,6 @@ namespace DotNet.SpiderApplication.Client
 
             // 苏宁
             //Spider.SuNingSpider("www.suning.com/emall/SNProductCatgroupView?storeId=10052&catalogId=10051&flag=1");
-
-            
 
             //var dt=DataAccess.GetProductCategory(" ECPlatformId=4 limit 48,100");
             //if (dt != null && dt.Rows.Count > 0)
@@ -788,6 +865,20 @@ namespace DotNet.SpiderApplication.Client
             {
                 GetFileList(dirSub, fileLists);
             }
+        }
+
+        List<Guid> _registeredClients = new List<Guid>();
+
+        public void Register(Guid clientID)
+        {
+            if (!_registeredClients.Contains(clientID))
+                _registeredClients.Add(clientID);
+        }
+
+        public void ReportStatus(SpiderState state)
+        {
+            this.label1.Text = state.Url;
+            this.Text = state.Url;
         }
     }
 }

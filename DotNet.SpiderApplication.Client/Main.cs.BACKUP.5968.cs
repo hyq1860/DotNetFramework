@@ -55,7 +55,11 @@ namespace DotNet.SpiderApplication.Client
         }
 
         private ServiceHost host;
+<<<<<<< HEAD
+
+=======
         ServiceHost _serverHost;
+>>>>>>> 023b8b53e9c71a38297f07c00a5105c2205193ab
         private void SpiderWCFNetPipe()
         {
             string serviceAddress = "net.pipe://127.0.0.1";

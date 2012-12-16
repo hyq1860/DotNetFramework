@@ -46,8 +46,7 @@ namespace DotNet.SpiderApplication.Client
         }
     }
 
-    [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
-    public partial class Main : Form, IServerToClient
+    public partial class Main : Form
     {
         private static void myProcess_HasExited(object sender, System.EventArgs e)
         {
@@ -55,20 +54,13 @@ namespace DotNet.SpiderApplication.Client
         }
 
         private ServiceHost host;
-        ServiceHost _serverHost;
+
         private void SpiderWCFNetPipe()
         {
             string serviceAddress = "net.pipe://127.0.0.1";
             host = new ServiceHost(typeof(SpiderServer), new Uri[] { new Uri(serviceAddress) });
             host.AddServiceEndpoint(typeof(ISpiderServer), new NetNamedPipeBinding(), "GetSpiderTask");
             host.Open();
-        }
-
-        private void Report()
-        {
-            _serverHost = new ServiceHost(this);
-            _serverHost.AddServiceEndpoint((typeof(IServerToClient)), new NetNamedPipeBinding(), "net.pipe://127.0.0.1/Server");
-            _serverHost.Open();
         }
 
         public Main()
@@ -119,7 +111,6 @@ namespace DotNet.SpiderApplication.Client
 
             //var jsonData = data.ToJson();
             SpiderWCFNetPipe();
-            Report();
             MyProcess p = new MyProcess();
             p.StartInfo.FileName = Environment.CurrentDirectory + "\\SpiderInstance\\" + "DotNet.SpiderApplication.WebBrowerInstance.exe";
             p.EnableRaisingEvents = false;
@@ -128,12 +119,12 @@ namespace DotNet.SpiderApplication.Client
             p.StartInfo.ErrorDialog = true;
             //p.StartInfo.Arguments = jsonData;
             p.Exited += new EventHandler(myProcess_HasExited);
-            //p.Start();
+            p.Start();
             //p.WaitForInputIdle();
             //p.Stop();
             Thread.Sleep(100);
             var p1 = SingletonProvider<ProcessWatcher>.UniqueInstance;
-            //p1.StartWatch();
+            p1.StartWatch();
             return;
 
             // 亚马逊
@@ -865,20 +856,6 @@ namespace DotNet.SpiderApplication.Client
             {
                 GetFileList(dirSub, fileLists);
             }
-        }
-
-        List<Guid> _registeredClients = new List<Guid>();
-
-        public void Register(Guid clientID)
-        {
-            if (!_registeredClients.Contains(clientID))
-                _registeredClients.Add(clientID);
-        }
-
-        public void ReportStatus(SpiderState state)
-        {
-            this.label1.Text = state.Url;
-            this.Text = state.Url;
         }
     }
 }

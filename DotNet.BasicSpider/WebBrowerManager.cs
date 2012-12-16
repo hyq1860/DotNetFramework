@@ -470,6 +470,7 @@ namespace DotNet.BasicSpider
             //+ "\r\nResponseHeaders >>\r\n" + e.ResponseHeaders);
         }
 
+        //http://code.google.com/p/csexwb2/issues/detail?id=77
         //Fired to indicate when a request for a resource is about to be initiated
         void WebBrower_ProtocolHandlerBeginTransaction(object sender, ProtocolHandlerBeginTransactionEventArgs e)
         {

@@ -58,8 +58,14 @@
                 {
                     return server.GetSpiderTask(count);
                 }
-                catch (Exception exception)
+                catch (TimeoutException)
                 {
+                    (server as ICommunicationObject).Abort();
+                    throw;
+                }
+                catch (CommunicationException)
+                {
+                    (server as ICommunicationObject).Abort();
                     throw;
                 }
                 finally
@@ -78,8 +84,14 @@
                 {
                     clientToServerChannel.ReportStatus(state);
                 }
-                catch (Exception ex)
+                catch (TimeoutException)
                 {
+                    (clientToServerChannel as ICommunicationObject).Abort();
+                    throw;
+                }
+                catch (CommunicationException)
+                {
+                    (clientToServerChannel as ICommunicationObject).Abort();
                     throw;
                 }
                 finally

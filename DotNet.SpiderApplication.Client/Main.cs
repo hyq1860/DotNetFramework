@@ -75,6 +75,8 @@ namespace DotNet.SpiderApplication.Client
             this.serverHost.Open();
         }
 
+        private static SpiderTaskManager spiderTaskManager;
+
         private ToolStripStatusLabelWithBar toolStripProgressBar;
 
         private ToolStripStatusLabel toolStripStatusLabel;
@@ -117,32 +119,8 @@ namespace DotNet.SpiderApplication.Client
             this.statusStrip.Height = 18;
         }
 
-        public Main()
+        private void StartWebBrower()
         {
-            InitializeComponent();
-            //Sunisoft.IrisSkin.SkinEngine skin = new Sunisoft.IrisSkin.SkinEngine();
-            //skin.SkinFile = System.Environment.CurrentDirectory + "\\skins\\" + "DeepCyan.ssk";
-            //skin.Active = true;
-            //Init();
-            //AutoUpdaterHelper.AutoUpdater();
-
-            //var productService = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>();
-            //var data = productService.GetProducts(string.Empty);
-
-            // csexwb组建注册
-            //WebBrowerManager.Instance.CheckCsExwbIsRegistered();
-            //WebBrowerManager.Instance.Register();
-            //WebBrowerManager.Instance.RegisterCsExwb();
-            //WebBrowerManager.Instance.CheckCsExwbIsRegistered();
-            //WebBrowerManager.Instance.UnregisterCsExwb();
-            //WebBrowerManager.Instance.CheckCsExwbIsRegistered();
-
-            //var data = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().GetProducts(" where Supplier=1 limit 0,10");
-
-            //var jsonData = data.ToJson();
-            InitControls();
-            SpiderWCFNetPipe();
-            Report();
             Process p = new Process();
             p.StartInfo.FileName = Environment.CurrentDirectory + "\\SpiderInstance\\" + "DotNet.SpiderApplication.WebBrowerInstance.exe";
             p.EnableRaisingEvents = false;
@@ -154,9 +132,29 @@ namespace DotNet.SpiderApplication.Client
             //p.Start();
             //p.WaitForInputIdle();
             //p.Stop();
+        }
+
+        public Main()
+        {
+            InitializeComponent();
+
+            //Init();
+            //AutoUpdaterHelper.AutoUpdater();
+
+            InitControls();
+
+            SpiderWCFNetPipe();
+
+            Report();
+
+            // 初始化采集任务管理类
+            spiderTaskManager = new SpiderTaskManager();
+
+            StartWebBrower();
 
             return;
 
+            #region 注释
             // 亚马逊
             //Spider.AmazonSpider(string.Empty);
             Spider.AmazonProductList("http://www.amazon.cn/电脑及配件/b/ref=sd_allcat_pc_?ie=UTF8&node=888465051");
@@ -256,13 +254,7 @@ namespace DotNet.SpiderApplication.Client
                     }
                 }
             }
-        }
-
-        public static void HtmlParse(string html)
-        {
-            if (string.IsNullOrEmpty(html))
-                return;
-            MessageBox.Show(html);
+            #endregion
         }
 
         private bool IsDocumentFinish;
@@ -311,22 +303,6 @@ namespace DotNet.SpiderApplication.Client
             MessageBox.Show("采集成功");
         }
 
-        private void TestSqlite()
-        {
-            var rd = new Random();
-            using (DataCommand cmd = DataCommandManager.GetDataCommand("InsertProductPrice"))
-            {
-                for (int i = 1; i < 100000; i++)
-                {
-                    cmd.SetParameterValue("@ProductId", PrimaryKeyGenerator.NewComb().ToString().Replace("-", ""));
-                    cmd.SetParameterValue("@Name", "仅售255元，限时抢购！！抢购时间10.29-10.30 24：00");
-                    cmd.SetParameterValue("@Price", rd.Next(1, 50000));
-                    cmd.SetParameterValue("@InDate", DateTime.Now);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
-
         private void Init()
         {
             CallbackService = new CalculatorCallbackService();
@@ -351,19 +327,18 @@ namespace DotNet.SpiderApplication.Client
             var data = Calculator.GetProcessData("client1");
             if (data != null && data.Count > 0)
             {
-                Thread t1 = new Thread(new ParameterizedThreadStart(DoSomethingWithParameterV2));
-                t1.SetApartmentState(ApartmentState.STA);
-                t1.Start(data);
-                SetMessage("客户端线程已启动");
+                //Thread t1 = new Thread(new ParameterizedThreadStart(DoSomethingWithParameterV2));
+                //t1.SetApartmentState(ApartmentState.STA);
+                //t1.Start(data);
             }
         }
 
         private void cb_Quit(object sender, EventArgs e)
         {
-            Thread t1 = new Thread(new ParameterizedThreadStart(DoSomethingWithParameterV2));
+            //Thread t1 = new Thread(new ParameterizedThreadStart(DoSomethingWithParameterV2));
 
-            t1.SetApartmentState(ApartmentState.STA);
-            t1.Start(CalculatorCallbackService.Data);
+            //t1.SetApartmentState(ApartmentState.STA);
+            //t1.Start(CalculatorCallbackService.Data);
         }
 
         private void cb_Process(object sender, EventArgs e)
@@ -384,451 +359,6 @@ namespace DotNet.SpiderApplication.Client
 
             Process currentProcess = Process.GetCurrentProcess();
             currentProcess.Kill();
-        }
-
-        /// <summary>
-        /// 初始化浏览器组件
-        /// </summary>
-        /// <param name="wb"></param>
-        private void SetupWebBrower(cEXWB wb)
-        {
-            //wb.WBDOCDOWNLOADCTLFLAG = (int)(
-            //    DOCDOWNLOADCTLFLAG.NO_SCRIPTS | 
-            //    DOCDOWNLOADCTLFLAG.NO_DLACTIVEXCTLS |
-            //    DOCDOWNLOADCTLFLAG.NO_JAVA | 
-            //    DOCDOWNLOADCTLFLAG.NO_RUNACTIVEXCTLS | 
-            //    DOCDOWNLOADCTLFLAG.PRAGMA_NO_CACHE | 
-            //    DOCDOWNLOADCTLFLAG.SILENT);
-            wb.DownloadSounds = false;
-            wb.DownloadVideo = false;
-            wb.DownloadActiveX = false;
-            wb.DownloadFrames = false;
-            wb.DownloadImages = false;
-            wb.DownloadScripts = true;
-            wb.Border3DEnabled = false;
-            wb.ScrollBarsEnabled = false;
-            wb.Silent = false;//whether the Webbrowser control can show dialog boxes 
-            //wb.FileDownloadDirectory = "C:\\Documents and Settings\\Mike\\My Documents\\";
-            
-        }
-
-        private void InitWBEvent(cEXWB wb)
-        {
-            //
-            //wb.NavigateError += new NavigateErrorEventHandler(wb_NavigateError);
-
-            wb.DocumentComplete += new csExWB.DocumentCompleteEventHandler(wb_DocumentComplete);
-
-            // 脚本错误
-            wb.ScriptError += new ScriptErrorEventHandler(wb_ScriptError);
-
-            wb.NewWindow2 += new NewWindow2EventHandler(wb_NewWindow2);
-
-            wb.NewWindow3 += new NewWindow3EventHandler(wb_NewWindow3);
-
-        }
-
-        private void wb_DocumentComplete(object sender,DocumentCompleteEventArgs e)
-        {
-            //var wb = sender as cEXWB;
-            if (e.url.ToLower() == "about:blank")
-            {
-                Debug.Print("DocumentComplete::about:blank = istoplevel===>" + e.istoplevel.ToString());
-                return;
-            }
-            if (e.istoplevel)
-            {
-                CalculatorCallbackService.done = true;
-                //Debug.Print("DocumentComplete::TopLevel is TRUE===>" + e.url);
-
-                //if(wb!=null)
-                //{
-                //    wb.SaveBrowserImage("C:\\aac.png",System.Drawing.Imaging.PixelFormat.Format24bppRgb,System.Drawing.Imaging.ImageFormat.Png); 
-                //}
-            }
-            else
-            {
-                //Debug.Print("DocumentComplete::TopLevel is FALSE===>" + e.url);
-            }
-        }
-
-        private void wb_ScriptError(object sender,ScriptErrorEventArgs e)
-        {
-            e.continueScripts = true;
-        }
-
-        private void wb_NewWindow2(object sender, NewWindow2EventArgs e)
-        {
-            e.Cancel = true;
-        }
-
-        private void wb_NewWindow3(object sender, NewWindow3EventArgs e)
-        {
-            e.Cancel = true;
-        }
-
-        delegate void D(object obj);
-
-        void DelegateSetValue(object obj)
-        {
-            //this.toolStripStatusLabel.Text = obj.ToString();
-        }
-
-        #region 浏览器控件的一些辅助方法
-
-        /// <summary>
-        /// 浏览器组件事件绑定
-        /// </summary>
-        /// <param name="wb"></param>
-        private void RegiserWebBrowerHandler(cEXWB wb)
-        {
-            if (wb != null)
-            {
-                //注册事件处理方法
-                wb.ProtocolHandlerBeginTransaction += new ProtocolHandlerBeginTransactionEventHandler(WebBrower_ProtocolHandlerBeginTransaction);
-                wb.ProtocolHandlerOnResponse += new ProtocolHandlerOnResponseEventHandler(WebBrower_ProtocolHandlerOnResponse);
-                wb.ProtocolHandlerDataFullyAvailable += new ProtocolHandlerDataFullyAvailableEventHandler(WebBrower_ProtocolHandlerDataFullyAvailable);
-                wb.ProtocolHandlerDataFullyRead += new ProtocolHandlerDataFullyReadEventHandler(WebBrower_ProtocolHandlerDataFullyRead);
-                wb.ProtocolHandlerOperationFailed += new ProtocolHandlerOperationFailedEventHandler(WebBrower_ProtocolHandlerOperationFailed);
-
-                wb.ScriptError += new ScriptErrorEventHandler(WebBrower_ScriptError);
-                wb.WBOnDocumentChanged += new EventHandler(WebBrower_WBOnDocumentChanged);
-                wb.DocumentComplete += new DocumentCompleteEventHandler(WebBrower_DocumentComplete);
-                wb.NavigateError += new NavigateErrorEventHandler(WebBrower_NavigateError);
-                wb.WBSecurityProblem += new SecurityProblemEventHandler(WebBrower_WBSecurityProblem);
-                //wb.BeforeNavigate2 += new BeforeNavigate2EventHandler(VBACsEXWB_BeforeNavigate2);
-                wb.WBDocHostShowUIShowMessage += new DocHostShowUIShowMessageEventHandler(WebBrower_WBDocHostShowUIShowMessage);
-                wb.ProcessUrlAction += new ProcessUrlActionEventHandler(WebBrower_ProcessUrlAction);
-                //wb.WBEvaluteNewWindow += new EvaluateNewWindowEventHandler(WebBrower_WBEvaluteNewWindow);
-            }
-        }
-
-        /// <summary>
-        /// 解除浏览器绑定的事件
-        /// </summary>
-        /// <param name="wb"></param>
-        private void UnregiserWebBrowerHandler(cEXWB wb)
-        {
-            if (wb != null)
-            {
-                //注销事件处理方法
-                wb.ProtocolHandlerBeginTransaction -= new csExWB.ProtocolHandlerBeginTransactionEventHandler(WebBrower_ProtocolHandlerBeginTransaction);
-                wb.ProtocolHandlerOnResponse -= new csExWB.ProtocolHandlerOnResponseEventHandler(WebBrower_ProtocolHandlerOnResponse);
-                wb.ProtocolHandlerDataFullyAvailable -= new csExWB.ProtocolHandlerDataFullyAvailableEventHandler(WebBrower_ProtocolHandlerDataFullyAvailable);
-                wb.ProtocolHandlerDataFullyRead -= new csExWB.ProtocolHandlerDataFullyReadEventHandler(WebBrower_ProtocolHandlerDataFullyRead);
-                wb.ProtocolHandlerOperationFailed -= new csExWB.ProtocolHandlerOperationFailedEventHandler(WebBrower_ProtocolHandlerOperationFailed);
-
-                wb.ScriptError -= new ScriptErrorEventHandler(WebBrower_ScriptError);
-                wb.WBOnDocumentChanged -= new EventHandler(WebBrower_WBOnDocumentChanged);
-
-                wb.DocumentComplete -= new DocumentCompleteEventHandler(WebBrower_DocumentComplete);
-                wb.NavigateError -= new NavigateErrorEventHandler(WebBrower_NavigateError);
-                wb.WBSecurityProblem -= new SecurityProblemEventHandler(WebBrower_WBSecurityProblem);
-                //wb.BeforeNavigate2 -= new BeforeNavigate2EventHandler(VBACsEXWB_BeforeNavigate2);
-                wb.WBDocHostShowUIShowMessage -= new DocHostShowUIShowMessageEventHandler(WebBrower_WBDocHostShowUIShowMessage);
-                wb.ProcessUrlAction -= new ProcessUrlActionEventHandler(WebBrower_ProcessUrlAction);
-                //wb.WBEvaluteNewWindow -= new EvaluateNewWindowEventHandler(WebBrower_WBEvaluteNewWindow);
-            }
-        }
-
-        //Fired to indicate when a response from a server has been received
-        void WebBrower_ProtocolHandlerOnResponse(object sender, ProtocolHandlerOnResponseEventArgs e)
-        {
-            Debug.Print(">>>>>>ProtocolHandlerOnResponse=> " + e.URL);
-            //+ "\r\nResponseHeaders >>\r\n" + e.headers);
-        }
-
-        //Fired to indicate when a request for a resource is about to be initiated
-        void WebBrower_ProtocolHandlerBeginTransaction(object sender, ProtocolHandlerBeginTransactionEventArgs e)
-        {
-            Debug.Print(">>>>>>ProtocolHandlerBeginTransaction=> " + e.URL);
-            //+ "\r\nRequestHeaders >>\r\n" + e.RequestHeaders);
-        }
-
-        //Fired to indicate when a resource has been fully read by the MSHTML
-        void WebBrower_ProtocolHandlerDataFullyRead(object sender, ProtocolHandlerDataFullyReadEventArgs e)
-        {
-            Debug.Print(">>>>>>ProtocolHandlerDataFullyRead=> " + e.URL);
-        }
-
-        //Fired to indicate when a resource has been fully downloaded and ready to be read by MSHTML
-        void WebBrower_ProtocolHandlerDataFullyAvailable(object sender, ProtocolHandlerDataFullyAvailableEventArgs e)
-        {
-            Debug.Print(">>>>>>ProtocolHandlerDataFullyAvailable=> " + e.URL);
-        }
-
-        //Fired to indicate when download of a resource has failed
-        void WebBrower_ProtocolHandlerOperationFailed(object sender, ProtocolHandlerOperationFailedEventArgs e)
-        {
-            Debug.Print(">>>>>>ProtocolHandlerOperationFailed=> " + e.URL);
-        }
-
-        //脚本发生错误
-        private void WebBrower_ScriptError(object sender, ScriptErrorEventArgs e)
-        {
-            Logger.Log("\r\ncEXWB1_ScriptError=====" + e.errorMessage + "=" + e.lineNumber.ToString());
-        }
-
-        private void WebBrower_WBOnDocumentChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                cEXWB pWB = sender as cEXWB;
-                if(pWB!=null)
-                {
-                   //Logger.Log(LogLevel.Info, ">>>>>>WBOnDocumentChanged=>"+pWB.SendSourceOnDocumentCompleteWBEx); 
-                }
-                //Debug.Print(">>>>>>WBOnDocumentChanged=>");
-            }
-            catch (System.ObjectDisposedException)
-            {
-                Logger.Log(LogLevel.Info, "WBOnDocumentChanged::System.ObjectDisposedException");
-                //Debug.Print("WBOnDocumentChanged::System.ObjectDisposedException");
-            }
-        }
-
-        private void WebBrower_DocumentComplete(object sender, DocumentCompleteEventArgs e)
-        {
-            if (e.url.ToLower() == "about:blank")
-            {
-                return;
-            }
-            cEXWB pWB = sender as cEXWB;
-            if (e.istoplevel)
-            {
-                IsDocumentFinish = true;
-                //Logger.Log(LogLevel.Info, string.Format("DocumentComplete,Url:{0},时间：{1}", e.url,DateTime.Now));
-            }
-            else  if (pWB!=null&&pWB.MainDocumentFullyLoaded) // a frame naviagtion within a frameset
-            {
-                IsDocumentFinish = true;
-                //Logger.Log(LogLevel.Info, string.Format("MainDocumentFullyLoaded,Url:{0},时间：{1}", e.url, DateTime.Now));
-            }
-            else
-            {
-                //log.Debug("DocumentComplete::TopLevel is FALSE===>" + e.url);
-            }
-        }
-
-        private void WebBrower_NavigateError(object sender, NavigateErrorEventArgs e)
-        {
-            e.Cancel = true;
-            Logger.Log(string.Format("Url:{0},StatusCode:{1}",e.url,e.statuscode));
-        }
-
-        private void WebBrower_WBSecurityProblem(object sender, SecurityProblemEventArgs e)
-        {
-            //处理一般安全提示
-            if ((e.problem == WinInetErrors.HTTP_REDIRECT_NEEDS_CONFIRMATION) ||
-                (e.problem == WinInetErrors.ERROR_INTERNET_HTTP_TO_HTTPS_ON_REDIR) ||
-                (e.problem == WinInetErrors.ERROR_INTERNET_HTTPS_HTTP_SUBMIT_REDIR) ||
-                (e.problem == WinInetErrors.ERROR_INTERNET_HTTPS_TO_HTTP_ON_REDIR) ||
-                (e.problem == WinInetErrors.ERROR_INTERNET_MIXED_SECURITY))
-            {
-                e.handled = true;
-                e.retvalue = Hresults.S_FALSE;
-                return;
-            }
-
-            //非正常安全提示
-            Logger.Log(e.problem.ToString());
-            //log.Debug("WBSecurityProblem==>" + e.problem.ToString());
-            //m_IsNavigationError = true;
-            //m_IEErrorCode = e.problem;
-            //lock (navigatelocker)
-            //{
-            //    Monitor.Pulse(navigatelocker);
-            //}
-        }
-
-        private void WebBrower_WBDocHostShowUIShowMessage(object sender, DocHostShowUIShowMessageEventArgs e)
-        {
-            //To stop messageboxs
-            e.handled = true;
-            //Default
-            e.result = (int)DialogResult.Cancel;
-            Logger.Log(string.Format("WBDocHostShowUIShowMessage,Caption:{0},Helpfile:{1},Text:{2},Type:{3}", e.caption, e.helpfile, e.text, e.type));
-        }
-
-        private static Guid ms_guidFlash = new Guid("D27CDB6E-AE6D-11cf-96B8-444553540000");
-
-        private void WebBrower_ProcessUrlAction(object sender, ProcessUrlActionEventArgs e)
-        {
-            if (e.urlAction == URLACTION.SCRIPT_RUN)
-            {
-                //m_ScriptStartTimepoint = DateTime.Now;
-                //Logger.Log(string.Format("ProcessUrlAction脚本开始执行,Url:{0},UrlAction{1},UrlPolicy:{2},Context:{3}", e.url, e.urlAction, e.urlPolicy, e.context));
-            }
-            else if (e.urlAction == URLACTION.ACTIVEX_RUN)
-            {
-                if (e.context == ms_guidFlash)
-                {
-                    e.handled = true;
-                    e.urlPolicy = URLPOLICY.DISALLOW;
-                    //Logger.Log(string.Format("ProcessUrlAction,Url:{0},UrlAction{1},UrlPolicy:{2},Context:{3}", e.url, e.urlAction, e.urlPolicy, e.context));
-                }
-            }
-        }
-
-        private bool IsWebFilled(cEXWB wb)
-        {
-            try
-            {
-                string src = wb.DocumentTitle;
-                if (!string.IsNullOrEmpty(src))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
-
-        #endregion
-
-        private void DoSomethingWithParameterV2(object x)
-        {
-            using (cEXWB wb = new cEXWB())
-            {
-                //https://code.google.com/p/slowandsteadyparser/source/search?q=DocumentComplete&origq=DocumentComplete&btnG=Search+Trunk
-                this.SetupWebBrower(wb);
-                var data = new List<SpiderResult>();
-                // 浏览器事件绑定
-                this.RegiserWebBrowerHandler(wb);
-                //wb.DocumentComplete += new DocumentCompleteEventHandler(pWb_DocumentComplete);
-                var toProcessUrl = x as IList<SpiderParameter>;
-                int i = 0;
-                //HiPerfTimer q;
-                foreach (var spider in toProcessUrl)
-                {
-                    i++;
-                    //wb.NavToBlank();
-                    //q = new HiPerfTimer();
-
-                    //q.Start();
-                    
-                    wb.Navigate(spider.Url);
-                    var flage = false;
-                    long Start = DateTime.Now.Ticks;
-
-                    while (!this.IsDocumentFinish)
-                    {
-                        
-                        Thread.Sleep(10);
-                        Application.DoEvents();
-                        if ((DateTime.Now.Ticks - Start) / 10000 > 8000)
-                        {
-                            flage = true;
-                            break;
-                        }
-                    }
-                    if(flage)
-                    {
-                        continue;
-                    }
-                    this.IsDocumentFinish = false;
-                    var Elapse = (DateTime.Now.Ticks - Start) / 10000;
-                    //q.Stop();
-
-                    //if (label1.InvokeRequired)
-                    //{
-                    //    D d = new D(DelegateSetValue);
-                    //    label1.Invoke(d, spider.Url + ":" + string.Format("{0}/{1}/网络采集时间：{2}毫秒", i, toProcessUrl.Count, Elapse));
-
-                    //}
-                    //else
-                    //{
-                    //    this.label1.Text = spider.Url + ":" + string.Format("{0}/{1}", i, toProcessUrl.Count);
-                    //}
-                    if(!string.IsNullOrEmpty(wb.DocumentSource))
-                    {
-                        var htmlDocument= HtmlAgilityPackHelper.GetHtmlDocument(wb.DocumentSource);
-                        //标题
-                        var title=htmlDocument.DocumentNode.CssSelect("div#name > h1").FirstOrDefault();
-                        //var title = htmlDocument.DocumentNode.SelectSingleNode("/html[1]/body[1]/div[6]/div[1]/div[1]/h1[1]");
-                        var price = htmlDocument.DocumentNode.SelectSingleNode("//div[@class='p-price']/img");
-                        // 文字价格
-                        var priceText = htmlDocument.DocumentNode.SelectSingleNode("/html/head/script[3]");
-
-                        // 产品图片
-                        var defaultImage = htmlDocument.DocumentNode.SelectSingleNode("/html[1]/body[1]/div[5]/div[1]/div[2]/div[1]");
-
-                        var beginIndex = priceText.InnerText.IndexOf("price:'");
-                        if(beginIndex>-1)
-                        {
-                            var length = "price:'".Length;
-
-                            var endIndex = priceText.InnerText.IndexOf("'", beginIndex);
-                            var readPrice = priceText.InnerText.Substring(beginIndex + length, endIndex - beginIndex-1);
-                            decimal decimalRealPrice = 0;
-                            if (decimal.TryParse(readPrice, out decimalRealPrice))
-                            {
-                                data.Add(new SpiderResult() { ProductId = spider.ProductId, Price = decimalRealPrice, Name = title.InnerText, Elapse = Elapse, LastModify = DateTime.Now, IsSucceed = true });
-                            }
-                            else
-                            {
-                                Logger.Log(readPrice);
-                            }
-                        }
-                        else
-                        {
-                            Logger.Log(priceText.InnerText);
-                        }
-                    }
-                    else
-                    {
-                        data.Add(new SpiderResult() { ProductId = spider.ProductId, Elapse = Elapse, LastModify = DateTime.Now, IsSucceed = false });
-                        DataAccess.SaveHtmlSource(spider.ProductId, wb.DocumentSource);
-                    }
-                    
-                }
-
-                //解除事件绑定 
-                this.UnregiserWebBrowerHandler(wb);
-                Logger.Log(data.Count.ToString());
-                //请求服务器端数据
-                Calculator.ServerProcess(data);
-                
-                SetMessage(string.Format("{0}条数据已上传",data.Count));
-            }
-        }
-
-        private void SetMessage(string message)
-        {
-            //if (label1.InvokeRequired)
-            //{
-            //    D d = new D(DelegateSetValue);
-            //    label1.Invoke(d, message);
-
-            //}
-            //else
-            //{
-            //    this.label1.Text = message;
-            //}
-        }
-
-        static void pWb_DocumentComplete(object sender, DocumentCompleteEventArgs e)
-        {
-            if (e.url.ToLower() == "about:blank")
-            {
-                Debug.Print("DocumentComplete::about:blank = istoplevel===>" + e.istoplevel.ToString());
-                return;
-            }
-            if (e.istoplevel)
-            {
-                CalculatorCallbackService.done = true;
-                Debug.Print("DocumentComplete::TopLevel is TRUE===>" + e.url);
-            }
-            else
-            {
-                Debug.Print("DocumentComplete::TopLevel is FALSE===>" + e.url);
-            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -957,6 +487,11 @@ namespace DotNet.SpiderApplication.Client
         public void ReportIEVersion(string ieVersion)
         {
             toolStripStatusIELabel.Text = string.Format("IE核心：{0}", ieVersion);
+        }
+
+        public List<SpiderProductInfo> GetSpiderTask(int count)
+        {
+            return spiderTaskManager.Dequeue(count);
         }
     }
 }

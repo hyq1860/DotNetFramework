@@ -38,10 +38,5 @@ namespace DotNet.SpiderApplication.Service.Implemention.Service
         {
             return spiderTaskManager.Dequeue(count);
         }
-
-        public void ReportStatus(SpiderState state)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

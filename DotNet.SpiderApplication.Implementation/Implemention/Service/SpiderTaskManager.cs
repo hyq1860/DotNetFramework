@@ -30,11 +30,11 @@ namespace DotNet.SpiderApplication.Service.Implemention.Service
             {
                 SpiderUrlQueue=new PriorityQueue<SpiderProductInfo>();
             }
-            var data = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().GetProducts(" where Supplier=1 limit 0,1000");
-            foreach (var productInfo in data)
-            {
-               SpiderUrlQueue.Enqueue(new SpiderProductInfo(){ProductId = productInfo.ProductId,Url=productInfo.Url,ECPlatformId = productInfo.ECPlatformId}); 
-            }
+            //var data = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().GetProducts(" where Supplier=1 limit 0,1000");
+            //foreach (var productInfo in data)
+            //{
+            //   SpiderUrlQueue.Enqueue(new SpiderProductInfo(){ProductId = productInfo.ProductId,Url=productInfo.Url,ECPlatformId = productInfo.ECPlatformId}); 
+            //}
         }
 
         public void Enqueue(SpiderProductInfo spiderProduct)

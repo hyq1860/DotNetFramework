@@ -30,6 +30,8 @@ namespace DotNet.BasicSpider
 
         public string Referrer { get; set; }
 
+        public string HtmlSource { get; set; }
+
         public List<string> HttpRequestUrls { get; set; } 
     }
 }

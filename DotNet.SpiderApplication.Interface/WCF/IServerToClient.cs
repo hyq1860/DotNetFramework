@@ -28,5 +28,13 @@ namespace DotNet.SpiderApplication.Contract.WCF
 
         [OperationContract]
         void ReportIEVersion(string ieVersion);
+
+        /// <summary>
+        /// 为浏览器提供任务
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        [OperationContract]
+        List<SpiderProductInfo> GetSpiderTask(int count);
     }
 }

@@ -26,6 +26,11 @@ namespace DotNet.SpiderApplication.Contract.Entity
         public string Url { get; set; }
 
         /// <summary>
+        /// 对应的html
+        /// </summary>
+        public string HtmlSource { get; set; }
+
+        /// <summary>
         /// 当前系统已知最新价格
         /// </summary>
         public decimal Price { get; set; }

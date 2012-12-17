@@ -263,6 +263,62 @@ namespace DotNet.BasicSpider
             return this.WB.DocumentSource;
         }
 
+        public DocumentInfo Brower(string url)
+        {
+            var document = new DocumentInfo()
+                {
+                    Url = url
+                };
+            if (string.IsNullOrEmpty(url))
+            {
+                return document;
+            }
+
+            if (this.HttpRequestUrls.Count > 0)
+            {
+                this.HttpRequestUrls.Clear();
+            }
+
+            WB.Navigate(url);
+            var flage = false;
+            long start = DateTime.Now.Ticks;
+            long elapse = 0;
+            while (!this.IsDocumentFinish)
+            {
+                Application.DoEvents();
+                Thread.Sleep(50);
+                elapse = (DateTime.Now.Ticks - start) / 100000000;
+                if (elapse > this.TimeOut)
+                {
+                    flage = true;
+                    break;
+                }
+            }
+
+            if (flage)
+            {
+                return document;
+            }
+
+            this.Elapse = elapse;
+            this.IsDocumentFinish = false;
+
+            // 获取ie浏览器版本
+            this.IEVersion = this.WB.IEVersion();
+
+            /* 自动登陆
+            To automate login, navigate to login page, 
+            in DocumentComplete check for isTopLevel which indiactes the page has fully loaded and a flag to indicate if you have not logged in. 
+            Then use AutomationTask methods to login.
+            WB.AutomationTask_PerformEnterData("UsernameTextBox_Name", "username");
+            WB.AutomationTask_PerformEnterData("PasswordTextBox_Name", "password");
+            WB.AutomationTask_PerformClickButton("SubmitButton_Name");
+             */
+            document.HtmlSource = this.WB.DocumentSource;
+            document.HttpRequestUrls = this.HttpRequestUrls;
+            return document;
+        }
+
         /// <summary>
         /// 是否包含iframe
         /// </summary>

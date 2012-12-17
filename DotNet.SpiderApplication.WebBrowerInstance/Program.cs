@@ -1,19 +1,16 @@
-﻿namespace DotNet.SpiderApplication.WebBrowerInstance
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.ServiceModel;
+
+using DotNet.BasicSpider;
+using DotNet.IoC;
+using DotNet.SpiderApplication.Contract.Entity;
+using DotNet.SpiderApplication.Contract.WCF;
+using csExWB;
+
+namespace DotNet.SpiderApplication.WebBrowerInstance
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
-    using System.ServiceModel;
-
-    using DotNet.BasicSpider;
-    using DotNet.IoC;
-    using DotNet.SpiderApplication.Contract;
-    using DotNet.SpiderApplication.Contract.Entity;
-    using DotNet.SpiderApplication.Contract.WCF;
-
-    using csExWB;
-
     class Program
     {
         [STAThread]
@@ -29,9 +26,10 @@
                 foreach (var spiderProductInfo in data)
                 {
                     i++;
-                    var ver = SpiderManager.SpiderProductDetail(new SpiderProductInfo() { ECPlatformId = spiderProductInfo.ECPlatformId, Url = spiderProductInfo.Url, ProductId = spiderProductInfo.ProductId });
-                    CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().Update(ver);
-                    ReportState(new SpiderState() { Url = ver.Url,TaskCount=data.Count,Current =i });
+                    var document= WebBrowerManager.Instance.Brower(spiderProductInfo.Url);
+                    //var ver = SpiderManager.SpiderProductDetail(new SpiderProductInfo() { ECPlatformId = spiderProductInfo.ECPlatformId, Url = spiderProductInfo.Url, ProductId = spiderProductInfo.ProductId });
+                    //CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().Update(ver);
+                    //ReportState(new SpiderState() { Url = ver.Url,TaskCount=data.Count,Current =i });
                     if (i == 1)
                     {
                         ReportIEVersion(WebBrowerManager.Instance.IEVersion);
@@ -39,11 +37,10 @@
                 }
                 
             }
-            catch (Exception epnfex)
+            catch (Exception exception)
             {
-                File.WriteAllText("z:\\1.txt", epnfex.Message);
+                //File.WriteAllText("z:\\1.txt", epnfex.Message);
             }
-
             Process currentProcess = Process.GetCurrentProcess();
             currentProcess.Kill();
         }

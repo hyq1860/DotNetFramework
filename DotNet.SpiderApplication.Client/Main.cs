@@ -17,22 +17,23 @@ using DotNet.SpiderApplication.Service.Implemention.Service;
 using IfacesEnumsStructsClasses;
 using csExWB;
 using HtmlAgilityPack;
+using System.Drawing;
+
+using Amib.Threading;
+
+using DotNet.Base.Service;
+using DotNet.BasicSpider;
+using DotNet.Common;
+using DotNet.Common.Configuration;
+using DotNet.Common.Utility;
+using DotNet.Data;
+using DotNet.IoC;
+using DotNet.SpiderApplication.Service;
+using DotNet.Web.Http;
 
 namespace DotNet.SpiderApplication.Client
 {
-    using System.Drawing;
 
-    using Amib.Threading;
-
-    using DotNet.Base.Service;
-    using DotNet.BasicSpider;
-    using DotNet.Common;
-    using DotNet.Common.Configuration;
-    using DotNet.Common.Utility;
-    using DotNet.Data;
-    using DotNet.IoC;
-    using DotNet.SpiderApplication.Service;
-    using DotNet.Web.Http;
 
     using ScrapySharp.Extensions;
 
@@ -78,8 +79,17 @@ namespace DotNet.SpiderApplication.Client
 
         private ToolStripStatusLabel toolStripStatusLabel;
 
+        private ToolStripStatusLabel toolStripStatusIELabel;
+
         private void InitControls()
         {
+            // 窗体大小锁定
+            this.MaximumSize=new Size(600,400);
+            this.MinimumSize = new Size(600, 400);
+            this.MaximizeBox = false;
+            // 窗口启动居中
+            this.StartPosition=FormStartPosition.CenterScreen;
+
             // 初始化状态栏进度条
             this.toolStripProgressBar = new ToolStripStatusLabelWithBar();
             this.toolStripProgressBar.Visible = true;
@@ -88,11 +98,23 @@ namespace DotNet.SpiderApplication.Client
             // label
             this.toolStripStatusLabel = new ToolStripStatusLabel();
             this.toolStripStatusLabel.Spring = true;
-            
-            this.toolStripStatusLabel.TextAlign=ContentAlignment.BottomLeft;
 
+            this.toolStripStatusLabel.TextAlign = ContentAlignment.BottomCenter;
+
+            //IEVersion
+            this.toolStripStatusIELabel = new ToolStripStatusLabel();
+            //this.toolStripStatusIELabel.Spring = true;
+            this.toolStripStatusIELabel.TextAlign = ContentAlignment.BottomCenter;
+            this.toolStripStatusIELabel.Text = string.Format("IE核心：{0}", "未知");
+
+            // 分隔栏
+            var toolStripSeparator = new ToolStripSeparator();
+
+            this.statusStrip.Items.Add(this.toolStripStatusIELabel);
+            this.statusStrip.Items.Add(toolStripSeparator);
             this.statusStrip.Items.Add(this.toolStripStatusLabel);
             this.statusStrip.Items.Add(this.toolStripProgressBar);
+            this.statusStrip.Height = 18;
         }
 
         public Main()
@@ -114,30 +136,6 @@ namespace DotNet.SpiderApplication.Client
             //WebBrowerManager.Instance.CheckCsExwbIsRegistered();
             //WebBrowerManager.Instance.UnregisterCsExwb();
             //WebBrowerManager.Instance.CheckCsExwbIsRegistered();
-
-            //WebBrowerManager.Instance.Setup(new cEXWB());
-            //WebBrowerManager.Instance.TimeOut = 15;
-            //var states = new List<string>();
-            //states.Add("http://www.360buy.com/product/222701.html");
-            //states.Add("http://www.360buy.com/product/682747.html");
-            //states.Add("http://www.360buy.com/product/222704.html");
-            //states.Add("http://www.360buy.com/product/222701.html");
-            //states.Add("http://www.360buy.com/product/354444.html");
-            //states.Add("http://www.360buy.com/product/352655.html");
-            //states.Add("http://www.360buy.com/product/481284.html");
-            //states.Add("http://www.360buy.com/product/563181.html");
-            //states.Add("http://www.360buy.com/product/481245.html");
-            //states.Add("http://www.360buy.com/product/673975.html");
-            //int i = 0;
-            //foreach (var state1 in states)
-            //{
-            //    var html1 = WebBrowerManager.Instance.Run(state1);
-            //    File.WriteAllText("z:\\"+i+".html",html1,Encoding.UTF8);
-            //    i++;
-            //}
-            
-            //MessageBox.Show(WebBrowerManager.Instance.IEVersion);
-            //Console.Read();
 
             //var data = CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().GetProducts(" where Supplier=1 limit 0,10");
 
@@ -950,6 +948,15 @@ namespace DotNet.SpiderApplication.Client
             
             this.toolStripProgressBar.Text = state.Current+"/"+state.TaskCount+"/"+this.totalTask;
             this.toolStripProgressBar.Value = state.Current;
+        }
+
+        /// <summary>
+        /// ie版本设置
+        /// </summary>
+        /// <param name="ieVersion"></param>
+        public void ReportIEVersion(string ieVersion)
+        {
+            toolStripStatusIELabel.Text = string.Format("IE核心：{0}", ieVersion);
         }
     }
 }

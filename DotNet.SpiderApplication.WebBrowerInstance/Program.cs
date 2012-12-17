@@ -32,7 +32,12 @@
                     var ver = SpiderManager.SpiderProductDetail(new SpiderProductInfo() { ECPlatformId = spiderProductInfo.ECPlatformId, Url = spiderProductInfo.Url, ProductId = spiderProductInfo.ProductId });
                     CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().Update(ver);
                     ReportState(new SpiderState() { Url = ver.Url,TaskCount=data.Count,Current =i });
+                    if (i == 1)
+                    {
+                        ReportIEVersion(WebBrowerManager.Instance.IEVersion);
+                    }
                 }
+                
             }
             catch (Exception epnfex)
             {
@@ -72,6 +77,30 @@
                 try
                 {
                     clientToServerChannel.ReportStatus(state);
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+                finally
+                {
+                    CloseChannel((ICommunicationObject)clientToServerChannel);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 报告ie版本设置
+        /// </summary>
+        /// <param name="ieVersion"></param>
+        public static void ReportIEVersion(string ieVersion)
+        {
+            using (var factory = new ChannelFactory<IServerToClient>(new NetNamedPipeBinding(), new EndpointAddress("net.pipe://127.0.0.1/Server")))
+            {
+                IServerToClient clientToServerChannel = factory.CreateChannel();
+                try
+                {
+                    clientToServerChannel.ReportIEVersion(ieVersion);
                 }
                 catch (Exception ex)
                 {

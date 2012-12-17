@@ -25,5 +25,8 @@ namespace DotNet.SpiderApplication.Contract.WCF
 
         [OperationContract]
         void ReportStatus(SpiderState state);
+
+        [OperationContract]
+        void ReportIEVersion(string ieVersion);
     }
 }

@@ -31,6 +31,8 @@ namespace DotNet.SpiderApplication.Contract.Entity
 
         public int ECPlatformId { get; set; }
 
-        public List<string> HttpRequestUrls { get; set; } 
+        #region 非业务对象
+        public List<string> HttpRequestUrls { get; set; }
+        #endregion
     }
 }

@@ -24,7 +24,7 @@ namespace DotNet.SpiderApplication.Contract.WCF
         void Register(Guid clientID);
 
         [OperationContract]
-        void ReportStatus(SpiderState state);
+        void TransferData(SpiderResult result);
 
         [OperationContract]
         void ReportIEVersion(string ieVersion);

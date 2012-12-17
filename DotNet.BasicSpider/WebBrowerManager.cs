@@ -281,14 +281,19 @@ namespace DotNet.BasicSpider
 
             WB.Navigate(url);
             var flage = false;
-            long start = DateTime.Now.Ticks;
+            
             long elapse = 0;
+            var start = DateTime.Now;
+            TimeSpan ts1 = new TimeSpan(DateTime.Now.Ticks);
+            TimeSpan ts=new TimeSpan();
             while (!this.IsDocumentFinish)
             {
                 Application.DoEvents();
                 Thread.Sleep(50);
-                elapse = (DateTime.Now.Ticks - start) / 100000000;
-                if (elapse > this.TimeOut)
+                TimeSpan ts2 = new TimeSpan(DateTime.Now.Ticks);
+                //elapse = (DateTime.Now - start).Milliseconds/1000;
+                ts = ts1.Subtract(ts2).Duration();
+                if (ts.Milliseconds > this.TimeOut * 1000)
                 {
                     flage = true;
                     break;
@@ -300,7 +305,7 @@ namespace DotNet.BasicSpider
                 return document;
             }
 
-            this.Elapse = elapse;
+            this.Elapse = ts.Duration().Milliseconds;
             this.IsDocumentFinish = false;
 
             // 获取ie浏览器版本
@@ -316,6 +321,8 @@ namespace DotNet.BasicSpider
              */
             document.HtmlSource = this.WB.DocumentSource;
             document.HttpRequestUrls = this.HttpRequestUrls;
+            document.Title = this.WB.DocumentTitle;
+            document.Elapse = Elapse;
             return document;
         }
 
@@ -531,7 +538,7 @@ namespace DotNet.BasicSpider
         void WebBrower_ProtocolHandlerBeginTransaction(object sender, ProtocolHandlerBeginTransactionEventArgs e)
         {
             HttpRequestUrls.Add(e.URL);
-            if(e.URL.EndsWith(".css"))
+            if (e.URL.EndsWith(".css"))
             {
                 e.Cancel = true;
             }

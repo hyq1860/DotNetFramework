@@ -32,6 +32,9 @@ namespace DotNet.BasicSpider
 
         public string HtmlSource { get; set; }
 
+        public string Title { get; set; }
+
+        public long Elapse { get; set; }
         public List<string> HttpRequestUrls { get; set; } 
     }
 }

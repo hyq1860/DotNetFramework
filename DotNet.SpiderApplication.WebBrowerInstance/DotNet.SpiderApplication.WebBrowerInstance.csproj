@@ -65,10 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NinjectBootstrapper.cs" />
-    <Compile Include="ProductSpider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpiderManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNet.BasicSpider\DotNet.BasicSpider.csproj">

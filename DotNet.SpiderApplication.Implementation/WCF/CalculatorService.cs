@@ -11,7 +11,6 @@ namespace DotNet.SpiderApplication.Service
     using System.Collections.Generic;
     //using System.ServiceModel.Activation;
 
-    
 
      //[ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Single, InstanceContextMode = InstanceContextMode.PerSession)]
     //[AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
@@ -44,13 +43,13 @@ namespace DotNet.SpiderApplication.Service
 
         public void ServerProcess(List<SpiderResult> data)
         {
-            foreach (var spiderResult in data)
-            {
-                DataAccess.UpdateProduct(spiderResult.ProductId,spiderResult.Name,spiderResult.Price,spiderResult.IsSucceed?1:0,spiderResult.Elapse,spiderResult.LastModify);
-            }
+            //foreach (var spiderResult in data)
+            //{
+            //    DataAccess.UpdateProduct(spiderResult.ProductId,spiderResult.Name,spiderResult.Price,spiderResult.IsSucceed?1:0,spiderResult.Elapse,spiderResult.LastModify);
+            //}
             
-            ICalculatorCallback callback = OperationContext.Current.GetCallbackChannel<ICalculatorCallback>();
-            callback.Display();
+            //ICalculatorCallback callback = OperationContext.Current.GetCallbackChannel<ICalculatorCallback>();
+            //callback.Display();
             //ProcessCount++;
         }
 

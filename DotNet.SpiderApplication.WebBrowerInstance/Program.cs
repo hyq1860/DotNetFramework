@@ -26,21 +26,30 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
                 foreach (var spiderProductInfo in data)
                 {
                     i++;
-                    var document= WebBrowerManager.Instance.Brower(spiderProductInfo.Url);
+                    var document = WebBrowerManager.Instance.Brower(spiderProductInfo.Url);
                     //var ver = SpiderManager.SpiderProductDetail(new SpiderProductInfo() { ECPlatformId = spiderProductInfo.ECPlatformId, Url = spiderProductInfo.Url, ProductId = spiderProductInfo.ProductId });
                     //CommonBootStrapper.ServiceLocator.GetInstance<IProductService>().Update(ver);
-                    //ReportState(new SpiderState() { Url = ver.Url,TaskCount=data.Count,Current =i });
+                    ReportState(
+                        new SpiderResult()
+                            {
+                                Url = document.Url,
+                                TaskCount = data.Count,
+                                Current = i,
+                                HtmlSource = document.HtmlSource,
+                                Title = document.Title,
+                                Elapse = document.Elapse
+                            });
                     if (i == 1)
                     {
                         ReportIEVersion(WebBrowerManager.Instance.IEVersion);
                     }
                 }
-                
             }
             catch (Exception exception)
             {
                 //File.WriteAllText("z:\\1.txt", epnfex.Message);
             }
+
             Process currentProcess = Process.GetCurrentProcess();
             currentProcess.Kill();
         }
@@ -72,14 +81,14 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
             }
         }
 
-        public static  void ReportState(SpiderState state)
+        public static  void ReportState(SpiderResult result)
         {
-            using (ChannelFactory<IServerToClient> factory = new ChannelFactory<IServerToClient>(new NetNamedPipeBinding(), new EndpointAddress("net.pipe://127.0.0.1/Server")))
+            using (var factory = new ChannelFactory<IServerToClient>(new NetNamedPipeBinding() { MaxReceivedMessageSize = int.MaxValue }, new EndpointAddress("net.pipe://127.0.0.1/Server")))
             {
                 IServerToClient clientToServerChannel = factory.CreateChannel();
                 try
                 {
-                    clientToServerChannel.ReportStatus(state);
+                    clientToServerChannel.TransferData(result);
                 }
                 catch (TimeoutException)
                 {
@@ -122,7 +131,12 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
             }
         }
 
-        private static  void CloseChannel(ICommunicationObject channel)
+        /// <summary>
+        /// </summary>
+        /// <param name="channel">
+        /// The channel.
+        /// </param>
+        private static void CloseChannel(ICommunicationObject channel)
         {
             try
             {

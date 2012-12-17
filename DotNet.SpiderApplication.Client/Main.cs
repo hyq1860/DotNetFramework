@@ -2,38 +2,36 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.Linq;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using DotNet.Common.Core;
-using DotNet.Common.Logging;
-using DotNet.SpiderApplication.Contract;
-using DotNet.SpiderApplication.Contract.Entity;
-using DotNet.SpiderApplication.Contract.WCF;
-using DotNet.SpiderApplication.Service.Implemention.Service;
-using IfacesEnumsStructsClasses;
-using csExWB;
-using HtmlAgilityPack;
-using System.Drawing;
-
 using Amib.Threading;
-
+using csExWB;
 using DotNet.Base.Service;
 using DotNet.BasicSpider;
 using DotNet.Common;
 using DotNet.Common.Configuration;
+using DotNet.Common.Core;
+using DotNet.Common.Logging;
 using DotNet.Common.Utility;
 using DotNet.Data;
 using DotNet.IoC;
+using DotNet.SpiderApplication.Contract;
+using DotNet.SpiderApplication.Contract.Entity;
+using DotNet.SpiderApplication.Contract.WCF;
 using DotNet.SpiderApplication.Service;
+using DotNet.SpiderApplication.Service.Implemention.Service;
 using DotNet.Web.Http;
+using HtmlAgilityPack;
+using IfacesEnumsStructsClasses;
 
 namespace DotNet.SpiderApplication.Client
 {
-
+    using System.Xml;
 
     using ScrapySharp.Extensions;
 
@@ -71,7 +69,7 @@ namespace DotNet.SpiderApplication.Client
         private void Report()
         {
             this.serverHost = new ServiceHost(this);
-            this.serverHost.AddServiceEndpoint(typeof(IServerToClient), new NetNamedPipeBinding(), "net.pipe://127.0.0.1/Server");
+            this.serverHost.AddServiceEndpoint(typeof(IServerToClient), new NetNamedPipeBinding() { MaxReceivedMessageSize = int.MaxValue, ReaderQuotas=new XmlDictionaryReaderQuotas(){MaxStringContentLength = int.MaxValue} }, "net.pipe://127.0.0.1/Server");
             this.serverHost.Open();
         }
 
@@ -86,11 +84,12 @@ namespace DotNet.SpiderApplication.Client
         private void InitControls()
         {
             // 窗体大小锁定
-            this.MaximumSize=new Size(600,400);
-            this.MinimumSize = new Size(600, 400);
+            this.MaximumSize=new Size(640,400);
+            this.MinimumSize = new Size(640, 400);
             this.MaximizeBox = false;
+
             // 窗口启动居中
-            this.StartPosition=FormStartPosition.CenterScreen;
+            this.StartPosition = FormStartPosition.CenterScreen;
 
             // 初始化状态栏进度条
             this.toolStripProgressBar = new ToolStripStatusLabelWithBar();
@@ -103,9 +102,10 @@ namespace DotNet.SpiderApplication.Client
 
             this.toolStripStatusLabel.TextAlign = ContentAlignment.BottomCenter;
 
-            //IEVersion
+            // IEVersion
             this.toolStripStatusIELabel = new ToolStripStatusLabel();
-            //this.toolStripStatusIELabel.Spring = true;
+
+            // this.toolStripStatusIELabel.Spring = true;
             this.toolStripStatusIELabel.TextAlign = ContentAlignment.BottomCenter;
             this.toolStripStatusIELabel.Text = string.Format("IE核心：{0}", "未知");
 
@@ -129,7 +129,7 @@ namespace DotNet.SpiderApplication.Client
             p.StartInfo.ErrorDialog = true;
             //p.StartInfo.Arguments = jsonData;
             //p.Exited += new EventHandler(myProcess_HasExited);
-            //p.Start();
+            p.Start();
             //p.WaitForInputIdle();
             //p.Stop();
         }
@@ -257,8 +257,6 @@ namespace DotNet.SpiderApplication.Client
             #endregion
         }
 
-        private bool IsDocumentFinish;
-
         private DuplexChannelFactory<ICalculator> ChannelFactory;
 
         private CalculatorCallbackService CallbackService;
@@ -269,7 +267,7 @@ namespace DotNet.SpiderApplication.Client
         private void Main_Load(object sender, EventArgs e)
         {
             var p1 = SingletonProvider<ProcessWatcher>.UniqueInstance;
-            //p1.StartWatch();
+            p1.StartWatch();
             return;
             //TestSqlite();
             var dt = DataAccess.GetProductCategory(" ECPlatformId=4 limit 48,60");
@@ -400,7 +398,7 @@ namespace DotNet.SpiderApplication.Client
             var dirRootInfo = new DirectoryInfo(System.Environment.CurrentDirectory);
             GetFileList(dirRootInfo, fileLists);
             StringBuilder sb = new StringBuilder();
-            if(fileLists.Count>0)
+            if (fileLists.Count > 0)
             {
                 sb.AppendLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
                 sb.AppendLine("<updateFiles>");
@@ -409,9 +407,11 @@ namespace DotNet.SpiderApplication.Client
                     sb.AppendFormat(
                         "<file path=\"{0}\" url=\"{1}\" lastver=\"{2}\" size=\"{3}\" needRestart=\"{4}\" />\r\n", autoUpdateFileInfo.Path, autoUpdateFileInfo.Url, autoUpdateFileInfo.LastVer, autoUpdateFileInfo.Size, autoUpdateFileInfo.NeedRestart);
                 }
+
                 sb.AppendLine("</updateFiles>");
             }
-            if(File.Exists(System.Environment.CurrentDirectory+"\\AutoUpdateService.xml"))
+
+            if (File.Exists(System.Environment.CurrentDirectory + "\\AutoUpdateService.xml"))
             {
                 File.Delete(System.Environment.CurrentDirectory+"\\AutoUpdateService.xml");
                 File.WriteAllText(System.Environment.CurrentDirectory + "\\AutoUpdateService.xml",sb.ToString(),new UTF8Encoding());
@@ -435,6 +435,7 @@ namespace DotNet.SpiderApplication.Client
                     fileLists.Add(autoUpdateFile);
                 }
             }
+
             foreach (DirectoryInfo dirSub in diroot.GetDirectories())
             {
                 GetFileList(dirSub, fileLists);
@@ -452,32 +453,36 @@ namespace DotNet.SpiderApplication.Client
         private int totalTask;
 
         private int currentTaskCount;
-        public void ReportStatus(SpiderState state)
+
+        private long totalTime;
+
+        public void TransferData(SpiderResult result)
         {
-            //MessageBox.Show(state.Url);
+            //MessageBox.Show(result.Url);
             if (currentTaskCount==0)
             {
-                totalTask = state.TaskCount;
+                totalTask = result.TaskCount;
             }
+            totalTime += result.Elapse;
 
             currentTaskCount++;
-            toolStripStatusLabel.Text = state.Url;
-            //this.Text = state.Url;
-            if (this.toolStripProgressBar.Maximum != state.TaskCount)
+            toolStripStatusLabel.Text = result.Url;
+            //this.Text = result.Url;
+            if (this.toolStripProgressBar.Maximum != result.TaskCount)
             {
-                this.toolStripProgressBar.Maximum = state.TaskCount;
-                //this.toolStripProgressBar.Step = state.TaskCount;
+                this.toolStripProgressBar.Maximum = result.TaskCount;
+                //this.toolStripProgressBar.Step = result.TaskCount;
                 this.toolStripProgressBar.Minimum = 0;
                 this.toolStripProgressBar.Width = 200;
             }
 
-            if (currentTaskCount%state.TaskCount==0)
+            if (currentTaskCount%result.TaskCount==0)
             {
-               totalTask += state.TaskCount; 
+               totalTask += result.TaskCount; 
             }
-            
-            this.toolStripProgressBar.Text = state.Current+"/"+state.TaskCount+"/"+this.totalTask;
-            this.toolStripProgressBar.Value = state.Current;
+            this.Text = result.Title;
+            this.toolStripProgressBar.Text = result.Current + "/" + result.TaskCount + "/" + this.totalTask + "/平均：" + totalTime / currentTaskCount+"/当前"+result.Elapse+"";
+            this.toolStripProgressBar.Value = result.Current;
         }
 
         /// <summary>

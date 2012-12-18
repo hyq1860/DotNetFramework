@@ -27,7 +27,6 @@ using DotNet.SpiderApplication.Service;
 using DotNet.SpiderApplication.Service.Implemention.Service;
 using DotNet.Web.Http;
 using HtmlAgilityPack;
-using IfacesEnumsStructsClasses;
 
 namespace DotNet.SpiderApplication.Client
 {
@@ -46,7 +45,7 @@ namespace DotNet.SpiderApplication.Client
     //        OnExited();
     //    }
     //}
-
+    //http://www.cnblogs.com/stanley107/archive/2012/12/18/2823096.html 无配置wcf
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
     public partial class Main : Form, IServerToClient
     {

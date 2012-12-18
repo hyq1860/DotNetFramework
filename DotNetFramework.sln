@@ -83,6 +83,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefDll", "RefDll\RefDll.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.SpiderApplication.WebBrowerInstance", "DotNet.SpiderApplication.WebBrowerInstance\DotNet.SpiderApplication.WebBrowerInstance.csproj", "{D805BFE6-6975-4254-BF1B-2AA7029EAD02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.TaskScheduler", "DotNet.TaskScheduler\DotNet.TaskScheduler.csproj", "{A8D31246-2899-44CF-9E9D-5966C3B2686C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.TaskSchedulerDemo", "DotNet.TaskSchedulerDemo\DotNet.TaskSchedulerDemo.csproj", "{05573D97-5127-44C1-8656-1E32977458E1}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = DotNetFramework.vsmdi
@@ -446,6 +450,26 @@ Global
 		{D805BFE6-6975-4254-BF1B-2AA7029EAD02}.Release|Mixed Platforms.Build.0 = Release|x86
 		{D805BFE6-6975-4254-BF1B-2AA7029EAD02}.Release|x86.ActiveCfg = Release|x86
 		{D805BFE6-6975-4254-BF1B-2AA7029EAD02}.Release|x86.Build.0 = Release|x86
+		{A8D31246-2899-44CF-9E9D-5966C3B2686C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8D31246-2899-44CF-9E9D-5966C3B2686C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8D31246-2899-44CF-9E9D-5966C3B2686C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A8D31246-2899-44CF-9E9D-5966C3B2686C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A8D31246-2899-44CF-9E9D-5966C3B2686C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A8D31246-2899-44CF-9E9D-5966C3B2686C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8D31246-2899-44CF-9E9D-5966C3B2686C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8D31246-2899-44CF-9E9D-5966C3B2686C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A8D31246-2899-44CF-9E9D-5966C3B2686C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A8D31246-2899-44CF-9E9D-5966C3B2686C}.Release|x86.ActiveCfg = Release|Any CPU
+		{05573D97-5127-44C1-8656-1E32977458E1}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{05573D97-5127-44C1-8656-1E32977458E1}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{05573D97-5127-44C1-8656-1E32977458E1}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{05573D97-5127-44C1-8656-1E32977458E1}.Debug|x86.ActiveCfg = Debug|x86
+		{05573D97-5127-44C1-8656-1E32977458E1}.Debug|x86.Build.0 = Debug|x86
+		{05573D97-5127-44C1-8656-1E32977458E1}.Release|Any CPU.ActiveCfg = Release|x86
+		{05573D97-5127-44C1-8656-1E32977458E1}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{05573D97-5127-44C1-8656-1E32977458E1}.Release|Mixed Platforms.Build.0 = Release|x86
+		{05573D97-5127-44C1-8656-1E32977458E1}.Release|x86.ActiveCfg = Release|x86
+		{05573D97-5127-44C1-8656-1E32977458E1}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

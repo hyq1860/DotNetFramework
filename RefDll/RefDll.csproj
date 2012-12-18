@@ -117,9 +117,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="C5.dll" />
     <Content Include="Combres.dll" />
     <Content Include="Combres.pdb" />
     <Content Include="Combres.XML" />
+    <Content Include="Common.Logging.dll" />
     <Content Include="ComUtilities.dll" />
     <Content Include="csExWB.dll" />
     <Content Include="csExWB.pdb" />
@@ -163,6 +165,9 @@
     <Content Include="PanGu.HighLight.pdb" />
     <Content Include="PanGu.Lucene.Analyzer.dll" />
     <Content Include="PowerCollections.dll" />
+    <Content Include="Quartz.dll" />
+    <Content Include="Quartz.pdb" />
+    <Content Include="Quartz.xml" />
     <Content Include="Readme.txt" />
     <Content Include="ScrapySharp.Core.dll" />
     <Content Include="ScrapySharp.Core.pdb" />

@@ -87,6 +87,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.TaskScheduler", "Dot
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.TaskSchedulerDemo", "DotNet.TaskSchedulerDemo\DotNet.TaskSchedulerDemo.csproj", "{05573D97-5127-44C1-8656-1E32977458E1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.TaskSchedulerConsoleDemo", "DotNet.TaskSchedulerConsoleDemo\DotNet.TaskSchedulerConsoleDemo.csproj", "{99327928-39B1-4B9D-BD25-F04D05C3C7CC}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = DotNetFramework.vsmdi
@@ -470,6 +472,16 @@ Global
 		{05573D97-5127-44C1-8656-1E32977458E1}.Release|Mixed Platforms.Build.0 = Release|x86
 		{05573D97-5127-44C1-8656-1E32977458E1}.Release|x86.ActiveCfg = Release|x86
 		{05573D97-5127-44C1-8656-1E32977458E1}.Release|x86.Build.0 = Release|x86
+		{99327928-39B1-4B9D-BD25-F04D05C3C7CC}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{99327928-39B1-4B9D-BD25-F04D05C3C7CC}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{99327928-39B1-4B9D-BD25-F04D05C3C7CC}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{99327928-39B1-4B9D-BD25-F04D05C3C7CC}.Debug|x86.ActiveCfg = Debug|x86
+		{99327928-39B1-4B9D-BD25-F04D05C3C7CC}.Debug|x86.Build.0 = Debug|x86
+		{99327928-39B1-4B9D-BD25-F04D05C3C7CC}.Release|Any CPU.ActiveCfg = Release|x86
+		{99327928-39B1-4B9D-BD25-F04D05C3C7CC}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{99327928-39B1-4B9D-BD25-F04D05C3C7CC}.Release|Mixed Platforms.Build.0 = Release|x86
+		{99327928-39B1-4B9D-BD25-F04D05C3C7CC}.Release|x86.ActiveCfg = Release|x86
+		{99327928-39B1-4B9D-BD25-F04D05C3C7CC}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

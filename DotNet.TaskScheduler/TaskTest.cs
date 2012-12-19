@@ -28,14 +28,14 @@ namespace DotNet.TaskScheduler
             IScheduler sched = schedFact.GetScheduler();
             sched.Start();
 
-            // construct job info
-            JobDetail jobDetail = new JobDetail("myJob", null, typeof(HelloJob));
-            // fire every hour
-            Trigger trigger = TriggerUtils.MakeHourlyTrigger();
-            // start on the next even hour
-            trigger.StartTimeUtc = TriggerUtils.GetEvenHourDate(DateTime.UtcNow);
-            trigger.Name = "myTrigger";
-            sched.ScheduleJob(jobDetail, trigger); 
+            //// construct job info
+            //JobDetail jobDetail = new JobDetail("myJob", null, typeof(HelloJob));
+            //// fire every hour
+            //Trigger trigger = TriggerUtils.MakeHourlyTrigger();
+            //// start on the next even hour
+            //trigger.StartTimeUtc = TriggerUtils.GetEvenHourDate(DateTime.UtcNow);
+            //trigger.Name = "myTrigger";
+            //sched.ScheduleJob(jobDetail, trigger); 
         }
     }
 }

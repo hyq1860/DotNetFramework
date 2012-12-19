@@ -279,50 +279,39 @@ namespace DotNet.BasicSpider
                 this.HttpRequestUrls.Clear();
             }
 
-            WB.Navigate(url);
+            this.WB.Navigate(url);
             var flage = false;
-            
-            long elapse = 0;
-            var start = DateTime.Now;
-            TimeSpan ts1 = new TimeSpan(DateTime.Now.Ticks);
-            TimeSpan ts=new TimeSpan();
+
+            var sw = new Stopwatch();
+            sw.Start();
             while (!this.IsDocumentFinish)
             {
                 Application.DoEvents();
                 Thread.Sleep(50);
-                TimeSpan ts2 = new TimeSpan(DateTime.Now.Ticks);
-                //elapse = (DateTime.Now - start).Milliseconds/1000;
-                ts = ts1.Subtract(ts2).Duration();
-                if (ts.Milliseconds > this.TimeOut * 1000)
+
+                sw.Stop();
+                if (sw.ElapsedMilliseconds >= this.TimeOut * 1000)
                 {
                     flage = true;
                     break;
                 }
+
+                sw.Start();
             }
+
+            sw.Stop();
 
             if (flage)
             {
                 return document;
             }
 
-            this.Elapse = ts.Duration().Milliseconds;
+            this.Elapse = sw.Elapsed.Milliseconds;
             this.IsDocumentFinish = false;
-
-            // 获取ie浏览器版本
-            this.IEVersion = this.WB.IEVersion();
-
-            /* 自动登陆
-            To automate login, navigate to login page, 
-            in DocumentComplete check for isTopLevel which indiactes the page has fully loaded and a flag to indicate if you have not logged in. 
-            Then use AutomationTask methods to login.
-            WB.AutomationTask_PerformEnterData("UsernameTextBox_Name", "username");
-            WB.AutomationTask_PerformEnterData("PasswordTextBox_Name", "password");
-            WB.AutomationTask_PerformClickButton("SubmitButton_Name");
-             */
             document.HtmlSource = this.WB.DocumentSource;
             document.HttpRequestUrls = this.HttpRequestUrls;
             document.Title = this.WB.DocumentTitle;
-            document.Elapse = Elapse;
+            document.Elapse = this.Elapse;
             return document;
         }
 
@@ -332,11 +321,12 @@ namespace DotNet.BasicSpider
         /// <returns></returns>
         public bool IsContainIFrame()
         {
-            var col = WB.GetElementsByTagName(true, "IFRAME") as IHTMLElementCollection;
+            var col = this.WB.GetElementsByTagName(true, "IFRAME") as IHTMLElementCollection;
             if (col != null)
             {
                 return col.length > 0;
             }
+
             return false;
         }
 

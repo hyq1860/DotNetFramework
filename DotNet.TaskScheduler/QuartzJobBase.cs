@@ -16,6 +16,11 @@ using Formatting = System.Xml.Formatting;
 
 namespace DotNet.TaskScheduler
 {
+    using System.IO;
+
+    using Quartz.Simpl;
+    using Quartz.Xml;
+
     //public  class QuartzJobBase : IJob
     //{
     //    public void Execute(IJobExecutionContext context)
@@ -25,12 +30,17 @@ namespace DotNet.TaskScheduler
     //}
 
     // DisallowConcurrentExecution
-    [DisallowConcurrentExecution]
+    [PersistJobDataAfterExecution]//保存执行状态  
+    [DisallowConcurrentExecution]//不允许并发执行  
     public class QuartzJobTest : IJob
     {
         public void Execute(IJobExecutionContext context)
         {
+            int exeCount = context.JobDetail.JobDataMap.GetInt("exeCount");
 
+            Console.WriteLine("我执行了,时间:{0} 第{1}次执行", DateTime.Now, exeCount);
+
+            context.JobDetail.JobDataMap.Put("exeCount", ++exeCount);  
         }
     }
 
@@ -84,6 +94,93 @@ namespace DotNet.TaskScheduler
             //任务与触发器添加到调度器
             scheduler.ScheduleJob(job, trigger);
         }
+
+        public void Test01()
+        {
+            //创建一个工作调度器工场
+            ISchedulerFactory factory = new StdSchedulerFactory();
+            //获取一个任务调度器
+            IScheduler scheduler = factory.GetScheduler();
+            scheduler.Start();
+            //创建一个工作
+            IJobDetail job = JobBuilder.Create<QuartzJobTest>().WithIdentity("SampleJob", "JobGroup1").Build();
+
+            //创建触发器
+
+            //1.服务开始时执行
+            ITrigger trigger = TriggerBuilder.Create().StartNow().Build();
+
+            //任务与触发器添加到调度器
+            scheduler.ScheduleJob(job, trigger);
+
+            //执行  
+            scheduler.Start();
+
+            Console.Read();
+
+            //关掉  
+            scheduler.Shutdown(true); 
+        }
+
+        public void Test02()
+        {
+            //创建一个工作调度器工场
+            ISchedulerFactory factory = new StdSchedulerFactory();
+            //获取一个任务调度器
+            IScheduler scheduler = factory.GetScheduler();
+            scheduler.Start();
+            //创建一个工作
+            IJobDetail job = JobBuilder.Create<QuartzJobTest>().WithIdentity("SampleJob", "JobGroup1").Build();
+
+            //创建触发器
+
+            //1.服务开始时执行
+            //用的简单触发器，每隔2秒执行一次 
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithSimpleSchedule(t => t.RepeatForever().WithIntervalInSeconds(2))
+                .WithIdentity("t1")
+                .Build();
+
+            //任务与触发器添加到调度器
+            scheduler.ScheduleJob(job, trigger);
+
+            //执行  
+            scheduler.Start();
+
+            Console.Read();
+
+            //关掉  
+            scheduler.Shutdown(true);
+        }
+
+        // 手動加載配置文件
+        public void Test03()
+        {
+            XMLSchedulingDataProcessor processor = new XMLSchedulingDataProcessor(new SimpleTypeLoadHelper());
+            ISchedulerFactory sf = new StdSchedulerFactory();
+            IScheduler scheduler = sf.GetScheduler();
+
+            Stream s = new StreamReader("~/quartz.xml").BaseStream;
+            processor.ProcessStream(s, null);
+            processor.ScheduleJobs(scheduler);
+
+            scheduler.Start();
+            scheduler.Shutdown();
+        }
+
+        // 手動加載配置文件
+        public void Test04()
+        {
+            XMLSchedulingDataProcessor processor = new XMLSchedulingDataProcessor(new SimpleTypeLoadHelper());
+            ISchedulerFactory sf = new StdSchedulerFactory();
+            IScheduler scheduler = sf.GetScheduler();
+
+            processor.ProcessFileAndScheduleJobs("~/quartz.xml", scheduler);
+
+            scheduler.Start();
+            scheduler.Shutdown();
+        }
+
 
         public void TestCronExpression()
         {

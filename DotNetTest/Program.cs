@@ -16,6 +16,7 @@ namespace DotNetTest
     using System.Diagnostics;
 
     using DotNet.BasicSpider;
+    using DotNet.TaskScheduler;
 
     using csExWB;
 
@@ -76,6 +77,12 @@ namespace DotNetTest
 
         static void Main(string[] args)
         {
+
+            TaskManager taskManager=new TaskManager();
+            taskManager.Test02();
+            Console.ReadKey();
+            return;
+
             Process.Start("IExplore.exe", "www.northwindtraders.comTest");
 
             WebBrowerManager.Instance.Setup(new cEXWB());

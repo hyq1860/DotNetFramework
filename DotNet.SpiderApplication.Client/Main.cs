@@ -46,6 +46,7 @@ namespace DotNet.SpiderApplication.Client
     //    }
     //}
     //http://www.cnblogs.com/stanley107/archive/2012/12/18/2823096.html 无配置wcf
+    //http://www.cnblogs.com/mecity/archive/2012/01/17/WCF.html wcf证书的问题
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
     public partial class Main : Form, IServerToClient
     {

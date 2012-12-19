@@ -138,6 +138,7 @@
     </None>
     <None Include="Configs\ConnectionString.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Configs\Cookie.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

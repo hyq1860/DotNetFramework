@@ -1,0 +1,12 @@
+﻿调度器状态主要有：
+QRTZ_TRIGGERS表的TRIGGER_STATE
+
+PAUSED_BLOCKED	停止_阻塞 
+PAUSED			停止 
+WAITING			等待执行 
+ACQUIRED		已获得  
+EXECUTING		执行中 
+COMPLETE		完成  
+BLOCKED			阻塞  
+ERROR			错误  
+DELETED			已删除  

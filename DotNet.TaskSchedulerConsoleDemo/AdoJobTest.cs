@@ -39,8 +39,12 @@ namespace DotNet.TaskSchedulerConsoleDemo
             properties["quartz.jobStore.dataSource"] = "default";
             properties["quartz.jobStore.tablePrefix"] = "QRTZ_";//指定所使用的数据库表前缀
             properties["quartz.jobStore.clustered"] = "true";
+
+            #region sqlite
             // if running SQLite we need this
             properties["quartz.jobStore.lockHandler.type"] = "Quartz.Impl.AdoJobStore.UpdateLockRowSemaphore, Quartz";
+            properties["quartz.jobStore.driverDelegateType"] = "Quartz.Impl.AdoJobStore.SQLiteDelegate, Quartz";
+            #endregion
 
             //properties["quartz.dataSource.default.connectionString"] = "Server=(local);Database=quartz;Trusted_Connection=True;";
             properties["quartz.dataSource.default.connectionString"] = @"Data Source=" + Environment.CurrentDirectory + "\\task.db";

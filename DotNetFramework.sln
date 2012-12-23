@@ -89,6 +89,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.TaskSchedulerDemo", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.TaskSchedulerConsoleDemo", "DotNet.TaskSchedulerConsoleDemo\DotNet.TaskSchedulerConsoleDemo.csproj", "{99327928-39B1-4B9D-BD25-F04D05C3C7CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.SpiderApplication.XpathHelper", "DotNet.SpiderApplication.XpathHelper\DotNet.SpiderApplication.XpathHelper.csproj", "{0C9806B1-6431-40AC-802D-86FDA0E12905}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = DotNetFramework.vsmdi
@@ -482,6 +484,16 @@ Global
 		{99327928-39B1-4B9D-BD25-F04D05C3C7CC}.Release|Mixed Platforms.Build.0 = Release|x86
 		{99327928-39B1-4B9D-BD25-F04D05C3C7CC}.Release|x86.ActiveCfg = Release|x86
 		{99327928-39B1-4B9D-BD25-F04D05C3C7CC}.Release|x86.Build.0 = Release|x86
+		{0C9806B1-6431-40AC-802D-86FDA0E12905}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0C9806B1-6431-40AC-802D-86FDA0E12905}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{0C9806B1-6431-40AC-802D-86FDA0E12905}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{0C9806B1-6431-40AC-802D-86FDA0E12905}.Debug|x86.ActiveCfg = Debug|x86
+		{0C9806B1-6431-40AC-802D-86FDA0E12905}.Debug|x86.Build.0 = Debug|x86
+		{0C9806B1-6431-40AC-802D-86FDA0E12905}.Release|Any CPU.ActiveCfg = Release|x86
+		{0C9806B1-6431-40AC-802D-86FDA0E12905}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{0C9806B1-6431-40AC-802D-86FDA0E12905}.Release|Mixed Platforms.Build.0 = Release|x86
+		{0C9806B1-6431-40AC-802D-86FDA0E12905}.Release|x86.ActiveCfg = Release|x86
+		{0C9806B1-6431-40AC-802D-86FDA0E12905}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

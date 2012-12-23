@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace DotNet.SpiderApplication.Client
@@ -21,7 +22,14 @@ namespace DotNet.SpiderApplication.Client
             // IOC的注入
             BootStrapperManager.Initialize(new NinjectBootstrapper());
 
-            Application.Run(new Main());
+            //Create a new mutex using specific mutex name
+            //http://www.csharpwin.com/csharpspace/10656r1776.shtml
+            bool bCreatedNew;
+            var mutex = new Mutex(false, "DotNet.SpiderApplication.Client", out bCreatedNew);
+            if (bCreatedNew)
+            {
+                Application.Run(new Main());
+            }
         }
     }
 }

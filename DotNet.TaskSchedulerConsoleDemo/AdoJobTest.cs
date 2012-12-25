@@ -97,11 +97,11 @@ namespace DotNet.TaskSchedulerConsoleDemo
 
             log.Info("------- Waiting for one hour... ----------");
 
-            Thread.Sleep(TimeSpan.FromHours(1));
+            //Thread.Sleep(TimeSpan.FromHours(1));
 
 
             log.Info("------- Shutting Down --------------------");
-            sched.Shutdown();
+            //sched.Shutdown();
             log.Info("------- Shutdown Complete ----------------");
         }
     }

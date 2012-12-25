@@ -16,6 +16,8 @@ namespace DotNet.TaskSchedulerConsoleDemo
     /// <summary>
     /// TODO: Update summary.
     /// </summary>
+    [PersistJobDataAfterExecution]//保存执行状态  
+    [DisallowConcurrentExecution]//不允许并发执行  
     public class JobDemo:IJob
     {
         private const string Count = "count";

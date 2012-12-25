@@ -129,7 +129,7 @@ namespace DotNet.SpiderApplication.Client
             p.StartInfo.ErrorDialog = true;
             //p.StartInfo.Arguments = jsonData;
             //p.Exited += new EventHandler(myProcess_HasExited);
-            p.Start();
+            //p.Start();
             //p.WaitForInputIdle();
             //p.Stop();
         }
@@ -267,7 +267,7 @@ namespace DotNet.SpiderApplication.Client
         private void Main_Load(object sender, EventArgs e)
         {
             var p1 = SingletonProvider<ProcessWatcher>.UniqueInstance;
-            p1.StartWatch();
+           // p1.StartWatch();
             return;
             //TestSqlite();
             var dt = DataAccess.GetProductCategory(" ECPlatformId=4 limit 48,60");
@@ -483,6 +483,9 @@ namespace DotNet.SpiderApplication.Client
             this.Text = result.Title;
             this.toolStripProgressBar.Text = result.Current + "/" + result.TaskCount + "/" + this.totalTask + "/平均：" + totalTime / currentTaskCount+"/当前"+result.Elapse+"";
             this.toolStripProgressBar.Value = result.Current;
+
+            SpiderManager.SpiderProductDetail(new SpiderProductInfo(){ECPlatformId = 1,HtmlSource = result.HtmlSource});
+            File.WriteAllText("z:\\" + result.Title + ".html", result.HtmlSource, Encoding.GetEncoding(result.Charset));
         }
 
         /// <summary>

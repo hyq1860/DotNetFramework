@@ -19,7 +19,7 @@ namespace DotNetTest
     using DotNet.TaskScheduler;
 
     using csExWB;
-
+    
     class Program
     {
         public static void HtmlParse(string html)
@@ -75,8 +75,25 @@ namespace DotNetTest
             return strB.ToString();
         }
 
+        [STAThread]
         static void Main(string[] args)
         {
+            WebBrowerManager.Instance.Setup(new cEXWB());
+            WebBrowerManager.Instance.TimeOut = 15;
+            WebBrowerManager.Instance.FilterRequest = true;
+            WebBrowerManager.Instance.FilterAction.Add(".css", (string key, string source) =>
+                {
+                    if(source.EndsWith(key))
+                    {
+                        return true;
+                    }
+                    return false;
+                });
+            string html1 = WebBrowerManager.Instance.Run("http://www.sge.sh/publish/sge/xqzx/jyxq/index.htm");
+
+            Console.WriteLine(html1);
+            Console.Read();
+            return;
 
             TaskManager taskManager=new TaskManager();
             taskManager.Test02();
@@ -85,11 +102,7 @@ namespace DotNetTest
 
             Process.Start("IExplore.exe", "www.northwindtraders.comTest");
 
-            WebBrowerManager.Instance.Setup(new cEXWB());
-            WebBrowerManager.Instance.TimeOut = 15;
-            WebBrowerManager.Instance.Run("http://www.baidu.com");
-            Console.WriteLine(WebBrowerManager.Instance.IEVersion);
-            Console.Read();
+            
             //
             //EncodingTest.Test();
             //return;

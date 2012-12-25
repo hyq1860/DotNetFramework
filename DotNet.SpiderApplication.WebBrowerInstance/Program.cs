@@ -11,6 +11,8 @@ using csExWB;
 
 namespace DotNet.SpiderApplication.WebBrowerInstance
 {
+    using System.IO;
+
     class Program
     {
         [STAThread]
@@ -19,6 +21,50 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
             // IOC的注入
             BootStrapperManager.Initialize(new NinjectBootstrapper());
             WebBrowerManager.Instance.Setup(new cEXWB());
+            WebBrowerManager.Instance.FilterRequest = true;
+            WebBrowerManager.Instance.FilterAction.Add(".css", (string key, string source) =>
+            {
+                if (source.EndsWith(key))
+                {
+                    return true;
+                }
+                return false;
+            });
+        //http://counter.360buy.com/aclk.aspx?key=p523868
+
+            WebBrowerManager.Instance.FilterAction.Add(".aspx", (string key, string source) =>
+            {
+                if (source.Contains(key))
+                {
+                    //File.WriteAllText(@"z:\1\"+source+".txt",source);
+                    return true;
+                }
+                return false;
+            });
+            WebBrowerManager.Instance.FilterAction.Add(".ashx", (string key, string source) =>
+            {
+                if (source.Contains(key))
+                {
+                    return true;
+                }
+                return false;
+            });
+            WebBrowerManager.Instance.FilterAction.Add("http://wiki.360buy.com", (string key, string source) =>
+            {
+                if (source.StartsWith(key))
+                {
+                    return true;
+                }
+                return false;
+            });
+            WebBrowerManager.Instance.FilterAction.Add("http://chat.360buy.com", (string key, string source) =>
+            {
+                if (source.StartsWith(key))
+                {
+                    return true;
+                }
+                return false;
+            });
             try
             {
                 var data = GetSpiderTask(20);
@@ -37,7 +83,8 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
                                 Current = i,
                                 HtmlSource = document.HtmlSource,
                                 Title = document.Title,
-                                Elapse = document.Elapse
+                                Elapse = document.Elapse,
+                                Charset = document.Encoding
                             });
                     if (i == 1)
                     {

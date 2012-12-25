@@ -183,7 +183,7 @@ namespace DotNet.SpiderApplication.XpathHelper
 
             TopBottomSplitContainer.Panel1.Controls.Add(comboBoxUrl);
             //TopBottomSplitContainer.Panel1.Controls.Add(btnGo);
-            //TopBottomSplitContainer.Panel2.Controls.Add(richTextBox);
+            TopBottomSplitContainer.Panel2.Controls.Add(richTextBox);
 
             //CenterSplitContainer
             CenterSplitContainer=new SplitContainer();

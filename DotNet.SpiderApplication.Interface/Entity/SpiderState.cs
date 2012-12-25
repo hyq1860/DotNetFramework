@@ -39,5 +39,7 @@ namespace DotNet.SpiderApplication.Contract.Entity
         public string Title { get; set; }
 
         public long Elapse { get; set; }
+
+        public string Charset { get; set; }
     }
 }

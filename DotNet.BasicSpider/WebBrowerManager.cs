@@ -25,13 +25,16 @@ namespace DotNet.BasicSpider
     /// </summary>
     public class WebBrowerManager
     {
-        private cEXWB WB { get; set; }
+        public  cEXWB WB { get; private set; }
 
         private bool IsDocumentFinish = false;
 
         private WebBrowerManager()
         {
             TimeOut = 8;
+            IsRecordCookie = true;
+            FilterAction=new Dictionary<string, Func<string, string, bool>>();
+            GetCharset = true;
         }
 
         #region 注册组建
@@ -204,8 +207,24 @@ namespace DotNet.BasicSpider
         /// <summary>
         /// 请求的url
         /// </summary>
-        public List<string> HttpRequestUrls { get; set; } 
+        public List<string> HttpRequestUrls { get; set; }
 
+        /// <summary>
+        /// 是否过滤请求
+        /// </summary>
+        public bool FilterRequest { get; set; }
+
+        /// <summary>
+        /// 是否获取网页编码
+        /// </summary>
+        public bool GetCharset { get; set; }
+
+        public Dictionary<string, Func<string,string, bool>> FilterAction { get; set; }
+
+        /// <summary>
+        /// 是否记录cookie
+        /// </summary>
+        public bool IsRecordCookie { get; set; }
 
         /// <summary>
         /// 采集页面，返回页面html
@@ -312,6 +331,16 @@ namespace DotNet.BasicSpider
             document.HttpRequestUrls = this.HttpRequestUrls;
             document.Title = this.WB.DocumentTitle;
             document.Elapse = this.Elapse;
+            
+            if(GetCharset)
+            {
+                var doc = this.WB.WebbrowserObject.Document as IHTMLDocument2;
+                if (doc != null)
+                {
+                    document.Encoding = doc.charset;
+                }
+            }
+            
             return document;
         }
 
@@ -514,11 +543,23 @@ namespace DotNet.BasicSpider
         //Fired to indicate when a response from a server has been received
         void WebBrower_ProtocolHandlerOnResponse(object sender, ProtocolHandlerOnResponseEventArgs e)
         {
-            if (e.URL.EndsWith(".css"))
+            if (this.FilterRequest && this.FilterAction.Count > 0)
             {
-                e.Cancel = true;
-                return;
+                foreach (KeyValuePair<string, Func<string, string, bool>> keyValuePair in FilterAction)
+                {
+                    if (e.URL.Contains(keyValuePair.Key))
+                    {
+                        e.Cancel = keyValuePair.Value(keyValuePair.Key, e.URL);
+                    }
+                }
             }
+
+            if(IsRecordCookie)
+            {
+                //记录分析cookie
+                string headers = e.ResponseHeaders;
+            }
+            
             //Debug.Print(">>>>>>ProtocolHandlerOnResponse=> " + e.URL);
             //+ "\r\nResponseHeaders >>\r\n" + e.ResponseHeaders);
         }
@@ -528,13 +569,16 @@ namespace DotNet.BasicSpider
         void WebBrower_ProtocolHandlerBeginTransaction(object sender, ProtocolHandlerBeginTransactionEventArgs e)
         {
             HttpRequestUrls.Add(e.URL);
-            if (e.URL.EndsWith(".css"))
+            if (this.FilterRequest && this.FilterAction.Count > 0)
             {
-                e.Cancel = true;
-            }
-            else if (e.URL.EndsWith(".ico"))
-            {
-                e.Cancel = true;
+                
+                foreach (KeyValuePair<string, Func<string,string, bool>> keyValuePair in FilterAction)
+                {
+                    if (e.URL.Contains(keyValuePair.Key))
+                    {
+                        e.Cancel = keyValuePair.Value(keyValuePair.Key, e.URL);
+                    }
+                }
             }
             //Debug.Print(">>>>>>ProtocolHandlerBeginTransaction=> " + e.URL);
             //+ "\r\nRequestHeaders >>\r\n" + e.RequestHeaders);

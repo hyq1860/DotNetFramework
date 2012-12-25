@@ -14,6 +14,7 @@ namespace DotNet.SpiderApplication.Client
     using DotNet.BasicSpider;
     using DotNet.SpiderApplication.Contract;
     using DotNet.SpiderApplication.Contract.Entity;
+    using DotNet.SpiderApplication.Service;
     using DotNet.Web.Http;
 
     using csExWB;
@@ -26,18 +27,24 @@ namespace DotNet.SpiderApplication.Client
     {
         public ProductInfo SpiderProductDetail(SpiderProductInfo spiderProduct)
         {
-            var html=WebBrowerManager.Instance.Run(spiderProduct.Url);
-            var htmlDocument = HtmlAgilityPackHelper.GetHtmlDocument(html);
+            //var html=WebBrowerManager.Instance.Run(spiderProduct.Url);
+            var htmlDocument = HtmlAgilityPackHelper.GetHtmlDocument(spiderProduct.HtmlSource);
 
             //标题
             var title = htmlDocument.DocumentNode.SelectSingleNode("/html[1]/body[1]/div[6]/div[1]/div[1]/h1[1]");
             var price = htmlDocument.DocumentNode.SelectSingleNode("//div[@class='p-price']/img");
+            
             // 文字价格
             var priceText = htmlDocument.DocumentNode.SelectSingleNode("/html[1]/body[1]/div[6]/div[1]/div[2]/ul[1]/li[2]/script[1]");
 
             // 产品图片
-            var defaultImage = htmlDocument.DocumentNode.SelectSingleNode("/html[1]/body[1]/div[5]/div[1]/div[2]/div[1]");
-
+            //var defaultImage = htmlDocument.DocumentNode.SelectSingleNode("/html[1]/body[1]/div[5]/div[1]/div[2]/div[1]");
+            decimal realPrice = 0;
+            if (price.Attributes["src"]!=null&&!string.IsNullOrEmpty(price.Attributes["src"].Value))
+            {
+                decimal.TryParse(ImageProcess.Recognize(price.Attributes["src"].Value),out realPrice) ;
+            }
+            
             // 促销信息是ajax
             if (title != null && price != null && priceText != null)
             {
@@ -53,7 +60,7 @@ namespace DotNet.SpiderApplication.Client
 
             }
 
-            return new ProductInfo() { Source = html, ProductId = spiderProduct.ProductId, Url = spiderProduct.Url };
+            return new ProductInfo() { Source = spiderProduct.HtmlSource, ProductId = spiderProduct.ProductId, Url = spiderProduct.Url, Price = realPrice };
         }
 
 

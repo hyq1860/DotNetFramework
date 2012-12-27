@@ -14,6 +14,7 @@ using DotNet.Web.Http;
 namespace DotNetTest
 {
     using System.Diagnostics;
+    using System.IO;
 
     using DotNet.BasicSpider;
     using DotNet.TaskScheduler;
@@ -78,6 +79,16 @@ namespace DotNetTest
         [STAThread]
         static void Main(string[] args)
         {
+
+            //var indexUrls= GoldSpider.GetUrls();
+            //var urls= GoldSpider.Spider(indexUrls);
+            //string json = JsonHelper.ToJson(urls);
+            //File.WriteAllText(Environment.CurrentDirectory+"\\urls.json",json);
+
+            var data= JsonHelper.FromJson<List<string>>(File.ReadAllText(Environment.CurrentDirectory + "\\urls.json"));
+            var finalDatas= GoldSpider.SpiderPrice(data);
+            File.WriteAllText(Environment.CurrentDirectory + "\\data.json", JsonHelper.ToJson(finalDatas));
+            return;
 
             //SqliteTest.Test();
             //string connectionstring1 = "Data Source=e:\\sqlite.db3";

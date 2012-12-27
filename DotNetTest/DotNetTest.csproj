@@ -40,6 +40,7 @@
     <Reference Include="Fasterflect">
       <HintPath>..\packages\fasterflect.2.1.0\lib\net35\Fasterflect.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.6.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL" />
     <Reference Include="Interop.ComUtilitiesLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -70,6 +71,7 @@
     <Compile Include="AddTest.cs" />
     <Compile Include="Encodingcheck.cs" />
     <Compile Include="EncodingTest.cs" />
+    <Compile Include="GoldSpider.cs" />
     <Compile Include="HttpClientTest.cs" />
     <Compile Include="IAdd.cs" />
     <Compile Include="NinjectBootstrapper.cs" />

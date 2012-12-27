@@ -58,10 +58,31 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="index - 副本.htm" />
+    <Content Include="index.htm" />
     <Content Include="KnockoutDemo\Knockout_Binding_01.aspx" />
     <Content Include="KnockoutDemo\Knockout_Start.aspx" />
+    <Content Include="script\adapters\mootools-adapter.js" />
+    <Content Include="script\adapters\mootools-adapter.src.js" />
+    <Content Include="script\adapters\prototype-adapter.js" />
+    <Content Include="script\adapters\prototype-adapter.src.js" />
+    <Content Include="script\highcharts-more.js" />
+    <Content Include="script\highcharts-more.src.js" />
+    <Content Include="script\highcharts.js" />
+    <Content Include="script\highcharts.src.js" />
     <Content Include="script\jquery-1.8.2.js" />
     <Content Include="script\knockout-2.2.0.debug.js" />
+    <Content Include="script\modules\canvas-tools.js" />
+    <Content Include="script\modules\canvas-tools.src.js" />
+    <Content Include="script\modules\data.js" />
+    <Content Include="script\modules\data.src.js" />
+    <Content Include="script\modules\exporting.js" />
+    <Content Include="script\modules\exporting.src.js" />
+    <Content Include="script\themes\dark-blue.js" />
+    <Content Include="script\themes\dark-green.js" />
+    <Content Include="script\themes\gray.js" />
+    <Content Include="script\themes\grid.js" />
+    <Content Include="script\themes\skies.js" />
     <Content Include="Spider.svc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -109,6 +130,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DotNet.Common\DotNet.Common.csproj">
+      <Project>{55E1D54C-FBD4-4D79-97BB-A0F00DC14FB7}</Project>
+      <Name>DotNet.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DotNet.IoC\DotNet.IoC.csproj">
       <Project>{14CB43B9-12F3-49B9-9994-1E9F99BDFF69}</Project>
       <Name>DotNet.IoC</Name>
@@ -144,6 +169,11 @@
     <Content Include="Log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -78,6 +78,18 @@ namespace DotNetTest
         [STAThread]
         static void Main(string[] args)
         {
+
+            //SqliteTest.Test();
+            //string connectionstring1 = "Data Source=e:\\sqlite.db3";
+            //string connectionstring2 = "Data Source=e:\\sqlite.db3;PRAGMA cache_size=10000";
+            //SqliteTest.Query("select id from test1 limit 0,10000", connectionstring2);
+            //SqliteTest.Query("select id from test1 limit 0,10000", connectionstring1);
+            //SqliteTest.Query("select id from test1 limit 0,10000", connectionstring1);
+
+            SqliteTest.Memory(100000);
+            SqliteTest.MemoryQuery("select id from test1 limit 0,10000");
+            return;
+
             WebBrowerManager.Instance.Setup(new cEXWB());
             WebBrowerManager.Instance.TimeOut = 15;
             WebBrowerManager.Instance.FilterRequest = true;

@@ -91,6 +91,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.TaskSchedulerConsole
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.SpiderApplication.XpathHelper", "DotNet.SpiderApplication.XpathHelper\DotNet.SpiderApplication.XpathHelper.csproj", "{0C9806B1-6431-40AC-802D-86FDA0E12905}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.SearchEngine", "DotNet.SearchEngine\DotNet.SearchEngine.csproj", "{DF6981A6-877B-4313-AB4E-D5C716CE78B2}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = DotNetFramework.vsmdi
@@ -494,6 +496,16 @@ Global
 		{0C9806B1-6431-40AC-802D-86FDA0E12905}.Release|Mixed Platforms.Build.0 = Release|x86
 		{0C9806B1-6431-40AC-802D-86FDA0E12905}.Release|x86.ActiveCfg = Release|x86
 		{0C9806B1-6431-40AC-802D-86FDA0E12905}.Release|x86.Build.0 = Release|x86
+		{DF6981A6-877B-4313-AB4E-D5C716CE78B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF6981A6-877B-4313-AB4E-D5C716CE78B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF6981A6-877B-4313-AB4E-D5C716CE78B2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DF6981A6-877B-4313-AB4E-D5C716CE78B2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DF6981A6-877B-4313-AB4E-D5C716CE78B2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DF6981A6-877B-4313-AB4E-D5C716CE78B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF6981A6-877B-4313-AB4E-D5C716CE78B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF6981A6-877B-4313-AB4E-D5C716CE78B2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DF6981A6-877B-4313-AB4E-D5C716CE78B2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DF6981A6-877B-4313-AB4E-D5C716CE78B2}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

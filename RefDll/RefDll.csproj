@@ -164,6 +164,7 @@
     <Content Include="PanGu.HighLight.dll" />
     <Content Include="PanGu.HighLight.pdb" />
     <Content Include="PanGu.Lucene.Analyzer.dll" />
+    <Content Include="PanGu.Lucene.Analyzer.pdb" />
     <Content Include="PowerCollections.dll" />
     <Content Include="Quartz.dll" />
     <Content Include="Quartz.pdb" />

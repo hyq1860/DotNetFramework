@@ -543,18 +543,18 @@ namespace DotNet.BasicSpider
         //Fired to indicate when a response from a server has been received
         void WebBrower_ProtocolHandlerOnResponse(object sender, ProtocolHandlerOnResponseEventArgs e)
         {
-            if (this.FilterRequest && this.FilterAction.Count > 0)
-            {
-                foreach (KeyValuePair<string, Func<string, string, bool>> keyValuePair in FilterAction)
-                {
-                    if (e.URL.Contains(keyValuePair.Key))
-                    {
-                        e.Cancel = keyValuePair.Value(keyValuePair.Key, e.URL);
-                    }
-                }
-            }
+            //if (this.FilterRequest && this.FilterAction.Count > 0)
+            //{
+            //    foreach (KeyValuePair<string, Func<string, string, bool>> keyValuePair in this.FilterAction)
+            //    {
+            //        if (keyValuePair.Value(keyValuePair.Key, e.URL))
+            //        {
+            //            e.Cancel = true;
+            //        }
+            //    }
+            //}
 
-            if(IsRecordCookie)
+            if (this.IsRecordCookie)
             {
                 //记录分析cookie
                 string headers = e.ResponseHeaders;
@@ -571,12 +571,11 @@ namespace DotNet.BasicSpider
             HttpRequestUrls.Add(e.URL);
             if (this.FilterRequest && this.FilterAction.Count > 0)
             {
-                
                 foreach (KeyValuePair<string, Func<string,string, bool>> keyValuePair in FilterAction)
                 {
-                    if (e.URL.Contains(keyValuePair.Key))
+                    if (keyValuePair.Value(keyValuePair.Key, e.URL))
                     {
-                        e.Cancel = keyValuePair.Value(keyValuePair.Key, e.URL);
+                        e.Cancel = true;
                     }
                 }
             }

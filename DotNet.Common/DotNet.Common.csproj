@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\RefDll\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\RefDll\log4net.dll</HintPath>
@@ -149,6 +153,7 @@
     <Compile Include="INameTypeObject.cs" />
     <Compile Include="IO\FileSystemChangeEventHandler.cs" />
     <Compile Include="IO\PathUtils.cs" />
+    <Compile Include="IO\ZipHelper.cs" />
     <Compile Include="Logging\ILogProvider.cs" />
     <Compile Include="Logging\Log4NetLogProvider.cs" />
     <Compile Include="Logging\LogCategoryAttribute.cs" />

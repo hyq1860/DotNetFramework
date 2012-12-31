@@ -131,6 +131,7 @@
     <Content Include="HtmlAgilityPack.dll" />
     <Content Include="HtmlAgilityPack.pdb" />
     <Content Include="HtmlAgilityPack.xml" />
+    <Content Include="ICSharpCode.SharpZipLib.dll" />
     <Content Include="Interop.ComUtilitiesLib.dll" />
     <Content Include="IrisSkin2.dll" />
     <Content Include="jmail.dll" />

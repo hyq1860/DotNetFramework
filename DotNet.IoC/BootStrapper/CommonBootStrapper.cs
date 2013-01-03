@@ -12,5 +12,10 @@ namespace DotNet.IoC
         }
 
         protected abstract IServiceLocator CreateServiceLocator();
+
+        public static T GetInstance<T>()
+        {
+            return ServiceLocator.GetInstance<T>();
+        }
     }
 }

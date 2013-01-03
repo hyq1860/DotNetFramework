@@ -50,6 +50,7 @@
     <Compile Include="Entity\SpiderProductInfo.cs" />
     <Compile Include="Entity\SpiderResult.cs" />
     <Compile Include="Entity\SpiderState.cs" />
+    <Compile Include="Entity\SpiderTask.cs" />
     <Compile Include="Interface\DataAccess\IProductDataAccess.cs" />
     <Compile Include="Interface\Service\IProductDetailSpider.cs" />
     <Compile Include="Interface\Service\IProductService.cs" />
@@ -57,10 +58,10 @@
     <Compile Include="WCF\ICalculator.cs" />
     <Compile Include="WCF\ICalculatorCallback.cs" />
     <Compile Include="WCF\IClientToServer.cs" />
-    <Compile Include="WCF\IServerToClient.cs" />
+    <Compile Include="WCF\ISpiderClientToManageClient.cs" />
     <Compile Include="WCF\ISessionCallback.cs" />
     <Compile Include="WCF\ISessionManagement.cs" />
-    <Compile Include="WCF\ISpiderServer.cs" />
+    <Compile Include="WCF\ICommonSpider.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

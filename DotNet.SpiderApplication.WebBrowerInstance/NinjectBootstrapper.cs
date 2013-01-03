@@ -16,6 +16,7 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
 
     using DotNet.IoC;
     using DotNet.SpiderApplication.Contract;
+    using DotNet.SpiderApplication.Contract.WCF;
     using DotNet.SpiderApplication.Service;
 
     using Microsoft.Practices.ServiceLocation;
@@ -34,8 +35,8 @@ namespace DotNet.SpiderApplication.WebBrowerInstance
     {
         public override void Load()
         {
-            Bind<IProductDataAccess>().To<ProductDataAccess>();
-            Bind<IProductService>().To<ProductService>();
+            this.Bind<ICommonSpider>().To<CommonSpiderServiceProxy>();
+            this.Bind<ISpiderClientToManageClient>().To<SpiderClientToManageClientProxy>();
         }
     }
 }

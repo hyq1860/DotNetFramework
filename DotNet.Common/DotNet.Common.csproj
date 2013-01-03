@@ -51,6 +51,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -203,6 +204,10 @@
     <Compile Include="Utility\TypeResolution\TypeRegistry.cs" />
     <Compile Include="Utility\TypeResolution\TypeResolver.cs" />
     <Compile Include="Utility\XMLUtils.cs" />
+    <Compile Include="WCF\ChannelFactories.cs" />
+    <Compile Include="WCF\OperationInvoker.cs" />
+    <Compile Include="WCF\OperationInvoker~1.cs" />
+    <Compile Include="WCF\ServiceProxyBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\R.resx" />

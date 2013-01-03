@@ -745,90 +745,90 @@ namespace DotNet.SpiderApplication.Client
         }
 
 
-        public static void IndexTest()
-        {
-            //XmlDocument xmlDoc = new XmlDocument();
-            //xmlDoc.Load(openFileDialog.FileName);
-            //XmlNodeList nodes = xmlDoc.SelectNodes(@"News/Item");
+        //public static void IndexTest()
+        //{
+        //    //XmlDocument xmlDoc = new XmlDocument();
+        //    //xmlDoc.Load(openFileDialog.FileName);
+        //    //XmlNodeList nodes = xmlDoc.SelectNodes(@"News/Item");
 
-            Stopwatch watch = new Stopwatch();
+        //    Stopwatch watch = new Stopwatch();
 
-            DateTime old = DateTime.Now;
-            int count = 0;
-            int MaxCount = 150000; //Math.Min(40000, nodes.Count);
+        //    DateTime old = DateTime.Now;
+        //    int count = 0;
+        //    int MaxCount = 150000; //Math.Min(40000, nodes.Count);
 
-            long totalChars = 0;
-            Index.CreateIndex(Index.INDEX_DIR);
-            Index.MaxMergeFactor = 301;
-            Index.MinMergeDocs = 301;
+        //    long totalChars = 0;
+        //    Index.CreateIndex(Index.INDEX_DIR);
+        //    Index.MaxMergeFactor = 301;
+        //    Index.MinMergeDocs = 301;
 
-            //progressBar.Value = 0;
-            Application.DoEvents();
+        //    //progressBar.Value = 0;
+        //    Application.DoEvents();
 
-            using (DataCommand cmd = DataCommandManager.GetDataCommand("GetProducts"))
-            {
-                //if (!string.IsNullOrEmpty(sqlWhere))
-                //{
-                //    cmd.CommandText += sqlWhere;
-                //}
-                using (IDataReader dr = cmd.ExecuteDataReader())
-                {
-                    while (dr.Read())
-                    {
-                        String title = dr["Name"].ToString();
-                        DateTime time = DateTime.Parse(dr["InDate"].ToString());
-                        String Url = dr["Url"].ToString();
-                        String content = dr["Name"].ToString();
+        //    using (DataCommand cmd = DataCommandManager.GetDataCommand("GetProducts"))
+        //    {
+        //        //if (!string.IsNullOrEmpty(sqlWhere))
+        //        //{
+        //        //    cmd.CommandText += sqlWhere;
+        //        //}
+        //        using (IDataReader dr = cmd.ExecuteDataReader())
+        //        {
+        //            while (dr.Read())
+        //            {
+        //                String title = dr["Name"].ToString();
+        //                DateTime time = DateTime.Parse(dr["InDate"].ToString());
+        //                String Url = dr["Url"].ToString();
+        //                String content = dr["Name"].ToString();
 
-                        totalChars += title.Length + 8 + Url.Length + content.Length;
-
-
-                        watch.Start();
-
-                        Index.IndexString(Index.INDEX_DIR, Url, title, time, content);
-
-                        watch.Stop();
-
-                        count++;
-                        //progressBar.Value = count * 100 / MaxCount;
-                        //labelProgress.Text = progressBar.Value + "%";
-                        Application.DoEvents();
-
-                        if (count >= MaxCount)
-                        {
-                            break;
-                        }
-
-                        if (count % 300 == 0)
-                        {
-                            Index.CloseWithoutOptimize();
-                            Index.CreateIndex(Index.INDEX_DIR);
-                            Index.MaxMergeFactor = 301;
-                            Index.MinMergeDocs = 301;
-                        }
-                    }
-                }
+        //                totalChars += title.Length + 8 + Url.Length + content.Length;
 
 
+        //                watch.Start();
 
-                watch.Start();
+        //                Index.IndexString(Index.INDEX_DIR, Url, title, time, content);
 
-                Index.Close();
+        //                watch.Stop();
 
-                watch.Stop();
+        //                count++;
+        //                //progressBar.Value = count * 100 / MaxCount;
+        //                //labelProgress.Text = progressBar.Value + "%";
+        //                Application.DoEvents();
 
-                TimeSpan s = DateTime.Now - old;
-                MessageBox.Show(
-                    String.Format(
-                        "插入{0}行数据,共{1}字符,用时{2}秒",
-                        MaxCount,
-                        totalChars,
-                        watch.ElapsedMilliseconds / 1000 + "." + watch.ElapsedMilliseconds % 1000),
-                    "Information",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-            }
-        }
+        //                if (count >= MaxCount)
+        //                {
+        //                    break;
+        //                }
+
+        //                if (count % 300 == 0)
+        //                {
+        //                    Index.CloseWithoutOptimize();
+        //                    Index.CreateIndex(Index.INDEX_DIR);
+        //                    Index.MaxMergeFactor = 301;
+        //                    Index.MinMergeDocs = 301;
+        //                }
+        //            }
+        //        }
+
+
+
+        //        watch.Start();
+
+        //        Index.Close();
+
+        //        watch.Stop();
+
+        //        TimeSpan s = DateTime.Now - old;
+        //        MessageBox.Show(
+        //            String.Format(
+        //                "插入{0}行数据,共{1}字符,用时{2}秒",
+        //                MaxCount,
+        //                totalChars,
+        //                watch.ElapsedMilliseconds / 1000 + "." + watch.ElapsedMilliseconds % 1000),
+        //            "Information",
+        //            MessageBoxButtons.OK,
+        //            MessageBoxIcon.Information);
+        //    }
+        //}
 
 
     }

@@ -67,6 +67,7 @@
     <Compile Include="NinjectBootstrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CommonSpiderServiceProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNet.BasicSpider\DotNet.BasicSpider.csproj">

@@ -107,10 +107,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistryHelper.cs" />
     <Compile Include="SessionUtility.cs" />
-    <Compile Include="Spider\Index.cs" />
     <Compile Include="Spider\ProductSpider.cs" />
     <Compile Include="Spider\News.cs" />
-    <Compile Include="Spider\Spider.cs" />
+    <Compile Include="Spider\Spider.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Spider\SpiderManager.cs" />
     <Compile Include="StatusLableWithBar.cs" />
     <EmbeddedResource Include="Main.resx">

@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="SpiderServer.cs" company="">
+// <copyright file="CommonSpider.cs" company="">
 // TODO: Update copyright text.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -14,29 +14,31 @@ namespace DotNet.SpiderApplication.Service.Implemention.Service
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// 获取采集任务
     /// </summary>
     [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
-    public class SpiderServer:ISpiderServer
+    public class CommonSpider:ICommonSpider
     {
+        /// <summary>
+        /// </summary>
         private static SpiderTaskManager spiderTaskManager;
-        static SpiderServer()
+        
+        static CommonSpider()
         {
             spiderTaskManager = new SpiderTaskManager();
         }
 
-        public ProductInfo SpiderProductDetail(SpiderProductInfo spiderProduct)
+        public List<SpiderTask> GetSpiderTask(int count)
         {
-            //File.WriteAllText("z:\\"+System.Guid.NewGuid().ToString(),spiderProduct.Url);
-            return new ProductInfo() {Url = spiderProduct.Url};
-        }
-
-        public List<SpiderProductInfo> GetSpiderTask(int count)
-        {
-            return spiderTaskManager.Dequeue(count);
+            var data = new List<SpiderTask>();
+            var originalData = spiderTaskManager.Dequeue(count);
+            foreach (var spiderProductInfo in originalData)
+            {
+                data.Add(new SpiderTask(){Guid = string.Empty,Url = spiderProductInfo.Url});
+            }
+            return data;
         }
     }
 }

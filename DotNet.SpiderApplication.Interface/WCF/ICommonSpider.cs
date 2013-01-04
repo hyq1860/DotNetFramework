@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ISpiderServer.cs" company="">
+// <copyright file="ICommonSpider.cs" company="">
 // TODO: Update copyright text.
 // </copyright>
 // -----------------------------------------------------------------------
@@ -18,12 +18,9 @@ namespace DotNet.SpiderApplication.Contract.WCF
     /// TODO: Update summary.
     /// </summary>
     [ServiceContract]
-    public interface ISpiderServer
+    public interface ICommonSpider
     {
         [OperationContract]
-        ProductInfo SpiderProductDetail(SpiderProductInfo spiderProduct);
-
-        [OperationContract]
-        List<SpiderProductInfo> GetSpiderTask(int count);
+        List<SpiderTask> GetSpiderTask(int count);
     }
 }

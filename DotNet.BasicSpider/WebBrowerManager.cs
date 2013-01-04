@@ -307,7 +307,6 @@ namespace DotNet.BasicSpider
             {
                 Application.DoEvents();
                 Thread.Sleep(50);
-
                 sw.Stop();
                 if (sw.ElapsedMilliseconds >= this.TimeOut * 1000)
                 {
@@ -319,7 +318,6 @@ namespace DotNet.BasicSpider
             }
 
             sw.Stop();
-
             if (flage)
             {
                 return document;
@@ -331,8 +329,8 @@ namespace DotNet.BasicSpider
             document.HttpRequestUrls = this.HttpRequestUrls;
             document.Title = this.WB.DocumentTitle;
             document.Elapse = this.Elapse;
-            
-            if(GetCharset)
+
+            if (this.GetCharset)
             {
                 var doc = this.WB.WebbrowserObject.Document as IHTMLDocument2;
                 if (doc != null)
@@ -340,7 +338,13 @@ namespace DotNet.BasicSpider
                     document.Encoding = doc.charset;
                 }
             }
-            
+
+            // 获取ie浏览器版本
+            if (string.IsNullOrEmpty(this.IEVersion))
+            {
+                this.IEVersion = this.WB.IEVersion();
+            }
+
             return document;
         }
 

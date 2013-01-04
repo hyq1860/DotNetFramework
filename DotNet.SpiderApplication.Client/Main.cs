@@ -48,7 +48,7 @@ namespace DotNet.SpiderApplication.Client
     //http://www.cnblogs.com/stanley107/archive/2012/12/18/2823096.html 无配置wcf
     //http://www.cnblogs.com/mecity/archive/2012/01/17/WCF.html wcf证书的问题
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant, InstanceContextMode = InstanceContextMode.Single)]
-    public partial class Main : Form, IServerToClient
+    public partial class Main : Form, ISpiderClientToManageClient
     {
         //private static void myProcess_HasExited(object sender, System.EventArgs e)
         //{
@@ -59,8 +59,8 @@ namespace DotNet.SpiderApplication.Client
         
         private void SpiderWCFNetPipe()
         {
-            this.host = new ServiceHost(typeof(SpiderServer), new Uri[] { new Uri("net.pipe://127.0.0.1") });
-            this.host.AddServiceEndpoint(typeof(ISpiderServer), new NetNamedPipeBinding(), "GetSpiderTask");
+            this.host = new ServiceHost(typeof(CommonSpider), new Uri[] { new Uri("net.pipe://127.0.0.1") });
+            this.host.AddServiceEndpoint(typeof(ICommonSpider), new NetNamedPipeBinding(), "GetSpiderTask");
             this.host.Open();
         }
 
@@ -69,11 +69,9 @@ namespace DotNet.SpiderApplication.Client
         private void Report()
         {
             this.serverHost = new ServiceHost(this);
-            this.serverHost.AddServiceEndpoint(typeof(IServerToClient), new NetNamedPipeBinding() { MaxReceivedMessageSize = int.MaxValue, ReaderQuotas=new XmlDictionaryReaderQuotas(){MaxStringContentLength = int.MaxValue} }, "net.pipe://127.0.0.1/Server");
+            this.serverHost.AddServiceEndpoint(typeof(ISpiderClientToManageClient), new NetNamedPipeBinding() { MaxReceivedMessageSize = int.MaxValue, ReaderQuotas=new XmlDictionaryReaderQuotas(){MaxStringContentLength = int.MaxValue} }, "net.pipe://127.0.0.1/Server");
             this.serverHost.Open();
         }
-
-        private static SpiderTaskManager spiderTaskManager;
 
         private ToolStripStatusLabelWithBar toolStripProgressBar;
 
@@ -142,15 +140,6 @@ namespace DotNet.SpiderApplication.Client
             //AutoUpdaterHelper.AutoUpdater();
 
             InitControls();
-
-            SpiderWCFNetPipe();
-
-            Report();
-
-            // 初始化采集任务管理类
-            spiderTaskManager = new SpiderTaskManager();
-
-            StartWebBrower();
 
             return;
 
@@ -266,8 +255,16 @@ namespace DotNet.SpiderApplication.Client
 
         private void Main_Load(object sender, EventArgs e)
         {
+
+            // 开启wcf服务
+            this.SpiderWCFNetPipe();
+            this.Report();
+
+            // 开启线程启动浏览器进程
+            // this.StartWebBrower();
+
             var p1 = SingletonProvider<ProcessWatcher>.UniqueInstance;
-           // p1.StartWatch();
+            p1.StartWatch();
             return;
             //TestSqlite();
             var dt = DataAccess.GetProductCategory(" ECPlatformId=4 limit 48,60");
@@ -485,7 +482,7 @@ namespace DotNet.SpiderApplication.Client
             this.toolStripProgressBar.Value = result.Current;
 
             SpiderManager.SpiderProductDetail(new SpiderProductInfo(){ECPlatformId = 1,HtmlSource = result.HtmlSource});
-            File.WriteAllText("z:\\" + result.Title + ".html", result.HtmlSource, Encoding.GetEncoding(result.Charset));
+            //File.WriteAllText("z:\\" + result.Title + ".html", result.HtmlSource, Encoding.GetEncoding(result.Charset));
         }
 
         /// <summary>
@@ -495,11 +492,6 @@ namespace DotNet.SpiderApplication.Client
         public void ReportIEVersion(string ieVersion)
         {
             toolStripStatusIELabel.Text = string.Format("IE核心：{0}", ieVersion);
-        }
-
-        public List<SpiderProductInfo> GetSpiderTask(int count)
-        {
-            return spiderTaskManager.Dequeue(count);
         }
     }
 }

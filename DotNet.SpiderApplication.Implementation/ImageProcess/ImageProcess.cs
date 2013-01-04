@@ -153,9 +153,71 @@ namespace DotNet.SpiderApplication.Service
             WebRequest request = WebRequest.Create(url);
             WebResponse response = request.GetResponse();
             Stream st = response.GetResponseStream();
+            if (st == null)
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                Bitmap bitmap = ((Bitmap)Bitmap.FromStream(st)).toGray().biLinear(2);
+                //var newBitmap= KiCut(bitmap, 12, 22, bitmap.Width - 12, 22);
+                string tessdata = Environment.CurrentDirectory + "\\tessdata\\";
+                string language = "eng";//设置训练文件的名称，后缀traineddata之前的名称
+                int oem = 3;
+                // http://www.lixin.me/blog/2012/05/26/29536 训练
+                using (TesseractProcessor processor = new TesseractProcessor())
+                {
+                    //初始化
+                    bool initFlage = processor.Init(tessdata, language, oem);
+                    //processor.GetTesseractEngineVersion();//获取版本号
+
+                    /*
+                     Set the current page segmentation mode. Defaults to PSM_SINGLE_BLOCK. 
+                    The mode is stored as an IntParam so it can also be modified by ReadConfigFile or SetVariable("tessedit_pageseg_mode", mode as string). */
+                    //processor.SetPageSegMode(ePageSegMode.PSM_SINGLE_BLOCK);
+
+                    //设置ROI（图像的感兴趣区域）
+                    processor.UseROI = true;
+                    processor.ROI = new Rectangle(24, 0, bitmap.Width - 24, bitmap.Height);
+
+                    //设置识别的变量 如果是自定义培训的文件 可以不用设置
+                    //必须在初始化后调用
+                    processor.SetVariable("tessedit_char_whitelist", "0123456789.");
+                    //processor.SetVariable("tessedit_thresholding_method", "1"); //图像处理阀值是否打开
+                    //processor.SetVariable("save_best_choices", "T");
+                    using (Bitmap bmp = bitmap)
+                    {
+                        int i = 3;
+                        oem = i;
+                        string text = processor.Recognize(bmp);
+                        char[] charsToTrim = { '\\', 'n', '\\', 'n' };
+                        return text.TrimEnd(charsToTrim);
+                        //Console.WriteLine(
+                        //    string.Format(
+                        //        "RecognizeMode: {1}\nText:\n{0}\n++++++\n", text, ((eOcrEngineMode)oem).ToString()));
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
+        public static string Recognize(string url,Rectangle rectangle)
+        {
+            WebRequest request = WebRequest.Create(url);
+            WebResponse response = request.GetResponse();
+            Stream st = response.GetResponseStream();
+            if (st == null)
+            {
+                return string.Empty;
+            }
+
             Bitmap bitmap = ((Bitmap)Bitmap.FromStream(st)).toGray().biLinear(2);
             //var newBitmap= KiCut(bitmap, 12, 22, bitmap.Width - 12, 22);
-            string tessdata = Environment.CurrentDirectory+"\\tessdata\\"; 
+            string tessdata = Environment.CurrentDirectory + "\\tessdata\\";
             string language = "eng";//设置训练文件的名称，后缀traineddata之前的名称
             int oem = 3;
             // http://www.lixin.me/blog/2012/05/26/29536 训练
@@ -171,9 +233,12 @@ namespace DotNet.SpiderApplication.Service
                 //processor.SetPageSegMode(ePageSegMode.PSM_SINGLE_BLOCK);
 
                 //设置ROI（图像的感兴趣区域）
-                processor.UseROI = true;
-                processor.ROI = new Rectangle(24, 0, bitmap.Width - 24, bitmap.Height);
-
+                if (rectangle != null)
+                {
+                    processor.UseROI = true;
+                    processor.ROI = rectangle;
+                }
+                
                 //设置识别的变量 如果是自定义培训的文件 可以不用设置
                 //必须在初始化后调用
                 processor.SetVariable("tessedit_char_whitelist", "0123456789.");
@@ -181,14 +246,9 @@ namespace DotNet.SpiderApplication.Service
                 //processor.SetVariable("save_best_choices", "T");
                 using (Bitmap bmp = bitmap)
                 {
-                    int i = 3;
-                    oem = i;
                     string text = processor.Recognize(bmp);
-                    char[] charsToTrim = {'\\', 'n', '\\','n'};
+                    char[] charsToTrim = { '\\', 'n', '\\', 'n' };
                     return text.TrimEnd(charsToTrim);
-                    Console.WriteLine(
-                        string.Format(
-                            "RecognizeMode: {1}\nText:\n{0}\n++++++\n", text, ((eOcrEngineMode)oem).ToString()));
                 }
             }
         }

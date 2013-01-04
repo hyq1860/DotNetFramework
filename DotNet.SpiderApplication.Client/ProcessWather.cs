@@ -3,7 +3,7 @@
 // TODO: Update copyright text.
 // </copyright>
 // -----------------------------------------------------------------------
-
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -13,22 +13,45 @@ using DotNet.Common.Logging;
 
 namespace DotNet.SpiderApplication.Client
 {
-    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
-    /// TODO: Update summary.
+    /// 进程监视启动器
     /// </summary>
     public class ProcessWatcher
     {
+        /// <summary>
+        /// 进程配置使用绝对路径还是相对路径
+        /// true 使用绝对路径 false 使用相对路径（即加上Environment.CurrentDirectory）
+        /// </summary>
+        public bool UseAbsolutePath { get; set; }
+
         private ProcessWatcher()
         {
             try
             {
-                //读取监控进程全路径
+                // 读取监控进程全路径
                 string strProcessAddress = ConfigHelper.ParamsConfig.GetParamValue("demo1");
-                if (strProcessAddress.Trim() != "")
+                if (this.processAddress == null)
                 {
-                    this.processAddress = strProcessAddress.Split(',');
+                    this.processAddress = new List<string>();
+                }
+
+                if (strProcessAddress.Trim() != string.Empty)
+                {
+                    if (this.UseAbsolutePath)
+                    {
+                        this.processAddress = strProcessAddress.Split(',').ToList();
+                    }
+                    else
+                    {
+                        var processArray = strProcessAddress.Split(',');
+                        foreach (var s in processArray)
+                        {
+                            this.processAddress.Add(Environment.CurrentDirectory + s);
+                        }
+                    }
                 }
                 else
                 {
@@ -37,11 +60,11 @@ namespace DotNet.SpiderApplication.Client
             }
             catch (Exception ex)
             {
-                Logger.Log("Watcher()初始化出错！错误描述为：" + ex.Message.ToString());
+                Logger.Log("Watcher()初始化出错！错误描述为：" + ex.Message);
             }
         }
 
-        private string[] processAddress;
+        private List<string> processAddress;
 
         /// <summary>
         /// 开始监控
@@ -50,11 +73,11 @@ namespace DotNet.SpiderApplication.Client
         {
             if (this.processAddress != null)
             {
-                if (this.processAddress.Length > 0)
+                if (this.processAddress.Count > 0)
                 {
                     foreach (string str in processAddress)
                     {
-                        if (str.Trim() != "")
+                        if (str.Trim() != string.Empty)
                         {
                             if (File.Exists(str.Trim()))
                             {
@@ -71,33 +94,32 @@ namespace DotNet.SpiderApplication.Client
         /// 如果一致，说明进程已启动
         /// 如果不一致，说明进程尚未启动
         /// </summary>
-        /// <param name="strAddress"></param>
         private void ScanProcessList(string address)
         {
             Process[] arrayProcess = Process.GetProcesses();
             foreach (Process p in arrayProcess)
             {
-                //System、Idle进程会拒绝访问其全路径
+                // System、Idle进程会拒绝访问其全路径
                 if (p.ProcessName != "System" && p.ProcessName != "Idle")
                 {
                     try
                     {
-                        if (this.FormatPath(address) == this.FormatPath(p.MainModule.FileName.ToString()))
+                        if (this.FormatPath(address) == this.FormatPath(p.MainModule.FileName))
                         {
-                            //进程已启动
+                            // 进程已启动
                             this.WatchProcess(p, address);
                             return;
                         }
                     }
                     catch
                     {
-                        //拒绝访问进程的全路径
-                        Logger.Log("进程(" + p.Id.ToString() + ")(" + p.ProcessName.ToString() + ")拒绝访问全路径！");
+                        // 拒绝访问进程的全路径
+                        Logger.Log("进程(" + p.Id.ToString() + ")(" + p.ProcessName + ")拒绝访问全路径！");
                     }
                 }
             }
 
-            //进程尚未启动
+            // 进程尚未启动
             Process process = new Process();
             process.StartInfo.FileName = address;
             process.StartInfo.CreateNoWindow = true;
@@ -131,7 +153,6 @@ namespace DotNet.SpiderApplication.Client
             Thread thread = new Thread(new ThreadStart(objProcessRestart.RestartProcess));
             thread.Start();
         }
-
     }
 
     public class ProcessRestart
@@ -139,7 +160,6 @@ namespace DotNet.SpiderApplication.Client
         //字段
         private Process _process;
         private string _address;
-
 
         /// <summary>
         /// 构造函数
@@ -158,7 +178,6 @@ namespace DotNet.SpiderApplication.Client
             this._process = process;
             this._address = address;
         }
-
 
         /// <summary>
         /// 重启进程
@@ -183,10 +202,10 @@ namespace DotNet.SpiderApplication.Client
             }
             catch (Exception ex)
             {
-                ProcessWatcher objProcessWatcher = SingletonProvider<ProcessWatcher>.UniqueInstance;
+                //ProcessWatcher objProcessWatcher = SingletonProvider<ProcessWatcher>.UniqueInstance;
                 Logger.Log("RestartProcess() 出错，监控程序已取消对进程("
-                    + this._process.Id.ToString() + ")(" + this._process.ProcessName.ToString()
-                    + ")的监控，错误描述为：" + ex.Message.ToString());
+                    + this._process.Id.ToString() + ")(" + this._process.ProcessName
+                    + ")的监控，错误描述为：" + ex.Message);
             }
         }
     }

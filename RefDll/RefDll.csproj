@@ -117,6 +117,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="2.ico" />
+    <Content Include="af131d6442a0521e5720e1b962ede437.ico" />
     <Content Include="C5.dll" />
     <Content Include="Combres.dll" />
     <Content Include="Combres.pdb" />
@@ -178,6 +180,7 @@
     <Content Include="ScrapySharp.dll" />
     <Content Include="ScrapySharp.pdb" />
     <Content Include="SmartThreadPool.dll" />
+    <Content Include="spider.ico" />
     <Content Include="System.Data.SQLite.dll" />
     <Content Include="tesseract.dll" />
     <Content Include="Yahoo.Yui.Compressor.dll" />

@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DotNet.SpiderApplication.Client")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("采集客户端管理中心")]
+[assembly: AssemblyDescription("采集客户端管理中心")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DotNet.SpiderApplication.Client")]

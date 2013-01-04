@@ -1,0 +1,232 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+<title>2008信管屌丝分部地图</title>
+    <style>
+/** reset **/
+body,html,div,p,dl,dd,h4{padding:0;margin:0;}
+body,html{width:100%;height:100%;}
+img{border:none;}
+a{text-decoration:none;color:#FF7F27;}
+a:hover{color:#22B14C;}
+body{font-family:"微软雅黑";text-align:center;font-size:14px;background:#BDF4D7;}
+img:hover{filter:alpha(opacity=90);-moz-opacity:0.9;-khtml-opacity: 0.9;opacity: 0.9;}
+label{margin:0 10px 0 0;}
+/** clearfix **/
+.clearfix{display:block;zoom:1;}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden;}
+/** map **/
+.container,.footer{margin:10px auto 0;width:1000px;}
+.container{position:relative;height:600px;text-align:left;background:#fff;}
+.wider,#sider{width:800px;height:100%;border:1px solid #808080;float:left;}
+#sider{width:197px;border-width:1px 1px 1px 0;}
+.infowin{width:200px;height:100px;float:left;}
+.myinfopic{width:90px;hegiht:90px;padding:3px;border:1px solid #999;}
+#peoplelist dl a{display:block;width:100%;height:30px;line-height:30px;}
+#peoplelist dl a:hover{background:#4EB9C6;color:#fff;}
+#peoplelist dt a{color:#fff;}
+#peoplelist dt{background:#56A97D;color:#fff;text-indent:10px;}
+#peoplelist dd{text-indent:20px;}
+.trafficX{padding:10px;position:relative;margin:10px auto;text-align:left;border:1px solid #ccc;width:980px;background:#fff;}
+.btn a{padding:5px;display:inline-block;color:#fff;background:#56A97D;-webkit-border-radius:5px;-moz-border-radius:5px;}
+#btnFind{position:absolute;left:-80px;}
+.btn a:hover{background:#4EB9C6;}
+.btn-close{position:absolute;right:10px;}
+.intro{color:#a0a0a0;font-size:12px;}
+.trafficTableX td{width:320px;}
+.trafficTableX input,
+.trafficTableX select{width:250px;border:1px solid #ccc;padding:3px;}
+.trafficTableX .btn{margin:0 10px 0 0;}
+.trafficTableX .btn a{padding:5px 20px;}
+.trafficTableX h4 span{font-size:12px;font-weight:400;color:red;padding:0 0 0 10px;}
+#result,#peoplelist{width:100%;height:100%;}
+    </style>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.3"></script>
+</head>
+<body>
+<div id="trafficBox" class="trafficX clearfix" style="display:none;">
+    <a href="javascript:void(0);" onclick="btnClose();" class="btn-close"><img src="close.png" alt="关闭" title="关闭" /></a>
+    <table class="trafficTableX">
+        <tr>
+            <td><h4>起点<span id="startP">&nbsp;</span></h4></td>
+            <td><h4>终点<span id="endP">&nbsp;</span></h4></td>
+            <td><h4>&nbsp;</h4></td>
+        </tr>
+        <tr>
+            <td>
+                <select>
+                    <option>郭汀峰</option>
+                </select>
+            </td>
+                <td>
+                <select>
+                    <option>郭汀峰</option>
+                </select>
+            </td>
+            <td><span class="btn"><a onclick="myBus();" href="javascript:void(0);">公交</a></span><span class="btn"><a onclick="myCar();" href="javascript:void(0);">自驾</a></span></td>
+        </tr>
+        <tr class="intro">
+            <td>选起点：右键点击地图（下拉列表暂不可用）</td>
+            <td>选终点：右键点击地图（下拉列表暂不可用）</td>
+            <td>选择交通工具</td>
+        </tr>
+    </table>
+</div>
+<div class="container clearfix">
+    <div id="btnFind" class="btn"><a href="javascript:void(0);" onclick="btnFind();">我要找人</a></div>
+    <div id="myMap" class="wider"></div>
+    <div id="sider">
+        <div id="result" style="display:none;"></div>
+        <div id="peoplelist">
+        <dl>
+            <dt><a href="javascript:void(0);" onclick="map.setViewport(ps1);map.closeInfoWindow();">北京</a></dt>
+            <dd><a href="javascript:void(0);" onmouseover="m1.openInfoWindow(infowin1);" onclick="map.centerAndZoom(p1, 19);m1.openInfoWindow(infowin1);">何永强刘春花</a></dd>
+            <dd><a href="javascript:void(0);" onmouseover="m2.openInfoWindow(infowin2);" onclick="map.centerAndZoom(p2, 19);m2.openInfoWindow(infowin2);">傻亮小马</a></dd>
+            <dd><a href="javascript:void(0);" onmouseover="m3.openInfoWindow(infowin3);" onclick="map.centerAndZoom(p3, 19);m3.openInfoWindow(infowin3);">郑君君</a></dd>
+        </dl>
+        <dl>
+            <dt><a href="javascript:void(0);" onclick="map.setViewport(ps1);map.closeInfoWindow();">郑州</a></dt>
+            <dd><a href="javascript:void(0);" onmouseover="m1.openInfoWindow(infowin1);" onclick="map.centerAndZoom(p1, 18);m1.openInfoWindow(infowin1);">付森</a></dd>
+        </dl>
+        </div>
+    </div>
+</div>
+<div class="footer clearfix">
+<!--    <p>copyright by <a target="_blank" href="http://ui-love.net">UI-LOVE</a></p>-->
+</div>
+</body>
+    <script type="text/javascript">
+        function $(id) {
+            return document.getElementById(id);
+        }
+        function displayBlock(id) {
+            $(id).style.display = 'block';
+        }
+        function hiddenHidden(id) {
+            $(id).style.display = 'none';
+        }
+        //close btn
+        function btnClose() {
+            displayBlock('peoplelist');
+            hiddenHidden('result');
+            displayBlock('btnFind');
+            hiddenHidden('trafficBox');
+            map.clearOverlays();
+            map.addOverlay(m1);
+            map.setViewport(ps1);
+            $('startP').innerHTML = '';
+            startPoint = null;
+            $('endP').innerHTML = '';
+            endPoint = null;
+            $('sider').style.width = '197px';
+            $('myMap').style.width = '800px';
+        }
+        //find btn
+        function btnFind() {
+            displayBlock('trafficBox');
+            hiddenHidden('btnFind');
+        }
+        //map js
+        //三句话初始化地图
+        var map = new BMap.Map("myMap");
+        var point = new BMap.Point(116.404, 39.915);
+        map.centerAndZoom(point, 20);
+
+        //增加滚轮缩放地图
+        map.enableScrollWheelZoom();
+
+        //添加控件
+        map.addControl(new BMap.NavigationControl());
+        map.addControl(new BMap.ScaleControl());
+        map.addControl(new BMap.OverviewMapControl({ isOpen: true }));
+        map.addControl(new BMap.MapTypeControl({ mapTypes: [BMAP_NORMAL_MAP, BMAP_HYBRID_MAP] }));
+
+        var startPoint;
+        var endPoint;
+        var menu = new BMap.ContextMenu();
+        var txtMenuItem = [
+    {
+        text: '选起点',
+        callback: function (e) {
+            $('startP').innerHTML = e.lng + ',' + e.lat;
+            startPoint = new BMap.Point(e.lng, e.lat);
+        }
+    },
+    {
+        text: '选终点',
+        callback: function (e) {
+            $('endP').innerHTML = e.lng + ',' + e.lat;
+            endPoint = new BMap.Point(e.lng, e.lat);
+        }
+    }
+];
+        for (var i = 0; i < txtMenuItem.length; i++) {
+            menu.addItem(new BMap.MenuItem(txtMenuItem[i].text, txtMenuItem[i].callback, 100));
+        }
+        map.addContextMenu(menu);
+
+        //bus
+        function myBus() {
+            map.clearOverlays();
+            displayBlock('result');
+            hiddenHidden('peoplelist');
+            var transit = new BMap.TransitRoute(map, { renderOptions: { map: map, panel: 'result'} });
+            transit.search(startPoint, endPoint);
+            $('sider').style.width = '297px';
+            $('myMap').style.width = '700px';
+        }
+        //car
+        function myCar() {
+            map.clearOverlays();
+            displayBlock('result');
+            hiddenHidden('peoplelist');
+            var driving = new BMap.DrivingRoute(map, { renderOptions: { map: map, panel: 'result', autoViewport: true} });
+            driving.search(startPoint, endPoint);
+            startPoint.enableDragging(); //开启起点拖拽功能
+            endPoint.enableDragging(); //开启终点拖拽功能
+            $('sider').style.width = '297px';
+            $('myMap').style.width = '700px';
+        }
+
+        //何永强 刘春花
+        var p1 = new BMap.Point(116.460674,39.895098);
+        var m1 = new BMap.Marker(p1);
+        var lab1 = new BMap.Label("何永强 刘春花", { offset: new BMap.Size(20, -10) });
+        map.addOverlay(m1);
+        m1.setLabel(lab1);
+        var content1 = '<div class="infowin"><p><b>何永强 刘春花</b></p><p>双井垂杨柳垂西里社区7号楼</p><p><a target="_blank" href="http://weibo.com/heyongqiang">weibo.com/milkmap</a></p></div><div style="float:left;margin:0 0 0 5px;"><img class="myinfopic" src="http://tp2.sinaimg.cn/1656623813/50/5637764949/1" /><img class="myinfopic" src="http://t2.qlogo.cn/mbloghead/7ad5c632d8330ca07d74/180" /></div>';
+        var infowin1 = new BMap.InfoWindow(content1);
+        m1.addEventListener("click", function () {
+            this.openInfoWindow(infowin1);
+        });
+
+        //傻亮 小马
+        var p2 = new BMap.Point(116.460674, 39.895098);
+        var m2 = new BMap.Marker(p2);
+        var lab2 = new BMap.Label("傻亮 小马", { offset: new BMap.Size(20, -10) });
+        map.addOverlay(m2);
+        m2.setLabel(lab2);
+        var content2 = '<div class="infowin"><p><b>傻亮 小马</b></p><p>双井垂杨柳垂西里社区7号楼</p><p><a target="_blank" href="http://weibo.com/heyongqiang">weibo.com/milkmap</a></p></div><div style="float:left;margin:0 0 0 5px;"><img class="myinfopic" src="http://t1.qlogo.cn/mbloghead/97273e92f154055ee094/180" /><img class="myinfopic" src="http://t2.qlogo.cn/mbloghead/7ad5c632d8330ca07d74/180" /></div>';
+        var infowin2 = new BMap.InfoWindow(content2);
+        m2.addEventListener("click", function () {
+            this.openInfoWindow(infowin2);
+        });
+
+        //郑君君
+        var p3 = new BMap.Point(116.390467,39.97215);
+        var m3 = new BMap.Marker(p3);
+        var lab3 = new BMap.Label("郑君君", { offset: new BMap.Size(20, -10) });
+        map.addOverlay(m3);
+        m3.setLabel(lab3);
+        var content3 = '<div class="infowin"><p><b>郑君君</b></p><p>双井垂杨柳垂西里社区7号楼</p><p><a target="_blank" href="http://t.qq.com/zhengjunaaron">weibo.com/milkmap</a></p></div><div style="float:left;margin:0 0 0 5px;"><img class="myinfopic" src="http://t1.qlogo.cn/mbloghead/97273e92f154055ee094/180" /><img class="myinfopic" src="http://t2.qlogo.cn/mbloghead/7ad5c632d8330ca07d74/180" /></div>';
+        var infowin3 = new BMap.InfoWindow(content3);
+        m2.addEventListener("click", function () {
+            this.openInfoWindow(infowin3);
+        });
+
+        var ps1 = [p1,p2,p3]; //全部
+        setTimeout(function () {
+            map.setViewport(ps1);
+        }, 1000);
+    </script>
+</html>

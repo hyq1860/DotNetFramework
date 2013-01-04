@@ -51,7 +51,7 @@
     <Compile Include="ImageProcess\ImageProcess.cs" />
     <Compile Include="Implemention\DataAccess\ProductDataAccess.cs" />
     <Compile Include="Implemention\Service\ProductService.cs" />
-    <Compile Include="Implemention\Service\SpiderServer.cs" />
+    <Compile Include="Implemention\Service\CommonSpider.cs" />
     <Compile Include="Implemention\Service\SpiderTaskManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceHostExtension\ObservableServiceHost\InstanceCreationEndpointBehavior.cs" />

@@ -62,6 +62,7 @@
     <Content Include="index.htm" />
     <Content Include="KnockoutDemo\Knockout_Binding_01.aspx" />
     <Content Include="KnockoutDemo\Knockout_Start.aspx" />
+    <Content Include="Point.htm" />
     <Content Include="script\adapters\mootools-adapter.js" />
     <Content Include="script\adapters\mootools-adapter.src.js" />
     <Content Include="script\adapters\prototype-adapter.js" />
@@ -86,6 +87,7 @@
     <Content Include="Spider.svc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TongXu.htm" />
     <Content Include="Web.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

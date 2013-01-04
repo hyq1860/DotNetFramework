@@ -10,6 +10,7 @@ using DotNet.Common.Utility;
 using DotNet.IoC;
 using DotNet.Web;
 using DotNet.Web.Http;
+using MongoDB.Bson;
 
 namespace DotNetTest
 {
@@ -81,9 +82,14 @@ namespace DotNetTest
         {
 
             #region mongodb
+            //var objectid= MongoDBOfficialTest.Insert(new ShoppingCartEntity(){CartId = "123",Ha = "ssss"});
+            var objectid = new ObjectId("50e6a61e9e3eca0de45ecea4");
+            MongoDBOfficialTest.GetById(objectid);
+            //MongoDBOfficialTest.GetById(objectid);
+
             //MongoDBTest.Insert(new ShoppingCartEntity(){CartId = "123456"});
-            MongoDBTest.GetById("123456");
-            MongoDBTest.Update(new ShoppingCartEntity(){CartId = "123456"});
+            //MongoDBTest.GetById("123456");
+            //MongoDBTest.Update(new ShoppingCartEntity(){CartId = "123456"});
             return;
             #endregion
 

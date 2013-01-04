@@ -6,6 +6,10 @@
 
 using System.Runtime.Serialization;
 using DotNet.Data;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
+using MongoDB.Driver.Builders;
 
 namespace DotNetTest
 {
@@ -43,15 +47,46 @@ namespace DotNetTest
                 mm.GetCollection<ShoppingCartEntity>().Update(cart, new { CartId = cart.CartId });
             }
         }
+
+       
+    }
+
+    public class MongoDBOfficialTest
+    {
+        
+
+        public static ShoppingCartEntity GetById(ObjectId objectId)
+        {
+            using (MongoDBOfficial mongoDb = new MongoDBOfficial("Server=127.0.0.1:27017", "ShoppingCart"))
+            {
+                IMongoQuery query = Query.EQ("_id", objectId);
+                var data = mongoDb.GetCollection<ShoppingCartEntity>("ShoppingCart").FindOne(query);
+                return data;
+            }
+        }
+
+        public static ObjectId Insert(ShoppingCartEntity cart)
+        {
+            using (MongoDBOfficial mongoDb = new MongoDBOfficial("Server=127.0.0.1:27017", "ShoppingCart"))
+            {
+
+                var data =
+                    mongoDb.GetCollection<ShoppingCartEntity>("ShoppingCart")
+                           .Insert(cart);
+                return cart.Id;
+            }
+        }
     }
 
     [DataContract]
+    [BsonIgnoreExtraElements]
     public class ShoppingCartEntity
     {
         [DataMember]
         public string CartId { get; set; }
 
-        [BsonIgnore]
+        public ObjectId Id { get; set; }
+
         public string Ha { get; set; }
     }
 }

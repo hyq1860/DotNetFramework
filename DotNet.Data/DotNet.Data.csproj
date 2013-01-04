@@ -35,6 +35,12 @@
     <Reference Include="MongoDB">
       <HintPath>..\RefDll\MongoDB.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\RefDll\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\RefDll\MongoDB.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite">
@@ -64,6 +70,7 @@
     <Compile Include="Exceptions\DesignByContractException.cs" />
     <Compile Include="Exceptions\PostconditionException.cs" />
     <Compile Include="MongoDBHelper.cs" />
+    <Compile Include="MongoDBOfficial.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility\SqlHelper.cs" />
   </ItemGroup>

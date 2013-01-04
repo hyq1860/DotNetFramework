@@ -52,6 +52,12 @@
     <Reference Include="MongoDB">
       <HintPath>..\RefDll\MongoDB.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\RefDll\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\RefDll\MongoDB.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\RefDll\Ninject.dll</HintPath>
     </Reference>

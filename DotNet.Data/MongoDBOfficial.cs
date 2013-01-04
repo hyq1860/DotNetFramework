@@ -15,6 +15,9 @@ namespace DotNet.Data
 
     /// <summary>
     /// 官方版本的封装
+    /// http://www.mongodb.org/display/DOCS/CSharp+Language+Center
+    /// http://www.mongodb.org/display/DOCS/CSharp+Driver+Tutorial
+    /// www.mongodb.org/display/DOCS/CSharp+Driver+Serialization+Tutorial
     /// </summary>
     public class MongoDBOfficial : IDisposable
     {

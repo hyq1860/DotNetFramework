@@ -82,8 +82,8 @@ namespace DotNetTest
         {
 
             #region mongodb
-            //var objectid= MongoDBOfficialTest.Insert(new ShoppingCartEntity(){CartId = "123",Ha = "ssss"});
-            var objectid = new ObjectId("50e6a61e9e3eca0de45ecea4");
+            var objectid= MongoDBOfficialTest.Insert(new ShoppingCartEntity(){CartId = "123",Ha = "ssss"});
+            //var objectid = new ObjectId("50e6a61e9e3eca0de45ecea4");
             MongoDBOfficialTest.GetById(objectid);
             //MongoDBOfficialTest.GetById(objectid);
 

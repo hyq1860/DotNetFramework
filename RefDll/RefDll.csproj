@@ -142,6 +142,8 @@
     <Content Include="Microsoft.Practices.ServiceLocation.dll" />
     <Content Include="Microsoft.Practices.ServiceLocation.pdb" />
     <Content Include="Microsoft.Practices.ServiceLocation.XML" />
+    <Content Include="MongoDB.dll" />
+    <Content Include="MongoDB.xml" />
     <Content Include="Newtonsoft.Json.dll" />
     <Content Include="Newtonsoft.Json.pdb" />
     <Content Include="Newtonsoft.Json.xml" />

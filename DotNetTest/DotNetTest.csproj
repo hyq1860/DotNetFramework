@@ -49,6 +49,9 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\RefDll\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB">
+      <HintPath>..\RefDll\MongoDB.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\RefDll\Ninject.dll</HintPath>
     </Reference>
@@ -74,6 +77,7 @@
     <Compile Include="GoldSpider.cs" />
     <Compile Include="HttpClientTest.cs" />
     <Compile Include="IAdd.cs" />
+    <Compile Include="MongoDBTest.cs" />
     <Compile Include="NinjectBootstrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +91,10 @@
     <ProjectReference Include="..\DotNet.Common\DotNet.Common.csproj">
       <Project>{55E1D54C-FBD4-4D79-97BB-A0F00DC14FB7}</Project>
       <Name>DotNet.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DotNet.Data\DotNet.Data.csproj">
+      <Project>{53E3C58A-E08F-4594-A9ED-5EC9A0D97085}</Project>
+      <Name>DotNet.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\DotNet.IoC\DotNet.IoC.csproj">
       <Project>{14CB43B9-12F3-49B9-9994-1E9F99BDFF69}</Project>

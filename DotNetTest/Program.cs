@@ -80,6 +80,13 @@ namespace DotNetTest
         static void Main(string[] args)
         {
 
+            #region mongodb
+            //MongoDBTest.Insert(new ShoppingCartEntity(){CartId = "123456"});
+            MongoDBTest.GetById("123456");
+            MongoDBTest.Update(new ShoppingCartEntity(){CartId = "123456"});
+            return;
+            #endregion
+
             //var indexUrls= GoldSpider.GetUrls();
             //var urls= GoldSpider.Spider(indexUrls);
             //string json = JsonHelper.ToJson(urls);

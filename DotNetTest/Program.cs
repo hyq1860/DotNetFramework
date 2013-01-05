@@ -80,10 +80,16 @@ namespace DotNetTest
         [STAThread]
         static void Main(string[] args)
         {
+            #region
+
+            FileRead.Read();
+            FileRead.Read("GetPromotionRulesByIdsWithoutRuleExpands");
+            return;
+            #endregion
 
             #region mongodb
-            var objectid= MongoDBOfficialTest.Insert(new ShoppingCartEntity(){CartId = "123",Ha = "ssss"});
-            //var objectid = new ObjectId("50e6a61e9e3eca0de45ecea4");
+            //var objectid= MongoDBOfficialTest.Insert(new ShoppingCartEntity(){CartId = "123",Ha = "ssss",Promotion = new PromotionEntity(){Date1="满赠新促销",Date2 = new List<string>(){"测试"}}});
+            var objectid = new ObjectId("50e78f8c9e3eca2d6c538b9d");
             MongoDBOfficialTest.GetById(objectid);
             //MongoDBOfficialTest.GetById(objectid);
 

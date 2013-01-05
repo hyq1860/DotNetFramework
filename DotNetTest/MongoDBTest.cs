@@ -88,5 +88,15 @@ namespace DotNetTest
         public ObjectId Id { get; set; }
 
         public string Ha { get; set; }
+
+        public PromotionEntity Promotion { get; set; }
+    }
+
+    [BsonIgnoreExtraElements]
+    public class PromotionEntity
+    {
+        public string Date1 { get; set; }
+
+        //public List<string> Date2 { get; set; } 
     }
 }

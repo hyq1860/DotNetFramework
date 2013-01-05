@@ -80,6 +80,7 @@
     <Compile Include="AddTest.cs" />
     <Compile Include="Encodingcheck.cs" />
     <Compile Include="EncodingTest.cs" />
+    <Compile Include="FileRead.cs" />
     <Compile Include="GoldSpider.cs" />
     <Compile Include="HttpClientTest.cs" />
     <Compile Include="IAdd.cs" />

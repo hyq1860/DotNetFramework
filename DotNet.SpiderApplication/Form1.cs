@@ -58,10 +58,10 @@ namespace DotNet.SpiderApplication
         public Form1()
         {
             InitializeComponent();
-            //using (DataCommand cmd = DataCommandManager.GetDataCommand("GetModules"))
-            //{
-            //    DataTable dt = cmd.ExecuteDataTable();
-            //}
+            using (DataCommand cmd = DataCommandManager.GetDataCommand("GetModules"))
+            {
+                DataTable dt = cmd.ExecuteDataTable();
+            }
             
             //Process();
         }

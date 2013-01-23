@@ -1,0 +1,66 @@
+<AddIn name        = "basic menus"
+       author      = "michael zhang"
+       url         = "http://www.cnblogs.com/michael-zhang/"
+       description  = "基本插件"
+       addInManagerHidden = "true">
+
+  <Manifest>
+    <!--
+    unique name of the AddIn, used when others AddIns want to reference this AddIn
+		others AddIns can specify dependencies like this:
+		<Dependency addin="ICSharpCode.Core.Demo" version="1.0.0.x-1.0.0.y"/>
+		-->
+    <Identity name="michael.addin.basic" version = "@EntryAssemblyVersion"/>
+  </Manifest>
+  
+  <Runtime>
+    <Import assembly = "..\MainForm.dll"/>
+  </Runtime>
+
+  <Path name = "/michael/BlackText">
+    <FileFilter id = "Text" name = "Text files" extensions = "*.txt"/>
+    <FileFilter id = "LogFiles" name = "Log files" extensions = "*.log"/>
+  </Path>
+
+  <Path name = "/michael/dymanic_Menus">
+  </Path>
+  <Path name = "/michael/AddInManager">
+  </Path>
+  <Path name = "/michael/dymanic_ToolbarItems">
+  </Path>
+
+  <Path name = "/michael/myMenus">
+    <MenuItem id = "File"
+		          type = "Menu"
+		          label = "${res:Demo.Menu.File}">
+      <MenuItem id = "CmdBlack"
+			          label = "Cmd&amp;Black"
+			          shortcut = "Control|B"
+			          icon = "qq.face1"
+			          class = "MainForm.CmdBlack"/>
+      <Include id = "DynamicMenuList" path = "/michael/dymanic_Menus"/>
+      <MenuItem id = "Separator1" type = "Separator"/>
+      <MenuItem id = "Exit"
+			          label = "E&amp;xit"
+			          shortcut = "Control|X"
+			          class = "MainForm.CmdExit"/>
+    </MenuItem>
+    <MenuItem id = "Manager"
+		          type = "Menu"
+		          label = "&amp;Manager">
+      <Include id = "AddInManager" path = "/michael/AddInManager"/>
+    </MenuItem>
+  </Path>
+
+  <Path name = "/michael/myToolbar">
+    <ToolbarItem id = "CmdBlack"
+		             tooltip = "Black command"
+		             icon = "qq.face1"
+		             class = "MainForm.CmdBlack"/>
+    <ToolbarItem id = "Separator1" type = "Separator"/>
+    <ToolbarItem id = "Exit"
+			          tooltip = "Exit the app"
+			          icon = "CloseIcon"
+			          class = "MainForm.CmdExit"/>
+  </Path>
+</AddIn>

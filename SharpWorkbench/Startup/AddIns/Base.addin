@@ -1,0 +1,163 @@
+﻿<AddIn name        = "SD User Interface"
+       author      = "michael zhang"
+       copyright   = ""
+       url         = "http://www.cnblogs.com/michael-zhang"
+       description = "SharpDevelop-like User Interface App，欢迎大家与我讨论:-) mailto:larson001@tom.com, or mailto:czyllarson@gmail.com"
+       addInManagerHidden = "false">
+  <!--
+  addInManagerHidden：preinstalled/true/false
+  -->
+
+  <Manifest>
+    <Identity name = "SharpWorkbench" version = "1.0.0.0"/>
+  </Manifest>
+
+  <Runtime>
+    <Import assembly="SharpWorkbench.UI.dll"/>
+  </Runtime>
+
+  <!-- Main Menu -->
+  <Path name = "/SharpDevelop/Workbench/MainMenu">
+    <MenuItem id = "View" 
+              label = "视图" 
+              type="Menu">
+      <!--
+      MenuItem    创建菜单项 type可为：Seperator, CheckBox, Item/Command, Menu, Builder
+      ToolBarItem    创建工具栏按钮荐 type可为：Seperator, CheckBox, Item, ComboBox, DropDownButton
+      ${res:ResourceName}        引用ResourceService系统资源
+      ${property:PropertyName}   引用PropertyService中的属性
+      ${env:VariableName}        引用系统变量
+      ${exe:ProperName}          引用整个程序集的属性
+      -->
+      <MenuItem id = "FullScreen"
+			          label = "全屏"
+			          icon = "Icons.16x16.FullScreen"
+			          class = "SharpWorkbench.UI.ViewContent.ToggleFullscreenCommand" />
+    </MenuItem>
+  </Path>
+
+  <Path name = "/SharpDevelop/Workbench/DisplayBindings">
+    <DisplayBinding id               = "Browser"
+		                supportedformats = "Web Pages"
+		                class            = "SharpWorkbench.UI.ViewContent.BrowserDisplayBinding"/>
+    <DisplayBinding id    = "Text"
+		                insertafter = "Browser"
+		                supportedformats = "Text Files,Source Files"
+		                class = "SharpWorkbench.UI.ViewContent.TextViewDisplayBinding" />
+  </Path>
+  <Path name = "/SharpDevelop/Workbench/DisplayBindings">
+    <DisplayBinding id    = "Image"
+		                insertbefore = "Text"
+		                supportedformats = "图片"
+		                class = "SharpWorkbench.UI.ViewContent.ImageDisplayBinding" />
+  </Path>
+
+  <Path name = "/SharpDevelop/Workbench/Pads">
+    <!--
+		ProjectBrowser
+		ClassBrowser
+		SideBar
+		ErrorList
+		TaskList
+		CompilerMessageView
+		PropertyPad
+		SearchResults
+		Bookmarks
+		DefinitionView
+		...
+		-->
+    <Pad id       = "FileScout"
+		     category = "Tools"
+		     title    = "FileScoutLabel"
+		     shortcut = "Control|Alt|F"
+		     class    = "SharpWorkbench.UI.Pad.FileScout"/>
+  </Path>
+
+  <!-- Pad==>FileScout 中使用到该节点的定义，用以对不同的文件类型在列表中显示不同的图标
+       多个中间必须用 ; 分隔-->
+  <Path name = "/Workspace/Icons">
+    <Icon id         = "ResourceFileIcon"
+		      extensions = ".resources;.resx"
+		      resource   = "Icons.16x16.ResourceFileIcon" />
+
+    <Icon id         = "XmlFileIcon"
+		      extensions = ".xml"
+		      resource   = "FileIcons.XmlIcon" />
+
+    <Icon id         = "DtdFileIcon"
+		      extensions = ".dtd"
+		      resource   = "Icons.16x16.DTDIcon"/>
+
+    <Icon id         = "XsdFileIcon"
+		      extensions = ".xsd"
+		      resource   = "Icons.16x16.XSDIcon"/>
+
+    <Icon id         = "XslFileIcon"
+		      extensions = ".xsl"
+		      resource   = "Icons.16x16.XSLIcon"/>
+
+    <Icon id         = "HtmlFileIcon"
+		      extensions = ".html;.htm"
+		      resource   = "Icons.16x16.HTMLIcon"/>
+
+    <Icon id         = "AspFileIcon"
+		      extensions = ".asp;.aspx"
+		      resource   = "Icons.16x16.ASPFileIcon"/>
+
+    <Icon id         = "AddInFileIcon"
+		      extensions = ".addin"
+		      resource   = "Icons.16x16.AddInIcon" />
+    <Icon id         = "TextFileIcon"
+		      extensions = ".txt;.doc;.ini"
+		      resource   = "Icons.16x16.TextFileIcon"/>
+
+    <Icon id         = "CssFileIcon"
+		      extensions = ".css"
+		      resource   = "Icons.16x16.CSSIcon"/>
+  </Path>
+
+  <!--  ViewContent==>HtmlViewPane 中使用到了此节点用以显示相关导航按钮 -->
+  <Path name = "/SharpDevelop/ViewContent/Browser/Toolbar">
+    <ToolbarItem id      = "Back"
+		             icon    = "Icons.16x16.BrowserBefore"
+		             tooltip = "${res:AddIns.HtmlHelp2.Back}"
+		             class   = "SharpWorkbench.UI.ViewContent.GoBack"/>
+
+    <ToolbarItem id      = "Forward"
+		             icon    = "Icons.16x16.BrowserAfter"
+		             tooltip = "${res:AddIns.HtmlHelp2.Forward}"
+		             class   = "SharpWorkbench.UI.ViewContent.GoForward"/>
+
+    <ToolbarItem id      = "Stop"
+		             icon    = "Icons.16x16.BrowserCancel"
+		             tooltip = "${res:AddIns.HtmlHelp2.Stop}"
+		             class   = "SharpWorkbench.UI.ViewContent.Stop"/>
+
+    <ToolbarItem id      = "Refresh"
+		             icon    = "Icons.16x16.BrowserRefresh"
+		             tooltip = "${res:AddIns.HtmlHelp2.Refresh}"
+		             class   = "SharpWorkbench.UI.ViewContent.Refresh"/>
+
+    <ToolbarItem id = "Separator" type  = "Separator"/>
+
+    <ToolbarItem id      = "GoHome"
+		             icon    = "Icons.16x16.BrowserHome"
+		             tooltip = "${res:AddIns.HtmlHelp2.Homepage}"
+		             class   = "SharpWorkbench.UI.ViewContent.GoHome"/>
+
+    <ToolbarItem id      = "GoSearch"
+		             icon    = "Icons.16x16.FindIcon"
+		             tooltip = "${res:AddIns.HtmlHelp2.Search}"
+		             class   = "SharpWorkbench.UI.ViewContent.GoSearch"/>
+
+    <ToolbarItem id      = "URLComboBox"
+		             type    = "ComboBox"
+		             tooltip = "${res:AddIns.HtmlHelp2.EnterURL}"
+		             class   = "SharpWorkbench.UI.ViewContent.UrlComboBox"/>
+
+    <ToolbarItem id      = "NewWindow"
+		             icon    = "Icons.16x16.BrowserWindow"
+		             tooltip = "${res:AddIns.HtmlHelp2.NewWindow}"
+		             class   = "SharpWorkbench.UI.ViewContent.NewWindow"/>
+  </Path>
+</AddIn>

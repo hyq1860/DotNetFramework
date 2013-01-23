@@ -27,12 +27,39 @@ namespace DotNet.Data
 
         private MongoDatabase mongoDatabase;
 
+        /// <summary>
+        /// mongodb://[username:password@]hostname[:port][/[database][?options]]
+        /// </summary>
+        /// <param name="connectionString">mongodb数据库连接串</param>
+        /// <param name="dataBaseName">数据库实例名称</param>
         public MongoDBOfficial(string connectionString,string dataBaseName)
         {
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new ArgumentNullException("connectionString");
+            }
+            if (string.IsNullOrEmpty(dataBaseName))
+            {
+                throw new ArgumentNullException("dataBaseName");
+            }
             mongoClient = new MongoClient(connectionString);
             mongoServer = mongoClient.GetServer();
             mongoDatabase = mongoServer.GetDatabase(dataBaseName);
 
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="settings"></param>
+        public MongoDBOfficial(MongoClientSettings settings)
+        {
+            /*
+            var url = new MongoUrl("mongodb://test:user@localhost:27017");
+            var settings = MongoClientSettings.FromUrl(url);
+            var adminCredentials = new MongoCredentials("admin", "user", true);
+            */
+            mongoClient=new MongoClient(settings);
         }
 
         /// <summary>
@@ -45,8 +72,6 @@ namespace DotNet.Data
         {
             return mongoDatabase.GetCollection<T>(name);
         }
-
-
 
         public void Dispose()
         {

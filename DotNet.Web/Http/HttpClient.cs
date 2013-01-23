@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using DotNet.Common;
 using DotNet.Common.Logging;
+using DotNet.Common.Utility;
 using DotNet.Web.Http;
 using Mozilla.NUniversalCharDet;
 
@@ -919,12 +920,33 @@ namespace DotNet.Web
                     // 基于火狐的统计学算法
                     encoding = this.GetEncodingByUniversalCharDet(pageBytes);
 
-                    // headers meta BOM的查找方式
-                    Encoding secondEncoding = this.GetStringUsingEncoding(webResponse, pageBytes);
+                    IdentifyEncoding ide = new IdentifyEncoding();
 
-                    if (encoding != null && encoding.EncodingName != secondEncoding.EncodingName)
+
+                    sbyte[] mySByte = new sbyte[pageBytes.Length];
+
+                    for (int i = 0; i < pageBytes.Length; i++)
                     {
-                        encoding = secondEncoding;
+                        if (pageBytes[i] > 127)
+                            mySByte[i] = (sbyte)(pageBytes[i] - 256);
+                        else
+                            mySByte[i] = (sbyte)pageBytes[i];
+                    }
+
+                    var tempOTHER = ide.GetEncodingString(mySByte);
+                    if (tempOTHER == "OTHER")
+                    {
+                        // headers meta BOM的查找方式
+                        Encoding secondEncoding = this.GetStringUsingEncoding(webResponse, pageBytes);
+
+                        if (encoding != null && encoding.EncodingName != secondEncoding.EncodingName)
+                        {
+                            encoding = secondEncoding;
+                        }
+                    }
+                    else
+                    {
+                        encoding = Encoding.GetEncoding(tempOTHER);
                     }
                 }
                 
@@ -939,7 +961,6 @@ namespace DotNet.Web
 
             return string.Empty;
         }
-
 
         /// <summary>
         /// 发出一次新的请求,以Http头,或Html Meta标签,或DefaultEncoding指示的编码信息对回应主体解码

@@ -21,6 +21,7 @@ namespace DotNet.Web
         /// <param name="url">资源的url</param>
         /// <returns>返回处理后的url</returns>
         public delegate string MatchCallback(string url);
+
         private string url;
 
         private string html;

@@ -178,6 +178,7 @@
     <Compile Include="Serialization\XmlSerializerWrapper.cs" />
     <Compile Include="String\FastReplacer\FastReplacer.cs" />
     <Compile Include="String\FastReplacer\FastReplacerSnippet.cs" />
+    <Compile Include="String\JSONConvert.cs" />
     <Compile Include="Utility\ArrayUtils.cs" />
     <Compile Include="Utility\CaseInsensitiveStringEqualityComparer.cs" />
     <Compile Include="Utility\CommonConfig.cs" />

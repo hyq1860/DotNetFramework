@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using DotNet.Common;
 using DotNet.Common.Utility;
 using DotNet.IoC;
 using DotNet.Web;
@@ -80,6 +81,13 @@ namespace DotNetTest
         [STAThread]
         static void Main(string[] args)
         {
+
+            #region
+            HttpClient hc3 = new HttpClient("http://www.soxuan.com");
+            var html2=hc3.Request();
+            return;
+            #endregion
+
             #region
 
             FileRead.Read();

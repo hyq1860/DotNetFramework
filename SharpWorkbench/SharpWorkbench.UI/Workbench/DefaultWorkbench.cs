@@ -313,6 +313,7 @@ namespace SharpWorkbench.UI.WorkBench
                     layout.Detach();
                 }
                 layout = value;
+                // 设置layout的同时，将组件加到defaultworkbench界面中
                 value.Attach(this);
             }
         }

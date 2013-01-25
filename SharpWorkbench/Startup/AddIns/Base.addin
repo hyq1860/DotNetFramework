@@ -66,11 +66,17 @@
 		DefinitionView
 		...
 		-->
-    <Pad id       = "FileScout"
+    <!--<Pad id       = "FileScout"
 		     category = "Tools"
 		     title    = "FileScoutLabel"
 		     shortcut = "Control|Alt|F"
-		     class    = "SharpWorkbench.UI.Pad.FileScout"/>
+		     class    = "SharpWorkbench.UI.Pad.FileScout"/>-->
+
+    <Pad id       = "Outlook"
+     category = "Tools"
+     title    = "FileScoutLabel"
+     shortcut = "Control|Alt|F"
+     class    = "SharpWorkbench.UI.Pad.Outlook"/>
   </Path>
 
   <!-- Pad==>FileScout 中使用到该节点的定义，用以对不同的文件类型在列表中显示不同的图标

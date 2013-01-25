@@ -113,6 +113,7 @@ namespace SharpWorkbench.UI.WorkBench
             dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
             dockPanel.ActiveAutoHideContent = null;
             dockPanel.Dock = DockStyle.Fill;
+
             wbForm.Controls.Add(dockPanel);// 将eifenLuo.WinFormsUI.DockPanel dockpanel加入到controls
 
             wbForm.Controls.Add(wbForm.TopMenu);// 加入菜单

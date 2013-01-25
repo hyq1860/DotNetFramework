@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Resources;
 using System.Windows.Forms;
 using ICSharpCode.Core;
-
+using ICSharpCode.Core.WinForms;
 using SharpWorkbench.Core.Common;
 using SharpWorkbench.UI.WorkBench;
 
@@ -31,7 +31,7 @@ namespace Startup
 			// paths relative to the application root:
 			// "data/resources" for language resources, "data/options" for default options
 			FileUtility.ApplicationRootPath = Path.GetDirectoryName(exe.Location);
-
+		    //ResourceHelper.GenerateResources(FileUtility.ApplicationRootPath + "\\Resources");
 			LoggingService.Info("Starting core services...");
 			
 			// CoreStartup is a helper class making starting the Core easier.
@@ -53,6 +53,8 @@ namespace Startup
 			// "data/resources" directory.
 			ResourceService.RegisterNeutralStrings(new ResourceManager("Startup.StringResources", exe));
 			ResourceService.RegisterNeutralImages(new ResourceManager("Startup.ImageResources", exe));
+            ResourceService.RegisterNeutralImages(new ResourceManager("app", exe));
+		    var image = WinFormsResourceService.GetBitmap("TipError");
 
             AddInTree.Doozers.Add("Pad", new SharpWorkbench.Core.Pad.PadDoozer());
             AddInTree.Doozers.Add("DisplayBinding", new SharpWorkbench.Core.ViewContent.DisplayBindingDoozer());

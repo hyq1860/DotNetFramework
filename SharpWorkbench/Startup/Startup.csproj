@@ -69,7 +69,12 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Start.cs" />
-    <EmbeddedResource Include="BitmapResources.resources" />
+    <Content Include="app.resources">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="BitmapResources.resources">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="StringResources.resources">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

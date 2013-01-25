@@ -6,6 +6,7 @@
 
 using System.Collections;
 using System.IO;
+using System.Net.Mime;
 using System.Reflection;
 using System.Resources;
 
@@ -65,6 +66,32 @@ namespace SharpWorkbench.Core.Common
             {
                 // Add resources to the file.
                 rw.AddResource(key, value);
+            }
+        }
+
+        public void Add(string resourcePath, string key, object value)
+        {
+            // Create a resource writer.
+            using (IResourceWriter rw = new ResourceWriter("app.resources"))
+            {
+                // Add resources to the file.
+                rw.AddResource(key, value);
+            }
+        }
+
+        public static void GenerateResources(string filePath)
+        {
+            // Create a resource writer.
+            using (IResourceWriter rw = new ResourceWriter("app.resources"))
+            {
+                // Add resources to the file.
+                var imageFiles = Directory.GetFiles(filePath);
+                foreach (var imageFile in imageFiles)
+                {
+                    var image = System.Drawing.Image.FromFile(imageFile);
+                    var fileInfo = new FileInfo(imageFile);
+                    rw.AddResource(fileInfo.FullName, image);
+                }
             }
         }
     }

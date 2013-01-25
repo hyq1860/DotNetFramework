@@ -57,6 +57,9 @@
     <Compile Include="Pad\FileScout.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Pad\Outlook.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewContent\BrowserCommands.cs" />
     <Compile Include="ViewContent\ExtendedWebBrowser.cs">
@@ -110,6 +113,10 @@
     <ProjectReference Include="..\ICSharpCode.Core.WinForms\ICSharpCode.Core.WinForms.csproj">
       <Project>{857CA1A3-FC88-4BE0-AB6A-D1EE772AB288}</Project>
       <Name>ICSharpCode.Core.WinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpWorkbench.Controls\SharpWorkbench.Controls.csproj">
+      <Project>{527A8377-5539-4FDB-8BB1-E2689CC361C8}</Project>
+      <Name>SharpWorkbench.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharpWorkbench.Core\SharpWorkbench.Core.csproj">
       <Project>{13DBCE0F-A888-4CCC-AC89-CD1AC6386EC5}</Project>

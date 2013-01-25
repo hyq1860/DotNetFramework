@@ -22,6 +22,7 @@ namespace SharpWorkbench.Core.Workbench
 		
 		/// <summary>
 		/// Attaches this layout manager to a workbench object.
+		/// 加载workbench
 		/// </summary>
 		void Attach(IWorkbench workbench);
 		

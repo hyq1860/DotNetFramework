@@ -17,6 +17,7 @@ namespace SharpWorkbench.Core.Pad
 		}
 		
 		/// <summary>
+		/// 重新初始化pad中的组件
 		/// Re-initializes all components of the pad. Don't call unless
 		/// you know what you do.
 		/// </summary>

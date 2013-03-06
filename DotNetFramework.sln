@@ -107,6 +107,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Startup", "SharpWorkbench\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpWorkbench.Controls", "SharpWorkbench\SharpWorkbench.Controls\SharpWorkbench.Controls.csproj", "{527A8377-5539-4FDB-8BB1-E2689CC361C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.Net", "DotNet.Net\DotNet.Net.csproj", "{0359CEEF-2706-4889-BB9B-1CD5C659EA02}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = DotNetFramework.vsmdi
@@ -580,6 +582,16 @@ Global
 		{527A8377-5539-4FDB-8BB1-E2689CC361C8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{527A8377-5539-4FDB-8BB1-E2689CC361C8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{527A8377-5539-4FDB-8BB1-E2689CC361C8}.Release|x86.ActiveCfg = Release|Any CPU
+		{0359CEEF-2706-4889-BB9B-1CD5C659EA02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0359CEEF-2706-4889-BB9B-1CD5C659EA02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0359CEEF-2706-4889-BB9B-1CD5C659EA02}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0359CEEF-2706-4889-BB9B-1CD5C659EA02}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0359CEEF-2706-4889-BB9B-1CD5C659EA02}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0359CEEF-2706-4889-BB9B-1CD5C659EA02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0359CEEF-2706-4889-BB9B-1CD5C659EA02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0359CEEF-2706-4889-BB9B-1CD5C659EA02}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0359CEEF-2706-4889-BB9B-1CD5C659EA02}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0359CEEF-2706-4889-BB9B-1CD5C659EA02}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

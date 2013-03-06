@@ -69,9 +69,6 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Start.cs" />
-    <Content Include="app.resources">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <EmbeddedResource Include="BitmapResources.resources">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -108,10 +105,6 @@
     <ProjectReference Include="..\ICSharpCode.Core.WinForms\ICSharpCode.Core.WinForms.csproj">
       <Project>{857CA1A3-FC88-4BE0-AB6A-D1EE772AB288}</Project>
       <Name>ICSharpCode.Core.WinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MyWorkbench\MyWorkbench.csproj">
-      <Project>{AFD628B5-AC5C-4C12-8167-978DBC88E894}</Project>
-      <Name>MyWorkbench</Name>
     </ProjectReference>
     <ProjectReference Include="..\SharpWorkbench.Core\SharpWorkbench.Core.csproj">
       <Project>{13DBCE0F-A888-4CCC-AC89-CD1AC6386EC5}</Project>

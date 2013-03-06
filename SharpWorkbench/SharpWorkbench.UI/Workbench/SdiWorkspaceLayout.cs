@@ -19,7 +19,9 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace SharpWorkbench.UI.WorkBench
 {
-	/// <summary>
+    using SharpWorkbench.Controls;
+
+    /// <summary>
 	/// This is the a Workspace with a single document interface.
 	/// </summary>
 	public class SdiWorkbenchLayout : IWorkbenchLayout
@@ -110,21 +112,56 @@ namespace SharpWorkbench.UI.WorkBench
             wbForm.IsMdiContainer = true;
 
             //dockPanel = new WeifenLuo.WinFormsUI.DockPanel();
-            dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
-            dockPanel.ActiveAutoHideContent = null;
-            dockPanel.Dock = DockStyle.Fill;
+            //dockPanel = new WeifenLuo.WinFormsUI.Docking.DockPanel();
+            //dockPanel.ActiveAutoHideContent = null;
+            //dockPanel.Dock = DockStyle.Fill;
 
-            wbForm.Controls.Add(dockPanel);// 将eifenLuo.WinFormsUI.DockPanel dockpanel加入到controls
+            //wbForm.Controls.Add(dockPanel);// 将eifenLuo.WinFormsUI.DockPanel dockpanel加入到controls
 
+           
+            
+            InitOutlook(wbForm);
+            wbForm.TopMenu.Dock = System.Windows.Forms.DockStyle.Top;
             wbForm.Controls.Add(wbForm.TopMenu);// 加入菜单
-
             LoadConfiguration();
 
-            ShowPads();
+            //ShowPads();
             //ShowViewContents();
-            RedrawAllComponents();
+            //RedrawAllComponents();
 
             wbForm.ResumeLayout(false);
+        }
+
+        private void InitOutlook(DefaultWorkbench wbForm)
+        {
+            //var NavBar = new NavBar();
+            //NavBar.Dock = System.Windows.Forms.DockStyle.Left;
+            //NavBar.Location = new System.Drawing.Point(0, 85);
+            //NavBar.Name = "NavBar";
+            //NavBar.Size = new System.Drawing.Size(160, 600);
+            //NavBar.TabIndex = 1;
+            //NavBar.ImageButtonClick += new NavBar.ButtonClickHander(this.NavBar_ImageButtonClick);
+
+            wbForm.Controls.Add(wbForm.Outlook);
+
+            var contentView = new System.Windows.Forms.Panel();
+            contentView.Dock = System.Windows.Forms.DockStyle.Fill;
+            contentView.Location = new System.Drawing.Point(160, 85);
+            contentView.Name = "PnlContent";
+            contentView.Size = new System.Drawing.Size(830, 600);
+            contentView.TabIndex = 2;
+
+            //默认usercontrols
+            var defaultControl = new UserControl();
+            contentView.Controls.Add(defaultControl);
+
+            wbForm.Controls.Add(contentView);
+            //wbForm.Controls.Add(NavBar);
+        }
+
+        private void NavBar_ImageButtonClick(object sender, string targetModule)
+        {
+
         }
 
         public void Detach()

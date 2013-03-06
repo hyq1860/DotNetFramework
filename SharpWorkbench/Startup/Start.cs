@@ -53,8 +53,7 @@ namespace Startup
 			// "data/resources" directory.
 			ResourceService.RegisterNeutralStrings(new ResourceManager("Startup.StringResources", exe));
 			ResourceService.RegisterNeutralImages(new ResourceManager("Startup.ImageResources", exe));
-            ResourceService.RegisterNeutralImages(new ResourceManager("app", exe));
-		    var image = WinFormsResourceService.GetBitmap("TipError");
+            //ResourceService.RegisterNeutralImages(new ResourceManager("app", exe));
 
             AddInTree.Doozers.Add("Pad", new SharpWorkbench.Core.Pad.PadDoozer());
             AddInTree.Doozers.Add("DisplayBinding", new SharpWorkbench.Core.ViewContent.DisplayBindingDoozer());
@@ -62,7 +61,7 @@ namespace Startup
 			LoggingService.Info("Looking for AddIns...");
 			// Searches for ".addin" files in the application directory.
 			//coreStartup.AddAddInsFromDirectory(Path.Combine(FileUtility.ApplicationRootPath, "AddIns"));
-            coreStartup.AddAddInsFromDirectory(Path.Combine(FileUtility.ApplicationRootPath, "AddIns"));
+            coreStartup.AddAddInsFromDirectory(Path.Combine(FileUtility.ApplicationRootPath, ""));
 			
 			// Searches for a "AddIns.xml" in the user profile that specifies the names of the
 			// add-ins that were deactivated by the user, and adds "external" AddIns.

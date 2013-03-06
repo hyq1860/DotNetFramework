@@ -9,6 +9,10 @@ using ICSharpCode.Core.WinForms;
 
 namespace SharpWorkbench.Controls
 {
+    using System.Collections;
+
+    using SharpWorkbench.Core.Pad;
+
     /// <summary>
     /// 对象名称：导航栏类
     /// 对象说明：主要显示系统左侧的导航栏。
@@ -17,11 +21,12 @@ namespace SharpWorkbench.Controls
     /// </summary>
     public partial class NavBar : UserControl
     {
+        List<PadDescriptor> viewContentCollection = new List<PadDescriptor>();
         /// <summary>
         /// 导航栏类的默认实例化方法，该方法在控件正式显示之前执行，
         /// 可以根据需要在此方法中对 NavButtonGroup列表进行重新定义。
         /// </summary>
-        public NavBar()
+        public NavBar(ArrayList pads)
         {
             InitializeComponent();
 
@@ -32,35 +37,35 @@ namespace SharpWorkbench.Controls
             //    NavButtonGroup[1].ImageButtons.RemoveAt(0);   //删除导航栏中第2组导般条中的第1个图像按钮
             //}
 
-            InitNavBar(); // 初始化导航栏，该方法必须在NavButtonGroup重新调整后执行
+            InitNavBar(pads); // 初始化导航栏，该方法必须在NavButtonGroup重新调整后执行
         }
 
         /// <summary>
         /// 说明：导航栏初始的功能模块列表，可以通过定义此列表设置导航栏中的导航条及图片按扭。
         /// 注意：这里定义的是一个私有的List类型变量NavButtonGroup，并不是一个私有的函数方法。
         /// </summary>
-        private List<NavBar.ButtonGroup> NavButtonGroup = new List<NavBar.ButtonGroup>() 
-        { 
-            new ButtonGroup("欢迎使用")
-            {
-                ImageButtons = new List<ImageButton>() 
-                {
-                    new ImageButton("欢迎使用","Main",WinFormsResourceService.GetBitmap("TipError")),
-                    new ImageButton("联系人管理","ManageLinkMan",WinFormsResourceService.GetBitmap("TipError"))
-                }
-            } ,
-            new ButtonGroup("系统设置")
-            {
-                ImageButtons = new List<ImageButton>() 
-                {
-                    new ImageButton("系统用户管理","ManageUser",WinFormsResourceService.GetBitmap("TipError"))
-                }
-            } ,
-            new ButtonGroup("退出系统") 
-            {
+        public List<NavBar.ButtonGroup> NavButtonGroup = new List<NavBar.ButtonGroup>() { };
+        //{ 
+        //    new ButtonGroup("欢迎使用")
+        //    {
+        //        ImageButtons = new List<ImageButton>() 
+        //        {
+        //            new ImageButton("欢迎使用","Main",WinFormsResourceService.GetBitmap("NavBtnMain")),
+        //            new ImageButton("联系人管理","ManageLinkMan",WinFormsResourceService.GetBitmap("NavBtnManageLinkMan"))
+        //        }
+        //    } ,
+        //    new ButtonGroup("系统设置")
+        //    {
+        //        ImageButtons = new List<ImageButton>() 
+        //        {
+        //            new ImageButton("系统用户管理","ManageUser",WinFormsResourceService.GetBitmap("NavBtnManageUser"))
+        //        }
+        //    } ,
+        //    new ButtonGroup("退出系统") 
+        //    {
 
-            }
-        };
+        //    }
+        //};
 
         #region 导航栏类中的相关属性与方法
 
@@ -71,8 +76,13 @@ namespace SharpWorkbench.Controls
         /// <summary>
         /// 初始化导航栏
         /// </summary>
-        private void InitNavBar()
+        private void InitNavBar(ArrayList pads)
         {
+            //foreach (var pad in pads)
+            //{
+            //    NavButtonGroup
+            //}
+
             this.Dock = DockStyle.Left;
             int barHeight = 22;
             for (int n = 0; n < NavButtonGroup.Count; n++)
@@ -199,7 +209,7 @@ namespace SharpWorkbench.Controls
                 TitleBar.ForeColor = Color.FromArgb(102, 102, 102);
                 TitleBar.Location = new Point(0, 0);
                 TitleBar.Size = new Size(153, 22);
-                TitleBar.BackgroundImage = WinFormsResourceService.GetBitmap("TipError");
+                TitleBar.BackgroundImage = WinFormsResourceService.GetBitmap("NavBarBG01");
                 TitleBar.MouseMove += new MouseEventHandler(TitleBar_MouseMove);
                 TitleBar.MouseLeave += new EventHandler(TitleBar_MouseLeave);
                 TitleBar.Click += new EventHandler(TitleBar_Click);
@@ -276,7 +286,7 @@ namespace SharpWorkbench.Controls
                 if (sender is System.Windows.Forms.Label)
                 {
                     System.Windows.Forms.Label tmpLabel = (System.Windows.Forms.Label)sender;
-                    tmpLabel.BackgroundImage = WinFormsResourceService.GetBitmap("TipError");
+                    tmpLabel.BackgroundImage = WinFormsResourceService.GetBitmap("ButtonBG01");
                 }
             }
 
@@ -288,7 +298,7 @@ namespace SharpWorkbench.Controls
                 if (sender is System.Windows.Forms.Label)
                 {
                     System.Windows.Forms.Label tmpLabel = (System.Windows.Forms.Label)sender;
-                    tmpLabel.BackgroundImage = WinFormsResourceService.GetBitmap("TipError");
+                    tmpLabel.BackgroundImage = WinFormsResourceService.GetBitmap("ButtonBG02");
                 }
             }
 
@@ -384,7 +394,7 @@ namespace SharpWorkbench.Controls
                 if (sender is PictureBox)
                 {
                     PictureBox tmpPictureBox = (PictureBox)sender;
-                    tmpPictureBox.BackgroundImage = WinFormsResourceService.GetBitmap("TipError");
+                    tmpPictureBox.BackgroundImage = WinFormsResourceService.GetBitmap("NavBtnBG");
                 }
             }
 

@@ -57,6 +57,10 @@
       <Project>{857CA1A3-FC88-4BE0-AB6A-D1EE772AB288}</Project>
       <Name>ICSharpCode.Core.WinForms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharpWorkbench.Core\SharpWorkbench.Core.csproj">
+      <Project>{13DBCE0F-A888-4CCC-AC89-CD1AC6386EC5}</Project>
+      <Name>SharpWorkbench.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

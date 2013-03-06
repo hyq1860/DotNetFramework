@@ -14,6 +14,7 @@ namespace SharpWorkbench.Core.Common
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Text;
 
     /// <summary>
@@ -88,9 +89,10 @@ namespace SharpWorkbench.Core.Common
                 var imageFiles = Directory.GetFiles(filePath);
                 foreach (var imageFile in imageFiles)
                 {
-                    var image = System.Drawing.Image.FromFile(imageFile);
+                    var image = System.Drawing.Image.FromFile(imageFile) as Bitmap;
                     var fileInfo = new FileInfo(imageFile);
-                    rw.AddResource(fileInfo.FullName, image);
+                    var name = fileInfo.Name.Split('.')[0];
+                    rw.AddResource(name, image);
                 }
             }
         }

@@ -23,13 +23,8 @@ namespace SharpWorkbench.UI.Pad
 
         public Outlook()
         {
-            var NavBar = new NavBar();
-            NavBar.Dock = System.Windows.Forms.DockStyle.Left;
-            NavBar.Location = new System.Drawing.Point(0, 85);
-            NavBar.Name = "NavBar";
-            NavBar.Size = new System.Drawing.Size(160, 600);
-            NavBar.TabIndex = 1;
-            Control.Controls.Add(NavBar);
+            
+            //Control.Controls.Add(NavBar);
         }
 
         public void RedrawContent()

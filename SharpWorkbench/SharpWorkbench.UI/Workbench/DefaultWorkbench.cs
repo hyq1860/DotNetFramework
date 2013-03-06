@@ -19,7 +19,9 @@ using SharpWorkbench.UI.Common;
 
 namespace SharpWorkbench.UI.WorkBench
 {
-	/// <summary>
+    using SharpWorkbench.Controls;
+
+    /// <summary>
 	/// This is the a Workspace with a multiple document interface.
 	/// </summary>
     public class DefaultWorkbench : Form, IWorkbench
@@ -73,6 +75,8 @@ namespace SharpWorkbench.UI.WorkBench
         Rectangle _NormalBounds;
         FormWindowState _WindowState = FormWindowState.Normal;
         bool _FullScreen = false;
+
+        public NavBar Outlook = null;
 
         #endregion
 
@@ -130,6 +134,8 @@ namespace SharpWorkbench.UI.WorkBench
                         viewMenuItems.Add(new MyMenuItem(content));
                     }
                 }
+                // 创建outlook
+                CreateOutlook(contents);
                 if (viewMenuItems.Count > 0)
                     _ViewItem = viewMenuItems.ToArray(typeof (ToolStripItem)) as ToolStripItem[];
             }
@@ -459,7 +465,43 @@ namespace SharpWorkbench.UI.WorkBench
             catch (TreePathNotFoundException) { }
         }
 
-        void UpdateMenus()
+        void CreateOutlook(ArrayList contents)
+        {
+            Outlook = new NavBar(contents);
+            Outlook.Dock = System.Windows.Forms.DockStyle.Left;
+            Outlook.Location = new System.Drawing.Point(0, 85);
+            Outlook.Name = "NavBar";
+            Outlook.Size = new System.Drawing.Size(160, 600);
+            Outlook.TabIndex = 1;
+
+
+            if(PadContentCollection.Count==0)
+            {
+                return;
+            }
+
+            //    new ButtonGroup("欢迎使用")
+            //    {
+            //        ImageButtons = new List<ImageButton>() 
+            //        {
+            //            new ImageButton("欢迎使用","Main",WinFormsResourceService.GetBitmap("NavBtnMain")),
+            //            new ImageButton("联系人管理","ManageLinkMan",WinFormsResourceService.GetBitmap("NavBtnManageLinkMan"))
+            //        }
+            //    } ,
+
+            var buttonGroup = new NavBar.ButtonGroup("欢迎使用");
+            if (buttonGroup.ImageButtons == null)
+            {
+                buttonGroup.ImageButtons = new List<NavBar.ImageButton>();
+            }
+            foreach (PadDescriptor padDescriptor in contents)
+            {
+                buttonGroup.ImageButtons.Add(new NavBar.ImageButton(padDescriptor.Title, "", WinFormsResourceService.GetBitmap("NavBtnMain")));
+            }
+            Outlook.NavButtonGroup.Add(buttonGroup);
+        }
+
+	    void UpdateMenus()
         {
             // update menu
             foreach (object o in TopMenu.Items)

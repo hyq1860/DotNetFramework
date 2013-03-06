@@ -39,7 +39,7 @@ namespace SharpWorkbench.Controls
             // 
             // PnlLogo
             // 
-            this.PnlLogo.BackgroundImage = WinFormsResourceService.GetBitmap("TipError");
+            this.PnlLogo.BackgroundImage = WinFormsResourceService.GetBitmap("DesignerLogo");
             this.PnlLogo.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.PnlLogo.Location = new System.Drawing.Point(0, 443);
             this.PnlLogo.Name = "PnlLogo";
@@ -48,7 +48,7 @@ namespace SharpWorkbench.Controls
             // 
             // PnlBackGround
             // 
-            this.PnlBackGround.BackgroundImage = WinFormsResourceService.GetBitmap("TipError");
+            this.PnlBackGround.BackgroundImage = WinFormsResourceService.GetBitmap("SideBarBG");
             this.PnlBackGround.Controls.Add(this.PnlBottomLine);
             this.PnlBackGround.Controls.Add(this.PnlTopLine);
             this.PnlBackGround.Dock = System.Windows.Forms.DockStyle.Fill;

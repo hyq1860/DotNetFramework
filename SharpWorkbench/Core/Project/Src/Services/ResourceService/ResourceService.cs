@@ -15,7 +15,10 @@ using System.Threading;
 
 namespace ICSharpCode.Core
 {
-	/// <summary>
+    using System.Drawing;
+    using System.Net.Mime;
+
+    /// <summary>
 	/// This Class contains two ResourceManagers, which handle string and image resources
 	/// for the application. It do handle localization strings on this level.
 	/// </summary>
@@ -27,6 +30,22 @@ namespace ICSharpCode.Core
 		const string imageResources = "BitmapResources";
 		
 		static string resourceDirectory;
+
+        static Dictionary<string, System.Drawing.Image> images;
+
+        private static Dictionary<string, System.Drawing.Image> GetImages(string filePath)
+        {
+            images=new Dictionary<string, Image>();
+            var imageFiles = Directory.GetFiles(filePath);
+            foreach (var imageFile in imageFiles)
+            {
+                var image = System.Drawing.Image.FromFile(imageFile) as Bitmap;
+                var fileInfo = new FileInfo(imageFile);
+                var name = fileInfo.Name.Split('.')[0];
+                images.Add(name, image);
+            }
+            return images;
+        }
 		
 		public static void InitializeService(string resourceDirectory)
 		{
@@ -39,6 +58,7 @@ namespace ICSharpCode.Core
 			
 			PropertyService.PropertyChanged += new PropertyChangedEventHandler(OnPropertyChange);
 			LoadLanguageResources(ResourceService.Language);
+		    images = GetImages(FileUtility.ApplicationRootPath + "\\Resources");
 		}
 		
 		public static string Language {
@@ -293,6 +313,10 @@ namespace ICSharpCode.Core
 					foreach (ResourceManager resourceManger in icons) {
 						try {
 							iconobj = resourceManger.GetObject(name);
+                            if(iconobj==null)
+                            {
+                                iconobj = images[name];
+                            }
 						}
 						catch (Exception) { }
 

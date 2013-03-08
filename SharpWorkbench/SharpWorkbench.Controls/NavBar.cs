@@ -37,7 +37,7 @@ namespace SharpWorkbench.Controls
             //    NavButtonGroup[1].ImageButtons.RemoveAt(0);   //删除导航栏中第2组导般条中的第1个图像按钮
             //}
 
-            InitNavBar(pads); // 初始化导航栏，该方法必须在NavButtonGroup重新调整后执行
+            //InitNavBar(pads); // 初始化导航栏，该方法必须在NavButtonGroup重新调整后执行
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace SharpWorkbench.Controls
         /// <summary>
         /// 初始化导航栏
         /// </summary>
-        private void InitNavBar(ArrayList pads)
+        public void InitNavBar()
         {
             //foreach (var pad in pads)
             //{

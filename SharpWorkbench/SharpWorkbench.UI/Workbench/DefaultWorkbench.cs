@@ -499,6 +499,7 @@ namespace SharpWorkbench.UI.WorkBench
                 buttonGroup.ImageButtons.Add(new NavBar.ImageButton(padDescriptor.Title, "", WinFormsResourceService.GetBitmap("NavBtnMain")));
             }
             Outlook.NavButtonGroup.Add(buttonGroup);
+            Outlook.InitNavBar();
         }
 
 	    void UpdateMenus()

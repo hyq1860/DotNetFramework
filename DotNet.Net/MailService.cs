@@ -15,6 +15,6 @@ namespace DotNet.Net
     /// 发送邮件
     /// </summary>
     public class MailService
-    {
+    { 
     }
 }

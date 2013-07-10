@@ -108,6 +108,11 @@ namespace DotNet.Mvc
             return System.Web.Compilation.BuildManager.GetObjectFactory(virtualPath, false) != null;
         }
 
+        /// <summary>
+        /// 设置皮肤机制
+        /// </summary>
+        /// <param name="controllerContext"></param>
+        /// <returns></returns>
         protected virtual string GetCurrentTheme(ControllerContext controllerContext)
         {
             var theme = string.Empty;// "Win8"; //controllerContext.RequestContext.HttpContext.Request["Theme"];

@@ -1,6 +1,17 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8A94B86B-2947-46E3-ADBD-5E4FCA395CEB}"
+	ProjectSection(SolutionItems) = preProject
+		DotNetFramework.vsmdi = DotNetFramework.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNetSpider", "DotNetSpider", "{11DEEAB9-3070-404F-AFA9-1B7DB1FA2B22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharpWorkbench", "SharpWorkbench", "{29F0956F-5708-4208-929D-393686B987FD}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.Common", "DotNet.Common\DotNet.Common.csproj", "{55E1D54C-FBD4-4D79-97BB-A0F00DC14FB7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.Data", "DotNet.Data\DotNet.Data.csproj", "{53E3C58A-E08F-4594-A9ED-5EC9A0D97085}"
@@ -16,13 +27,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.UnitTest", "DotNet.UnitTest\DotNet.UnitTest.csproj", "{F67114E3-F850-4C88-9F4A-31061F5A98E9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.MolesUnitTest", "DotNet.MolesUnitTest\DotNet.MolesUnitTest.csproj", "{AAD6BDB2-12A4-4EE1-B726-1A641BABBE6C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8A94B86B-2947-46E3-ADBD-5E4FCA395CEB}"
-	ProjectSection(SolutionItems) = preProject
-		DotNetFramework.vsmdi = DotNetFramework.vsmdi
-		Local.testsettings = Local.testsettings
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.Web.AjaxHandler", "DotNet.Web.AjaxHandler\DotNet.Web.AjaxHandler.csproj", "{8A9BAC2F-6DA3-44AA-A9C9-CABD7FDB45F4}"
 EndProject
@@ -47,8 +51,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.ElectronicCommerce", "DotNet.ElectronicCommerce\DotNet.ElectronicCommerce.csproj", "{5D73D44B-250F-430B-962F-7EC4DA561B55}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.ElectronicCommerce.Contract", "DotNet.ElectronicCommerce.Contract\DotNet.ElectronicCommerce.Contract.csproj", "{A75A8940-9687-4E4A-8E31-E4039384A675}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DotNetSpider", "DotNetSpider", "{11DEEAB9-3070-404F-AFA9-1B7DB1FA2B22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.InformationMonitor", "DotNet.InformationMonitor\DotNet.InformationMonitor.csproj", "{28C702B1-44E3-4102-AD07-D89FE2D3C82B}"
 EndProject
@@ -93,8 +95,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.SpiderApplication.Xp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.SearchEngine", "DotNet.SearchEngine\DotNet.SearchEngine.csproj", "{DF6981A6-877B-4313-AB4E-D5C716CE78B2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharpWorkbench", "SharpWorkbench", "{29F0956F-5708-4208-929D-393686B987FD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.Core", "SharpWorkbench\Core\Project\ICSharpCode.Core.csproj", "{35CEF10F-2D4C-45F2-9DD1-161E0FEC583C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.Core.WinForms", "SharpWorkbench\ICSharpCode.Core.WinForms\ICSharpCode.Core.WinForms.csproj", "{857CA1A3-FC88-4BE0-AB6A-D1EE772AB288}"
@@ -108,6 +108,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpWorkbench.Controls", "SharpWorkbench\SharpWorkbench.Controls\SharpWorkbench.Controls.csproj", "{527A8377-5539-4FDB-8BB1-E2689CC361C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNet.Net", "DotNet.Net\DotNet.Net.csproj", "{0359CEEF-2706-4889-BB9B-1CD5C659EA02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NSLookup", "NSLookup\NSLookup.csproj", "{A02DE29E-72CA-45C3-9F06-65D3531F9BFE}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -592,6 +594,16 @@ Global
 		{0359CEEF-2706-4889-BB9B-1CD5C659EA02}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{0359CEEF-2706-4889-BB9B-1CD5C659EA02}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{0359CEEF-2706-4889-BB9B-1CD5C659EA02}.Release|x86.ActiveCfg = Release|Any CPU
+		{A02DE29E-72CA-45C3-9F06-65D3531F9BFE}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A02DE29E-72CA-45C3-9F06-65D3531F9BFE}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{A02DE29E-72CA-45C3-9F06-65D3531F9BFE}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{A02DE29E-72CA-45C3-9F06-65D3531F9BFE}.Debug|x86.ActiveCfg = Debug|x86
+		{A02DE29E-72CA-45C3-9F06-65D3531F9BFE}.Debug|x86.Build.0 = Debug|x86
+		{A02DE29E-72CA-45C3-9F06-65D3531F9BFE}.Release|Any CPU.ActiveCfg = Release|x86
+		{A02DE29E-72CA-45C3-9F06-65D3531F9BFE}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{A02DE29E-72CA-45C3-9F06-65D3531F9BFE}.Release|Mixed Platforms.Build.0 = Release|x86
+		{A02DE29E-72CA-45C3-9F06-65D3531F9BFE}.Release|x86.ActiveCfg = Release|x86
+		{A02DE29E-72CA-45C3-9F06-65D3531F9BFE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

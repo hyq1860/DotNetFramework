@@ -27,6 +27,49 @@ namespace DotNet.Common.Utility
 	/// </summary>
 	public class XmlUtils
 	{
+        /// <summary>
+        /// 不带命名空间
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="instance"></param>
+        /// <returns></returns>
+        public string ToXml<T>(T instance)
+        {
+            XmlSerializerNamespaces ns = new XmlSerializerNamespaces();
+            //Add an empty namespace and empty value
+            ns.Add("", "");
+
+            XmlWriterSettings settings = new XmlWriterSettings();
+            // Remove the <?xml version="1.0" encoding="utf-8"?>
+            settings.OmitXmlDeclaration = true;
+            // settings.DoNotEscapeUriAttributes = false;
+            settings.Indent = true;
+            settings.Encoding = Encoding.UTF8;
+            settings.NewLineOnAttributes = true;
+            XmlWriter sr = null;
+            try
+            {
+                XmlSerializer xr = new XmlSerializer(typeof(T));
+                StringBuilder sb = new StringBuilder();
+
+                sr = XmlWriter.Create(sb, settings);
+                xr.Serialize(sr, instance, ns);
+
+                return (sb.ToString());
+            }
+            catch (Exception ex)
+            {
+                //Logger.Log(String.Format("Serialization Fail. Error Message : {0} {1}{2}", ex.Message, Environment.NewLine, ex.StackTrace));
+                return null;
+            }
+            finally
+            {
+                if (sr != null)
+                {
+                    sr.Close();
+                }
+            }
+        }
 
         /// <summary>
         /// XMLs to entity.

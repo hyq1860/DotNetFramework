@@ -4,6 +4,9 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+
+
+
 namespace DotNet.SearchEngine
 {
     using System;
@@ -13,12 +16,12 @@ namespace DotNet.SearchEngine
     using System.Text;
 
     using Lucene.Net.Analysis;
-    using Lucene.Net.Analysis.PanGu;
     using Lucene.Net.Documents;
     using Lucene.Net.Index;
     using Lucene.Net.QueryParsers;
     using Lucene.Net.Search;
     using Lucene.Net.Store;
+    using Lucene.Net.Analysis.PanGu;
 
     /// <summary>
     /// TODO: Update summary.
@@ -38,8 +41,6 @@ namespace DotNet.SearchEngine
             analyzer = new PanGuAnalyzer();
             
             IndexWriter writer = new IndexWriter(FSDirectory.Open(new DirectoryInfo(indexDirectory)),analyzer, true, IndexWriter.MaxFieldLength.LIMITED);
-
-
         }
 
         public void Search(string keyword)

@@ -47,14 +47,10 @@ namespace DotNetTest
                 mm.GetCollection<ShoppingCartEntity>().Update(cart, new { CartId = cart.CartId });
             }
         }
-
-       
     }
 
     public class MongoDBOfficialTest
     {
-        
-
         public static ShoppingCartEntity GetById(ObjectId objectId)
         {
             using (MongoDBOfficial mongoDb = new MongoDBOfficial("Server=127.0.0.1:27017", "ShoppingCart"))
@@ -89,7 +85,14 @@ namespace DotNetTest
 
         public string Ha { get; set; }
 
-        public PromotionEntity Promotion { get; set; }
+        public List<PromotionEntity> Promotions { get; set; }
+
+        public DataCollection Data { get; set; }
+    }
+
+    public class DataCollection:List<PromotionEntity>
+    {
+        
     }
 
     [BsonIgnoreExtraElements]
@@ -98,5 +101,10 @@ namespace DotNetTest
         public string Date1 { get; set; }
 
         //public List<string> Date2 { get; set; } 
+    }
+
+    public class ManJian:PromotionEntity
+    {
+        public string Date3 { get; set; }
     }
 }

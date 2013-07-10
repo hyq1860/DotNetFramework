@@ -81,11 +81,29 @@ namespace DotNetTest
         [STAThread]
         static void Main(string[] args)
         {
+            NPOIExcel.ReadYinTaiStoreExcel();
+            return;
+
+            var cart3 = MongoDBOfficialTest.GetById(new ObjectId("518758109e3eca0f702f940e"));
+            var cart = new ShoppingCartEntity()
+                           {
+                               CartId = "123",
+                               Ha = "ssss",
+                               Promotions = new List<PromotionEntity>()
+                           };
+            cart.Promotions.Add(new PromotionEntity(){Date1 = "基类"});
+            cart.Promotions.Add(new ManJian(){Date3 = "子类"});
+            cart.Data=new DataCollection();
+            cart.Data.Add(new PromotionEntity() { Date1 = "基类" });
+            var objectid = MongoDBOfficialTest.Insert(cart);
+            //var objid = new ObjectId();
+            //var cart2 = MongoDBOfficialTest.GetById(objectid);
+            var cart2= MongoDBOfficialTest.GetById(objectid);
 
             #region
-            HttpClient hc3 = new HttpClient("http://www.soxuan.com");
-            var html2=hc3.Request();
-            return;
+            //HttpClient hc3 = new HttpClient("http://www.soxuan.com");
+            //var html2=hc3.Request();
+            //return;
             #endregion
 
             #region
@@ -97,7 +115,7 @@ namespace DotNetTest
 
             #region mongodb
             //var objectid= MongoDBOfficialTest.Insert(new ShoppingCartEntity(){CartId = "123",Ha = "ssss",Promotion = new PromotionEntity(){Date1="满赠新促销",Date2 = new List<string>(){"测试"}}});
-            var objectid = new ObjectId("50e78f8c9e3eca2d6c538b9d");
+            //var objectid = new ObjectId("50e78f8c9e3eca2d6c538b9d");
             MongoDBOfficialTest.GetById(objectid);
             //MongoDBOfficialTest.GetById(objectid);
 

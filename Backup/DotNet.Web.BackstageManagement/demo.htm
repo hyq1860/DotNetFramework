@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+
+
+
+    
+<link type="text/css" href="css/smoothness/jquery-ui-1.8.20.custom.css" rel="Stylesheet" />	
+<link type="text/css" href="css/layout-default.css" rel="Stylesheet" />	
+
+<script type="text/javascript" src="js/jquery-1.7.2-vsdoc.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.20.custom.min.js"></script>
+<script type="text/javascript" src="js/jquery.layout.min.js"></script>
+    <style type="text/css"> 
+body {
+	font-family: 宋体,Geneva, Arial, Helvetica, sans-serif;
+	font-size:   80%;
+	*font-size:  80%;
+}
+
+/*
+三种必备样式为：
+paneClass:    "ui-layout-pane" 窗格样式
+resizerClass: "ui-layout-resizer" 拉动条样式
+togglerClass: "ui-layout-toggler" 拉动条上按钮样式
+*/
+
+/*
+ 所有窗格应用的样式,也是必备样式
+ui-layout-pane 
+ui-layout-pane-[PANE-NAME]（东南西北中，如：ui-layout-pane-west。这个样式放入基本样式下方，可覆盖原样式。 ） 
+ui-layout-pane-[PANE-STATE] （open、closed 如：ui-layout-pane-open。窗格打开时的样式）
+ui-layout-pane-[PANE-NAME]-[PANE-STATE] （如：ui-layout-pane-west-closed。指定东南西北中一个窗格在某状态下的样式。）
+*/
+.ui-layout-pane { 
+	background: #dfe8f6;
+	border:		0px solid #8db2e3;
+	padding:	10px; 
+	overflow:	auto;
+}
+	/*非必备样式，描述窗格中的内容*/
+	.ui-layout-content {
+		padding:	10px;
+		position:	relative; 
+		overflow:	auto;
+	}
+
+/*
+ *	所有拉动条的样式
+ */
+.ui-layout-resizer	{ 
+	background:		#dfe8f6;
+	border:			1px solid #BBB;
+	border-width:	0;
+	}
+	/*
+	 * 拉动条拉动时，保持不动的拉动条样式，不明白修改背景测试。
+	 */
+	.ui-layout-resizer-drag {
+	}
+	
+	/*鼠标移动到拉动条时的样式*/
+	.ui-layout-resizer-hover{
+	}
+	/* 
+     *拖动拉动条时，拉动条的样式，据说是设置“打开悬停”和“拖动”为同一样式。
+	 */
+	/*.ui-layout-resizer-open-hover ,	*/
+	.ui-layout-resizer-dragging {	
+		background:#aaaaaa;
+	}
+
+	/*拖动拉动条时，到最大或最小边缘时的样式*/
+	.ui-layout-resizer-dragging-limit {
+		background: #E1A4A4; /* red */
+	}
+
+	/*拉动条关闭时，的样式。*/
+	.ui-layout-resizer-closed-hover	{ 
+		background: #FFCC00;
+	}
+	
+	/*窗格关闭后，点击拉动条（非拉动条按钮）,窗格滑动时拉动条的样式*/
+	.ui-layout-resizer-sliding {	
+		opacity: .10; 
+		filter:  alpha(opacity=10);
+		}
+		/*窗格关闭后，点击拉动条（非拉动条按钮）,窗格滑动时，鼠标悬停在拉动条上的样式*/
+		.ui-layout-resizer-sliding-hover {
+			opacity: 1.00; 
+			filter:  alpha(opacity=100);
+		}
+
+
+
+	
+
+/*
+ *	拖动杆上的按钮
+ */
+.ui-layout-toggler {
+	border: 1px solid #CCCCCC; 
+	background-color: #bcd2ef;
+	opacity: .60;
+	filter:  alpha(opacity=60);
+	}
+	
+/*
+	鼠标悬停在拉动条时的样式，已被.ui-layout-resizer-open-hover和.ui-layout-resizer-closed-hover覆盖了。
+	.ui-layout-resizer-hover
+ */
+	
+	
+	/*鼠标悬停在拖动条上按钮的样式*/
+	.ui-layout-toggler-hover {
+		background-color: #0099FF；
+		opacity: 1.00;
+		filter:  alpha(opacity=100);
+	}
+	
+	/*窗格关闭后，半打开状态的拉动条是隐藏的*/
+	.ui-layout-resizer-sliding  ui-layout-toggler {
+		display: none;
+	}
+
+
+/*貌似是按钮上的文字内容*/
+	.ui-layout-toggler .content {
+	background:#FFFF00;
+		color: #66FFCC;
+		font-size:		12px;
+		font-weight:	bold;
+		width:			100%;
+		padding-bottom:	0.35ex; /* to 'vertically center' text inside text-span */
+	}
+
+
+    </style> 
+    <script type="text/javascript">
+        $(function () {
+            var myLayout = $("body").layout(
+                                {
+                                    applyDefaultStyles: true, //应用默认样式  
+                                    scrollToBookmarkOnLoad: false, //页加载时滚动到标签  
+                                    showOverflowOnHover: false, //鼠标移过显示被隐藏的，只在禁用滚动条时用。  
+                                    north__closable: false, //可以被关闭  
+                                    north__resizable: false, //可以改变大小  
+                                    north__size: 50, //pane的大小  
+                                    spacing_open: 8, //边框的间隙  
+                                    spacing_closed: 60, //关闭时边框的间隙  
+                                    resizerTip: "可调整大小", //鼠标移到边框时，提示语  
+                                    //resizerCursor:"resize-p" 鼠标移上的指针样式  
+                                    resizerDragOpacity: 0.9, //调整大小边框移动时的透明度  
+                                    maskIframesOnResize: "#ifa", //在改变大小的时候，标记iframe（未通过测试）  
+                                    sliderTip: "显示/隐藏侧边栏", //在某个Pane隐藏后，当鼠标移到边框上显示的提示语。  
+                                    sliderCursor: "pointer", //在某个Pane隐藏后，当鼠标移到边框上时的指针样式。  
+                                    slideTrigger_open: "dblclick", //在某个Pane隐藏后，鼠标触发其显示的事件。(click", "dblclick", "mouseover)  
+                                    slideTrigger_close: "click", //在某个Pane隐藏后，鼠标触发其关闭的事件。("click", "mouseout")  
+                                    togglerTip_open: "关闭", //pane打开时，当鼠标移动到边框上按钮上，显示的提示语  
+                                    togglerTip_closed: "打开", //pane关闭时，当鼠标移动到边框上按钮上，显示的提示语  
+                                    togglerLength_open: 100, //pane打开时，边框按钮的长度  
+                                    togglerLength_closed: 200, //pane关闭时，边框按钮的长度  
+                                    hideTogglerOnSlide: true, //在边框上隐藏打开/关闭按钮(测试未通过)  
+                                    togglerAlign_open: "left", //pane打开时，边框按钮显示的位置  
+                                    togglerAlign_closed: "right", //pane关闭时，边框按钮显示的位置  
+                                    togglerContent_open: "<div style='background:red'>AAA</div>", //pane打开时，边框按钮中需要显示的内容可以是符号"<"等。需要加入默认css样式.ui-layout-toggler .content   
+                                    togglerContent_closed: "<img/>", //pane关闭时，同上。  
+                                    enableCursorHotkey: true, //启用快捷键CTRL或shift + 上下左右。  
+                                    customHotkeyModifier: "shift", //自定义快捷键控制键("CTRL", "SHIFT", "CTRL+SHIFT"),不能使用alt  
+                                    south__customHotkey: "shift+0", //自定义快捷键（测试未通过）  
+                                    fxName: "drop", //打开关闭的动画效果  
+                                    fxSpeed: "slow", //动画速度  
+                                    //fxSettings: { duration: 500, easing: "bounceInOut" }//自定义动画设置(未通过测试)  
+                                    //initClosed:true,//初始时，所有pane关闭  
+                                    //initHidden:true //初始时，所有pane隐藏  
+                                    onresize: ons, //调整大小时调用的函数  
+                                    onshow_start: start,
+                                    onshow_end: end
+                                    /* 
+                                    其他回调函数 
+                                     
+                                    显示时调用 
+                                    onshow = "" 
+                                    onshow_start = ""  
+                                    onshow_end = ""  
+                                    隐藏时调用 
+                                    onhide = ""  
+                                    onhide_start = ""  
+                                    onhide_end = ""  
+                                    打开时调用 
+                                    onopen = ""  
+                                    onopen_start = ""  
+                                    onopen_end = ""  
+                                    关闭时调用 
+                                    onclose = ""  
+                                    onclose_start = ""  
+                                    onclose_end = ""  
+                                    改变大小时调用 
+                                    onresize = ""  
+                                    onresize_start = ""  
+                                    onresize_end = ""  
+                                    */
+                                }
+            );
+
+
+        });  
+    </script>
+</head>
+<body>
+    
+<DIV class="ui-layout-center">Center</DIV>  
+<DIV class="ui-layout-north">North</DIV>  
+<DIV class="ui-layout-south">South</DIV>  
+<DIV class="ui-layout-east">East</DIV>  
+<DIV class="ui-layout-west">West</DIV>  
+ 
+</body>
+</html>

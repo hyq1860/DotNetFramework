@@ -81,6 +81,11 @@ namespace DotNetTest
         [STAThread]
         static void Main(string[] args)
         {
+            StepHelper stepHelper=new StepHelper();
+            var context = new StepStateContext() {CurrentStatus = DrawState.InitDraw,CurrentDrawStatus=DrawState.None, InDate = DateTime.Now.AddDays(-1)};
+            stepHelper.Parse(context);
+            return;
+
             NPOIExcel.ReadYinTaiStoreExcel();
             return;
 

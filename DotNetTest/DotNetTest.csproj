@@ -94,6 +94,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddTest.cs" />
+    <Compile Include="CssReslover\CssContext.cs" />
+    <Compile Include="CssReslover\CssResolver.cs" />
+    <Compile Include="CssReslover\CssStyle.cs" />
+    <Compile Include="CssReslover\Extension.cs" />
+    <Compile Include="CssReslover\MatchResult.cs" />
+    <Compile Include="CssReslover\NameDetector.cs" />
+    <Compile Include="CssReslover\PropertyText.cs" />
     <Compile Include="Encodingcheck.cs" />
     <Compile Include="EncodingTest.cs" />
     <Compile Include="FileRead.cs" />
@@ -106,6 +113,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqliteTest.cs" />
+    <Compile Include="StepStateMachine.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DotNet.BasicSpider\DotNet.BasicSpider.csproj">

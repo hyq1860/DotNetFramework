@@ -5,21 +5,19 @@ using System.Text;
 
 namespace DotNetTest
 {
-    public delegate StepStateProcess StepStateProcess(StepStateContext context, List<StepProcess> stepProcesses);
+    public delegate StepStateProcess StepStateProcess(StepStateContext context);
 
     public class StepProcess
     {
         public StepProcess()
         {
-            PreviousStepStateProcess=new List<StepStateProcess>();
-            NextStepStateProcess=new List<StepStateProcess>();
         }
 
         public DrawState State { get; set; }
 
-        public List<StepStateProcess> PreviousStepStateProcess { get; set; }
+        public StepStateProcess PreviousStepStateProcess { get; set; }
 
-        public List<StepStateProcess> NextStepStateProcess { get; set; }
+        public StepStateProcess NextStepStateProcess { get; set; }
     }
 
     public enum DrawState
@@ -30,7 +28,7 @@ namespace DotNetTest
         InitDraw = 0,
 
         /// <summary>
-        /// 财务审核通过
+        /// 审核通过
         /// </summary>
         Approved = 1,
 
@@ -50,7 +48,7 @@ namespace DotNetTest
         DrawFail = 4,
 
         /// <summary>
-        /// 财务审核不通过
+        /// 审核不通过
         /// </summary>
         NoApproved = -1,
 
@@ -111,101 +109,85 @@ namespace DotNetTest
 
     public class StepHelper
     {
-        public List<StepProcess> StepProcesses { get; set; }
+        public Dictionary<int, List<StepProcess>> ProcessDict { get; set; } 
 
         public StepHelper()
         {
-            StepProcesses=new List<StepProcess>();
+            ProcessDict=new Dictionary<int, List<StepProcess>>();
 
-            var stepStateMachine = new StepStateMachine();
-            var stepProcess1 = new StepProcess()
-                {
-                    State = DrawState.InitDraw
-                };
-            stepProcess1.NextStepStateProcess.Add(stepStateMachine.ApprovedStateProcess);
-            stepProcess1.NextStepStateProcess.Add(stepStateMachine.NoApprovedStateProcess);
+            //1(0=>-1)
+            var process1 = new List<StepProcess>();
+            ProcessDict.Add(1, process1);
+            process1.Add(new StepProcess() { State = DrawState.InitDraw, PreviousStepStateProcess = null, NextStepStateProcess = StepStateMachine.NoApprovedStateProcess });
+            process1.Add(new StepProcess() { State = DrawState.NoApproved, PreviousStepStateProcess = StepStateMachine.InitDrawStateProcess, NextStepStateProcess = null });
 
-            var stepProcess2 = new StepProcess()
-            {
-                State = DrawState.NoApproved
-            };
-            stepProcess2.PreviousStepStateProcess.Add(stepStateMachine.InitDrawStateProcess);
+            //2(0=>1=>3=>2)
+            var process2 = new List<StepProcess>();
+            ProcessDict.Add(2, process2);
 
-            var stepProcess3 = new StepProcess()
-            {
-                State = DrawState.Approved
-            };
-            stepProcess3.PreviousStepStateProcess.Add(stepStateMachine.InitDrawStateProcess);
-            stepProcess3.NextStepStateProcess.Add(stepStateMachine.DrawCompletedStateProcess);
-
-            var stepProcess4 = new StepProcess()
-            {
-                State = DrawState.DrawCompleted
-            };
-            stepProcess4.PreviousStepStateProcess.Add(stepStateMachine.ApprovedStateProcess);
-            stepProcess4.NextStepStateProcess.Add(stepStateMachine.DrawSuccessedStateProcess);
-            stepProcess4.NextStepStateProcess.Add(stepStateMachine.DrawFailStateProcess);
-
-            var stepProcess5 = new StepProcess()
-            {
-                State = DrawState.DrawSuccessed
-            };
-            stepProcess5.PreviousStepStateProcess.Add(stepStateMachine.DrawCompletedStateProcess);
-
-            var stepProcess6 = new StepProcess()
-            {
-                State = DrawState.DrawFail
-            };
-            stepProcess6.NextStepStateProcess.Add(stepStateMachine.DrawCompletedStateProcess);
-
-            StepProcesses.Add(stepProcess1);
-            StepProcesses.Add(stepProcess2);
-            StepProcesses.Add(stepProcess3);
-            StepProcesses.Add(stepProcess4);
-            StepProcesses.Add(stepProcess5);
-            StepProcesses.Add(stepProcess6);
+            //3((0=>1=>3=>4))
+            var process3 = new List<StepProcess>();
+            ProcessDict.Add(3, process3);
         }
 
         private StepStateProcess Previous;
         private StepStateProcess Next;
+
+        public List<StepProcess> Chose(StepStateContext context)
+        {
+            var maxState = context.CurrentStatus > context.CurrentDrawStatus
+                               ? context.CurrentStatus
+                               : context.CurrentDrawStatus;
+            switch (maxState)
+            {
+                case DrawState.InitDraw:
+                    {
+                        return ProcessDict[2];
+                    }
+                    break;
+                    case DrawState.NoApproved:
+                    {
+                        return ProcessDict[1];
+                    }
+                    break;
+                case DrawState.Approved:
+                    {
+                        return ProcessDict[2];
+                    }
+                    break;
+                    case DrawState.DrawCompleted:
+                    {
+                        return ProcessDict[2];
+                    }
+                    break;
+                    case DrawState.DrawSuccessed:
+                    {
+                        return ProcessDict[2];
+                    }
+                    break;
+                case DrawState.DrawFail:
+                    {
+                        return ProcessDict[3];
+                    }
+                    break;
+            }
+            return new List<StepProcess>();
+        }
+
         public void Parse(StepStateContext context)
         {
             var maxState = context.CurrentStatus > context.CurrentDrawStatus
                                ? context.CurrentStatus
                                : context.CurrentDrawStatus;
-            var stepProcess = StepProcesses.FirstOrDefault(s => s.State == maxState);
-
-            
-
+            var processLines = Chose(context);
+            if (!processLines.Any())
+            {
+                return;
+            }
+            processLines.FirstOrDefault(s => s.State == maxState);
         }
     }
 
-    public abstract class BaseStepProcess
-    {
-        public DrawState State { get; set; }
-
-        public StepStateProcess PreviousStepStateProcess { get; set; }
-
-        public StepStateProcess NextStepStateProcess { get; set; }
-
-        public virtual void SetPN(StepStateContext context){}
-    }
-
-    public class InitDrawStateProcess :BaseStepProcess
-    {
-        private StepStateContext _context;
-        public InitDrawStateProcess(StepStateContext context)
-        {
-            State=DrawState.InitDraw;
-            _context = context;
-        }
-
-        public override void SetPN(StepStateContext context)
-        {
-            
-        }
-        
-    }
 
 
     public class StepStateMachine
@@ -215,14 +197,9 @@ namespace DotNetTest
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public StepStateProcess InitDrawStateProcess(StepStateContext context,List<StepProcess> stepProcesses)
+        public static StepStateProcess InitDrawStateProcess(StepStateContext context)
         {
-            context.Steps.Add(new Step(){State = DrawState.InitDraw,Name="创建提现单",Date = context.InDate.ToString()});
-            if (context.CurrentDrawStatus == DrawState.None)
-            {
-                return ApprovedStateProcess;
-            }
-            return NoApprovedStateProcess;
+
         }
 
         /// <summary>
@@ -230,9 +207,9 @@ namespace DotNetTest
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public StepStateProcess ApprovedStateProcess(StepStateContext context, List<StepProcess> stepProcesses)
+        public static StepStateProcess ApprovedStateProcess(StepStateContext context)
         {
-            return DrawCompletedStateProcess;
+
         }
 
         /// <summary>
@@ -240,9 +217,9 @@ namespace DotNetTest
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public StepStateProcess DrawCompletedStateProcess(StepStateContext context, List<StepProcess> stepProcesses)
+        public static StepStateProcess DrawCompletedStateProcess(StepStateContext context)
         {
-            return DrawSuccessedStateProcess;
+
         }
 
         /// <summary>
@@ -250,7 +227,7 @@ namespace DotNetTest
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public StepStateProcess DrawSuccessedStateProcess(StepStateContext context, List<StepProcess> stepProcesses)
+        public static StepStateProcess DrawSuccessedStateProcess(StepStateContext context)
         {
             return null;
         }
@@ -260,7 +237,7 @@ namespace DotNetTest
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public StepStateProcess DrawFailStateProcess(StepStateContext context, List<StepProcess> stepProcesses)
+        public static  StepStateProcess DrawFailStateProcess(StepStateContext context)
         {
             return null;
         }
@@ -270,7 +247,7 @@ namespace DotNetTest
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public StepStateProcess NoApprovedStateProcess(StepStateContext context, List<StepProcess> stepProcesses)
+        public static StepStateProcess NoApprovedStateProcess(StepStateContext context)
         {
             return null;
         }

@@ -22,9 +22,81 @@ namespace DotNetTest
     using DotNet.TaskScheduler;
 
     using csExWB;
-    
+
+    public enum state
+    {
+        STATE1 = 1,
+        STATE2,
+        STATE3,
+        STATE4,
+        STATE5
+    };
+    public struct MYSTRUCT
+    {
+        public state cur_state;
+        public ConsoleKey input;
+        public state next_state;
+    };
+
+
+
+
     class Program
     {
+        private static void Test()
+        {
+            int i;
+            ConsoleKeyInfo key;
+            state machine;
+            MYSTRUCT[] st = new MYSTRUCT[5];
+            st[0].cur_state = state.STATE1;
+            st[0].input = ConsoleKey.D2;
+            st[0].next_state = state.STATE2;
+            st[1].cur_state = state.STATE2;
+            st[1].input = ConsoleKey.D4;
+            st[1].next_state = state.STATE3;
+            st[2].cur_state = state.STATE3;
+            st[2].input = ConsoleKey.D7;
+            st[2].next_state = state.STATE4;
+            st[3].cur_state = state.STATE4;
+            st[3].input = ConsoleKey.D9;
+            st[3].next_state = state.STATE5;
+            machine = state.STATE1;
+            do
+            {
+                key = Console.ReadKey();
+                if (key.Key == ConsoleKey.Escape)
+                {
+                    break;
+                }
+                else
+                {
+                    if ((key.Key >= ConsoleKey.D0) && (key.Key <= ConsoleKey.D9))
+                    {
+                        for (i = 0; i < 5; i++)
+                        {
+                            if ((key.Key == st[i].input) && (machine == st[i].cur_state))
+                            {
+                                machine = st[i].next_state;
+                                break;
+                            }
+                            else if (i == 4)
+                            {
+                                machine = state.STATE1;
+                            }
+                        }
+                    }
+                    if (machine == state.STATE5)
+                    {
+                        Console.WriteLine("/nPassword correct, state transfer machine pass!");
+                        break;
+                    }
+                }
+            } while (true);
+            Console.Write("Press any key to exit...");
+            Console.ReadKey();
+        }
+
         public static void HtmlParse(string html)
         {
             if(string.IsNullOrEmpty(html))
@@ -81,6 +153,8 @@ namespace DotNetTest
         [STAThread]
         static void Main(string[] args)
         {
+            Test();
+            return;
             StepHelper stepHelper=new StepHelper();
             var context = new StepStateContext() {CurrentStatus = DrawState.InitDraw,CurrentDrawStatus=DrawState.None, InDate = DateTime.Now.AddDays(-1)};
             stepHelper.Parse(context);

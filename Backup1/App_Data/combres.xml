@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  This file contains basic settings needed for most web apps.
+  For full Combres settings (with explanation), refer to the sample definition file: 
+    Samples\Sample Data Files\combres_full_with_annotation.xml
+-->
+<combres xmlns='urn:combres'>
+  <filters>
+    <filter type="Combres.Filters.FixUrlsInCssFilter, Combres" />
+    <filter type="Combres.Filters.DotLessCssFilter, Combres" acceptedResourceSets="dotLessCss" />
+  </filters>
+  <resourceSets url="~/combres.axd"
+                defaultDuration="30"
+                defaultVersion="auto"
+                defaultDebugEnabled="false"
+                defaultIgnorePipelineWhenDebug="false"
+                localChangeMonitorInterval="30"
+                remoteChangeMonitorInterval="60"
+                >
+    <resourceSet name="siteCss" type="css" >
+      <resource path="~/css/css.css" />
+      <resource path="~/soChange/style.css" />
+    </resourceSet>
+    <resourceSet name="siteJs" type="js">
+      <resource path="~/jQuery/jquery-1.7.2.min.js" />
+      <resource path="~/soChange/jquery.soChange-min.js" />
+    </resourceSet>
+
+    <resourceSet name="backendJs" type="js">
+      <resource path="~/jQuery/jquery-1.7.2.min.js" />
+      <resource path="~/jQueryEasyUI/jquery.easyui.min.js" />
+      <resource path="~/jQueryEasyUI/windowControl.js" />
+      <resource path="~/jQueryEasyUI/locale/easyui-lang-zh_CN.js" />
+      <resource path="~/jQueryEasyUI/gciframe.js" />
+      <resource path="~/jQueryEasyUI/jquery.easyui.panel.extension.js" />
+      <resource path="~/Scripts/common.js" />
+      <resource path="~/jQueryEasyUI/treegrid.loadFilter.js" />
+      <resource path="~//jQuery/jquery.form.js" />
+      <resource path="~/ckeditor/ckeditor.js" />
+      <resource path="~/ckfinder/ckfinder.js" />
+      <resource path="~/jquery-validation/jquery.validate.min.js" />
+      <resource path="~/jquery-validation/messages_cn.js" />
+      <resource path="~/jquery-validation/CommonValidation.js" />
+    </resourceSet>
+
+  </resourceSets>
+</combres>

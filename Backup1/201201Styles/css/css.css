@@ -1,0 +1,124 @@
+@charset "utf-8";
+/* CSS Document */
+.header_top {
+	WIDTH: 960px; margin:3px auto 0;BACKGROUND: url(../images/header_top_bg.gif) no-repeat; HEIGHT:95px; OVERFLOW: hidden
+}
+.mainNav {
+	POSITION: relative; MARGIN: 0px auto; WIDTH: 960px; HEIGHT: 35px
+}
+.mainNav UL LI {
+	WIDTH: 119px; FLOAT: left; HEIGHT: 35px
+}
+.mainNav UL LI A {
+	TEXT-ALIGN: center; LINE-HEIGHT: 35px; WIDTH: 119px; DISPLAY: block; HEIGHT: 35px; COLOR: #ffffff; font-size:14px;font-weight:bold;
+}
+.mainNav UL LI A:hover {
+	LINE-HEIGHT: 35px; WIDTH: 119px; DISPLAY: block; BACKGROUND: url(../images/mainNav_a.gif) no-repeat; HEIGHT: 35px; COLOR: #ffffff
+}
+#thisclass {
+	LINE-HEIGHT: 35px; WIDTH: 119px; DISPLAY: block; BACKGROUND: url(../images/mainNav_a.gif) no-repeat; HEIGHT: 35px; COLOR: #ffffff
+}
+.licon_new {
+	Z-INDEX: 999; POSITION: absolute; WIDTH: 22px; HEIGHT: 12px; TOP: -5px; LEFT: 557px
+}
+
+.bg_banner{width:960px;margin:0 auto;BACKGROUND: url(../images/banner_bg.gif) no-repeat 50% bottom; HEIGHT: 382px;margin-top:20px;}
+
+.banner {
+	WIDTH: 958px; BACKGROUND: url(../images/banner.gif) no-repeat; HEIGHT: 380px
+}
+#banner {
+	BORDER-BOTTOM: #c3c3c3 1px solid; BORDER-LEFT: #c3c3c3 1px solid; WIDTH: 958px; HEIGHT: 364px; OVERFLOW: hidden; BORDER-TOP: #c3c3c3 1px solid; BORDER-RIGHT: #c3c3c3 1px solid
+}
+.banImgs LI {
+	Z-INDEX: 1; POSITION: absolute; DISPLAY: none
+}
+.jsNav {
+	Z-INDEX: 100; POSITION: relative; WIDTH: 120px; BOTTOM: 42px; HEIGHT: 14px; MARGIN-LEFT: 820px
+}
+.jsNav A {
+	Z-INDEX: 11; WIDTH: 14px; DISPLAY: inline; FLOAT: left; HEIGHT: 14px; MARGIN-LEFT: 10px
+}
+.trigger {
+	BACKGROUND: url(../images/icon_banner2.gif) no-repeat
+}
+.jsNav .current {
+	BACKGROUND: url(../images/icon_banner1.gif) no-repeat
+}
+
+.mod_container,.mod_hezuo{width:960px;margin:0 auto; overflow:hidden;}
+.mod_main{width:700px;}.mod_sub{width:240px;}
+
+.lishi{overflow:hidden;}
+.lishi_fl{width:180px;margin:15px 15px 0 10px;}
+.lishi_fr{margin:15px 0 0 15px;width:450px; line-height:24px;}
+.lishi_fr h3{padding:0 0 10px 0;}
+.h2style h2{
+    height: 36px;
+    line-height: 36px;
+    padding: 0 15px;
+	position:relative;
+}
+.mod_more{position:absolute;right:19px; line-height:36px;font-size:12px;font-weight:normal;}
+.h2style h2{border-bottom:2px solid #0179d8;}
+.mod_sub .h2style h2{background: url("../images/bg08.gif") no-repeat 30% 100%; border-bottom:0;}
+.h2style h2 span {
+    color: #333333;
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0 0 0 18px;
+}
+.h2style h2 span { background: url("../images/icon05.gif") no-repeat 0 50%;}
+.mod_sub .h2style h2 span{background: url("../images/icon08.gif") no-repeat 0 50%;}
+.xszx ul {
+    margin: 6px 0 0 15px;
+}
+.xszx{background:#fff;}
+.xszx li {
+    background: url("../images/icon09.gif") no-repeat 0 5px;
+    color: #333333;
+    height: 26px;
+    line-height: 26px;
+    padding: 0 0 0 26px;
+}
+.xszx li.i1 {
+    background-position: 0 -21px;
+}
+.xszx li.i2 {
+    background-position: 0 -46px;
+}
+.xszx li.i3 {
+    background-position: 0 -72px;
+}
+.xszx li.i4 {
+    background: url("../images/qq.png") no-repeat scroll 0 5px transparent;
+}
+.xszx li.i5 {
+    background: url("../images/email.png") no-repeat scroll 0 5px transparent;
+}
+.xszx li.i6 {
+    background: url("../images/mobile.png") no-repeat scroll 0 5px transparent;
+}
+.xszx li.i7 {
+    background-position: 0 -97px;
+}
+.lishi,.mod_product,.hezuo,.contentbox{padding:0 10px 10px; background:#fff;}
+.list{width:685px;margin:4px 5px 19px; overflow:hidden;}
+.list ul{display:block;width:700px;}
+.list li{float:left; display:inline;margin:15px 10px 0 0; width:160px; overflow:hidden;}
+.list h3{text-align:center;padding:6px 0 4px; display:inline;}
+.mod_form table{margin:15px;}.mod_form td{height:30px;}.mod_form table input.text{width:70px;padding-left: 2px;margin-right:2px;}
+
+.hezuo{overflow:hidden;padding-bottom: 20px;}.hezuo li{float:left;margin:15px 10px 0 15px;}
+.contentinner{padding:15px;line-height:30px; text-indent:2em;heihgt:420px;min-height:420px;}
+
+.footer{background:#606163;margin-top:20px;}
+.foot{width:960px;margin:0 auto;height:40px;color:#fff; text-align:center;padding:10px 0; line-height:24px;}
+
+
+.mod_product_list{ text-indent: 0;overflow: hidden;line-height: 24px;}.mod_product_list ul{ width: 920px;overflow: hidden;}
+.mod_product_list h3{ font-size: 12px;margin-bottom: 5px;}
+.mod_product_list li{float: left;display: inline; margin: 10px 35px 20px 0;width: 45%;overflow: hidden;}
+.mod_product_list .link{ float:left;display: inline;margin-right: 20px;overflow: hidden;}
+.mt20{margin-top:20px;}

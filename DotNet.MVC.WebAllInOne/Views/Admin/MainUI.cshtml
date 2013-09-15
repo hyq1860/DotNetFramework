@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../jeasyui/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="../Styles/frame.css" />
+    <script type="text/javascript" src="../jeasyui/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="../jeasyui/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../jeasyui/themes/icon.css" />
+    <script type="text/javascript" src="../Scripts/jeasyui.js"></script>
+    <script type="text/javascript">
+        var jtab = new jeasyui.Tabs('tabs', 10);
+
+        function AddTab(obj) {
+            jtab.addTab(obj.title, obj.url);
+        }
+
+        function CloseCurrTab() {
+            var title = $('#hidCurrTab').val();
+            jtab.CloseTab(title);
+        }
+
+        function ReloadTab() {
+            var selectedTab = jtab.getSelected();
+            jtab.refresh(selectedTab);
+        }
+
+        function CloseAllTabExceptThis() {
+            var title = $('#hidCurrTab').val();
+            jtab.CloseAllTabExceptThis(title);
+        }
+
+        $(document).ready(function () {
+            //构建手风琴
+            var aaOptions = {
+                fit: true,
+                border: false
+            };
+            $('#aa').accordion(aaOptions);
+
+            //构建选项卡
+            var tabsOptions = {
+                fit: true,
+                tools: '#tab-tools',
+                onContextMenu: function (e, title) {
+                    e.preventDefault();
+                    if (title == "首页") {
+                        $('#mm-closeone').attr('style', 'display:none');
+                    } else {
+                        $('#mm-closeone').attr('style', '');
+                    }
+                    $('#mm').menu('show', { left: e.pageX, top: e.pageY })
+                    $('#hidCurrTab').val(title);
+                },
+                onAdd: function (title) {
+                    jtab.currTabCount++;
+                    if (jtab.currTabCount > jtab.maxlength) {
+                        jtab.autoCloseTab();
+                    }
+                },
+                onClose: function (title) {
+                    jtab.currTabCount--;
+                }
+            };
+            $('#tabs').tabs(tabsOptions);
+        });
+
+        
+    </script>
+</head>
+<body class="easyui-layout">
+    <form id="form1" runat="server">
+    <div data-options="region:'north',border:false" style="height: 100px; padding: 10px">
+        这里可以放Logo</div>
+    <div data-options="region:'west',split:true,title:'导航'" style="width: 200px; padding: 10px;
+        padding: 0; margin: 0">
+        <div id="aa" class="easyui-accordion" style="padding: 0; margin: 0" runat="server">
+            <div title="系统配置" style="padding: 8px 0px 8px 0px">
+                <div style="line-height: 22px; margin-left: 12px;">
+                    <a href="#" url="../Default.aspx" title="系统配置" onclick="AddTab(this)">系统配置</a></div>
+                <div style="line-height: 22px; margin-left: 12px;">
+                    <a href="#" url="../Default.aspx" title="工作流程" onclick="AddTab(this)">工作流程</a></div>
+                <div style="line-height: 22px; margin-left: 12px;">
+                    <a href="#" url="../Default.aspx" title="报表查询" onclick="AddTab(this)">报表查询</a></div>
+            </div>
+            <div title="工作流程">
+            </div>
+            <div title="报表查询">
+            </div>
+        </div>
+    </div>
+    <div data-options="region:'south',border:false" style="height: 50px; padding: 10px;">
+        这里可以放版权信息</div>
+    <div data-options="region:'center'">
+        <div id="tabs" class="easyui-tabs">
+            <div data-options="title:'首页',closable:false" style="padding: 20px;">
+            </div>
+        </div>
+    </div>
+    <div id="mm" class="easyui-menu" style="width: 160px;">
+        <div id="mm-closeone" onclick="CloseCurrTab()">
+            关闭当前选项</div>
+        <div id="mm-closeall" onclick="CloseAllTabExceptThis()">
+            除此之外全部关闭</div>
+    </div>
+    <div id="tab-tools">
+        <a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload'"
+            onclick="ReloadTab()"></a>
+    </div>
+    <input type="hidden" id="hidCurrTab" />
+    </form>
+</body>
+</html>
+
